@@ -131,7 +131,7 @@
     "book": {
       "title": "Pedir uma reserva",
       "description": "Envie um pedido de reserva de tour ou transfer privado na Madeira. O João responde por WhatsApp ou email.",
-      "intro": "TODO: Página provisória. O formulário de pedido de reserva será adicionado aqui."
+      "intro": "Escolha um serviço, uma data e quantas pessoas viajam. O João verifica a disponibilidade e responde por WhatsApp ou email. Nada fica confirmado até ele o fazer."
     },
     "privacy": {
       "title": "Política de privacidade",
@@ -152,6 +152,10 @@
       "title": "Livro de reclamações",
       "description": "Como apresentar uma reclamação sobre a João Vargas Tours.",
       "intro": "TODO: Página provisória. A ligação ao livro de reclamações online será adicionada aqui."
+    },
+    "thankYou": {
+      "title": "Pedido recebido",
+      "description": "O seu pedido de reserva foi enviado ao João."
     }
   },
   "NotFound": {
@@ -185,5 +189,170 @@
     "whatsappMessage": "Olá, João. Gostaria de saber mais sobre: {title}.",
     "requestNote": "Isto é um pedido, não uma reserva confirmada. O João responde por WhatsApp ou email.",
     "empty": "Ainda não há serviços para mostrar. Envie um pedido de reserva e o João sugere um plano."
+  },
+  "Booking": {
+    "optional": "opcional",
+    "loading": "A carregar o formulário…",
+    "honeypotLabel": "Deixe este campo vazio",
+    "requestNote": "Isto é um pedido, não uma reserva confirmada. O João responde por WhatsApp ou email. Não paga nada nesta página.",
+    "sections": {
+      "trip": "A sua viagem",
+      "group": "Quem viaja",
+      "route": "Recolha e destino",
+      "extras": "Mais alguma coisa",
+      "contact": "Os seus dados"
+    },
+    "summary": {
+      "title": "O que está a pedir",
+      "empty": "Escolha um serviço para ver aqui os detalhes e o preço indicativo.",
+      "details": "Ver detalhes do serviço",
+      "errorsTitle": "Corrija estes campos antes de enviar:"
+    },
+    "fields": {
+      "service": {
+        "label": "Serviço",
+        "placeholder": "Escolha um serviço",
+        "groups": {
+          "tour": "Tours",
+          "transfer": "Transfers"
+        }
+      },
+      "date": {
+        "label": "Data",
+        "hint": "A partir de amanhã. O João confirma a disponibilidade."
+      },
+      "time": {
+        "label": "Hora preferida",
+        "hint": "Uma hora aproximada chega."
+      },
+      "adults": {
+        "label": "Adultos",
+        "decrease": "Menos adultos",
+        "increase": "Mais adultos"
+      },
+      "children": {
+        "label": "Crianças",
+        "decrease": "Menos crianças",
+        "increase": "Mais crianças"
+      },
+      "infants": {
+        "label": "Bebés",
+        "decrease": "Menos bebés",
+        "increase": "Mais bebés"
+      },
+      "pickup": {
+        "label": "Local de recolha",
+        "hint": "Nome do hotel ou morada."
+      },
+      "dropoff": {
+        "label": "Local de destino",
+        "hint": "Nome do hotel, morada ou o sítio onde quer chegar."
+      },
+      "flightNumber": {
+        "label": "Número do voo",
+        "hint": "Para o João acompanhar atrasos. Por exemplo TP1693."
+      },
+      "luggage": {
+        "label": "Bagagem",
+        "hint": "Por exemplo: 2 malas grandes e 1 mala de cabine."
+      },
+      "notes": {
+        "label": "Notas",
+        "hint": "Sítios que quer ver, cadeiras de criança, mobilidade reduzida, tudo o que o João deva saber."
+      },
+      "name": {
+        "label": "Nome completo"
+      },
+      "email": {
+        "label": "Email"
+      },
+      "phone": {
+        "label": "Telemóvel ou número de WhatsApp",
+        "hint": "Inclua o indicativo do país, por exemplo +351 912 345 678."
+      }
+    },
+    "capacityHint": "Uma viatura leva até {count} passageiros. Se forem mais, diga-o nas notas.",
+    "capacityOver": "São mais de {count} pessoas. Diga-o nas notas e o João sugere alternativas.",
+    "consent": "Aceito que a João Vargas Tours use estes dados para responder ao meu pedido, como explicado na <link>política de privacidade</link>.",
+    "submit": "Enviar pedido",
+    "submitting": "A enviar…",
+    "errors": {
+      "required": "Este campo é obrigatório.",
+      "invalid": "Verifique este valor e tente de novo.",
+      "too_short": "Este valor é demasiado curto.",
+      "too_long": "Este valor é demasiado longo.",
+      "too_early": "Escolha uma data a partir de amanhã.",
+      "too_far": "Essa data é demasiado distante. Escolha uma mais próxima.",
+      "unknown_service": "Escolha um serviço da lista.",
+      "consent_required": "Marque a caixa para enviar o pedido.",
+      "generic": "Verifique este campo e tente de novo.",
+      "service": {
+        "required": "Escolha um serviço."
+      },
+      "date": {
+        "required": "Escolha uma data.",
+        "invalid": "Indique uma data válida."
+      },
+      "time": {
+        "invalid": "Indique uma hora válida, por exemplo 09:30."
+      },
+      "adults": {
+        "required": "Indique o número de adultos.",
+        "invalid": "Indique entre 1 e {max} adultos.",
+        "too_small": "Indique pelo menos 1 adulto.",
+        "too_large": "Indique no máximo {max} adultos. Para um grupo maior, diga-o nas notas."
+      },
+      "children": {
+        "invalid": "Indique um número válido de crianças.",
+        "too_large": "Indique no máximo {max} crianças."
+      },
+      "infants": {
+        "invalid": "Indique um número válido de bebés.",
+        "too_large": "Indique no máximo {max} bebés."
+      },
+      "dropoff": {
+        "required": "Indique onde o João o deve deixar."
+      },
+      "name": {
+        "required": "Indique o seu nome.",
+        "too_short": "Indique o seu nome completo."
+      },
+      "email": {
+        "required": "Indique o seu email.",
+        "invalid": "Indique um email válido, como nome@exemplo.com."
+      },
+      "phone": {
+        "required": "Indique o seu número de telemóvel.",
+        "invalid": "Indique um número com o indicativo do país, como +351 912 345 678."
+      },
+      "consent": {
+        "consent_required": "Marque a caixa para aceitar antes de enviar o pedido."
+      },
+      "too_small": "Este número é demasiado baixo.",
+      "too_large": "Este número é demasiado alto."
+    },
+    "notice": {
+      "rateLimited": "Demasiadas tentativas. Aguarde alguns minutos e tente de novo.",
+      "forbidden": "Não foi possível aceitar este pedido. Recarregue a página e tente de novo, ou envie mensagem ao João por WhatsApp.",
+      "network": "Não foi possível ligar ao servidor. Verifique a ligação e tente de novo. Os seus dados continuam aqui.",
+      "error": "Algo correu mal do nosso lado. Tente de novo daqui a pouco, ou envie mensagem ao João por WhatsApp.",
+      "deliveryFailed": "Pedimos desculpa, o seu pedido não chegou ao João. Envie-o por WhatsApp. Já preparámos a mensagem.",
+      "whatsappButton": "Enviar por WhatsApp",
+      "whatsappAria": "Enviar o pedido ao João por WhatsApp",
+      "whatsappMessage": "Olá João, tentei enviar um pedido de reserva no seu site, mas falhou. Serviço: {service}. Data: {date}. Passageiros: {passengers}. Nome: {name}."
+    },
+    "thanks": {
+      "title": "Pedido recebido",
+      "refLabel": "A sua referência",
+      "refHint": "Guarde esta referência se contactar o João.",
+      "noRef": "O seu pedido foi enviado. Se enviar mensagem ao João, indique o seu nome e a data da viagem.",
+      "notConfirmed": "Isto é um pedido, não uma reserva confirmada.",
+      "next": "O João vai verificar a disponibilidade e responde por WhatsApp ou email.",
+      "whatsappButton": "Enviar mensagem ao João por WhatsApp",
+      "whatsappAria": "Enviar mensagem ao João por WhatsApp sobre o seu pedido",
+      "whatsappMessage": "Olá João, enviei um pedido de reserva no seu site. A minha referência é {ref}.",
+      "whatsappMessageNoRef": "Olá João, enviei um pedido de reserva no seu site.",
+      "home": "Voltar ao início"
+    }
   }
 }

@@ -131,7 +131,7 @@
     "book": {
       "title": "Request a booking",
       "description": "Send a booking request for a private tour or transfer in Madeira. João replies by WhatsApp or email.",
-      "intro": "TODO: Placeholder page. The booking request form will be added here."
+      "intro": "Choose a service, a date and how many of you are travelling. João checks availability and replies by WhatsApp or email. Nothing is confirmed until he does."
     },
     "privacy": {
       "title": "Privacy policy",
@@ -152,6 +152,10 @@
       "title": "Complaints book",
       "description": "How to submit a complaint about João Vargas Tours.",
       "intro": "TODO: Placeholder page. Link to the online complaints book (Livro de Reclamações) to be added."
+    },
+    "thankYou": {
+      "title": "Request received",
+      "description": "Your booking request was sent to João."
     }
   },
   "NotFound": {
@@ -185,5 +189,170 @@
     "whatsappMessage": "Hello João, I would like to ask about: {title}.",
     "requestNote": "This is a request, not a confirmed booking. João replies by WhatsApp or email.",
     "empty": "No services to show yet. Send a booking request and João will suggest a plan."
+  },
+  "Booking": {
+    "optional": "optional",
+    "loading": "Loading the form…",
+    "honeypotLabel": "Leave this field empty",
+    "requestNote": "This is a request, not a confirmed booking. João replies by WhatsApp or email. You pay nothing on this page.",
+    "sections": {
+      "trip": "Your trip",
+      "group": "Who is travelling",
+      "route": "Pick-up and drop-off",
+      "extras": "Anything else",
+      "contact": "Your details"
+    },
+    "summary": {
+      "title": "What you are requesting",
+      "empty": "Choose a service to see its details and indicative price here.",
+      "details": "See full service details",
+      "errorsTitle": "Please fix these fields before sending:"
+    },
+    "fields": {
+      "service": {
+        "label": "Service",
+        "placeholder": "Choose a service",
+        "groups": {
+          "tour": "Tours",
+          "transfer": "Transfers"
+        }
+      },
+      "date": {
+        "label": "Date",
+        "hint": "From tomorrow. João confirms availability."
+      },
+      "time": {
+        "label": "Preferred time",
+        "hint": "An approximate time is fine."
+      },
+      "adults": {
+        "label": "Adults",
+        "decrease": "Fewer adults",
+        "increase": "More adults"
+      },
+      "children": {
+        "label": "Children",
+        "decrease": "Fewer children",
+        "increase": "More children"
+      },
+      "infants": {
+        "label": "Infants",
+        "decrease": "Fewer infants",
+        "increase": "More infants"
+      },
+      "pickup": {
+        "label": "Pick-up place",
+        "hint": "Hotel name or address."
+      },
+      "dropoff": {
+        "label": "Drop-off place",
+        "hint": "Hotel name, address or the place you want to reach."
+      },
+      "flightNumber": {
+        "label": "Flight number",
+        "hint": "So João can follow delays. For example TP1693."
+      },
+      "luggage": {
+        "label": "Luggage",
+        "hint": "For example: 2 large suitcases and 1 cabin bag."
+      },
+      "notes": {
+        "label": "Notes",
+        "hint": "Places you want to see, child seats, mobility needs, anything João should know."
+      },
+      "name": {
+        "label": "Full name"
+      },
+      "email": {
+        "label": "Email"
+      },
+      "phone": {
+        "label": "Phone or WhatsApp number",
+        "hint": "Include the country code, for example +44 7700 900123."
+      }
+    },
+    "capacityHint": "One vehicle seats up to {count} passengers. If you are more, say so in the notes.",
+    "capacityOver": "You are more than {count} people. Say so in the notes and João will suggest options.",
+    "consent": "I agree that João Vargas Tours uses these details to answer my request, as explained in the <link>privacy policy</link>.",
+    "submit": "Send request",
+    "submitting": "Sending…",
+    "errors": {
+      "required": "This field is required.",
+      "invalid": "Check this value and try again.",
+      "too_short": "This is too short.",
+      "too_long": "This is too long.",
+      "too_early": "Choose a date from tomorrow onwards.",
+      "too_far": "That date is too far ahead. Choose an earlier one.",
+      "unknown_service": "Choose a service from the list.",
+      "consent_required": "Tick the box to send your request.",
+      "generic": "Check this field and try again.",
+      "service": {
+        "required": "Choose a service."
+      },
+      "date": {
+        "required": "Choose a date.",
+        "invalid": "Enter a valid date."
+      },
+      "time": {
+        "invalid": "Enter a valid time, for example 09:30."
+      },
+      "adults": {
+        "required": "Enter the number of adults.",
+        "invalid": "Enter between 1 and {max} adults.",
+        "too_small": "Enter at least 1 adult.",
+        "too_large": "Enter {max} adults at most. For a bigger group, say so in the notes."
+      },
+      "children": {
+        "invalid": "Enter a valid number of children.",
+        "too_large": "Enter {max} children at most."
+      },
+      "infants": {
+        "invalid": "Enter a valid number of infants.",
+        "too_large": "Enter {max} infants at most."
+      },
+      "dropoff": {
+        "required": "Enter where João should drop you off."
+      },
+      "name": {
+        "required": "Enter your name.",
+        "too_short": "Enter your full name."
+      },
+      "email": {
+        "required": "Enter your email address.",
+        "invalid": "Enter a valid email address, like name@example.com."
+      },
+      "phone": {
+        "required": "Enter your phone number.",
+        "invalid": "Enter a phone number with the country code, like +44 7700 900123."
+      },
+      "consent": {
+        "consent_required": "Tick the box to agree before sending your request."
+      },
+      "too_small": "This number is too low.",
+      "too_large": "This number is too high."
+    },
+    "notice": {
+      "rateLimited": "Too many attempts. Wait a few minutes and try again.",
+      "forbidden": "We could not accept this request. Reload the page and try again, or message João on WhatsApp.",
+      "network": "We could not reach the server. Check your connection and try again. Your details are still here.",
+      "error": "Something went wrong on our side. Try again in a moment, or message João on WhatsApp.",
+      "deliveryFailed": "Sorry, your request did not reach João. Please send it on WhatsApp instead. We have prepared the message for you.",
+      "whatsappButton": "Send on WhatsApp",
+      "whatsappAria": "Send your request to João on WhatsApp",
+      "whatsappMessage": "Hello João, I tried to send a booking request on your website but it failed. Service: {service}. Date: {date}. Passengers: {passengers}. Name: {name}."
+    },
+    "thanks": {
+      "title": "Request received",
+      "refLabel": "Your reference",
+      "refHint": "Keep this reference if you contact João.",
+      "noRef": "Your request was sent. If you message João, include your name and travel date.",
+      "notConfirmed": "This is a request, not a confirmed booking.",
+      "next": "João will check availability and reply by WhatsApp or email.",
+      "whatsappButton": "Message João on WhatsApp",
+      "whatsappAria": "Message João on WhatsApp about your request",
+      "whatsappMessage": "Hello João, I sent a booking request on your website. My reference is {ref}.",
+      "whatsappMessageNoRef": "Hello João, I sent a booking request on your website.",
+      "home": "Back to home"
+    }
   }
 }
