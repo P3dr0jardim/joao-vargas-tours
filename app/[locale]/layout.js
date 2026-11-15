@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
-import { localeTags, siteConfig } from '@/config/site'
+import { indexingEnabled, localeTags, siteConfig } from '@/config/site'
 import { buildPageMetadata } from '@/lib/seo'
 import { bodyFont, headingFont } from '../fonts'
 import Header from '@/components/layout/Header'
@@ -25,6 +25,8 @@ export async function generateMetadata({ params }) {
       description: t('siteDescription'),
     }),
     metadataBase: new URL(siteConfig.url),
+    // Inherited by every page. Default is noindex until SITE_INDEXING=on.
+    robots: indexingEnabled ? { index: true, follow: true } : { index: false, follow: false },
     // Must come after the spread: child pages get "<title> | João Vargas Tours"
     title: { default: t('siteTitle'), template: `%s | ${siteConfig.brand}` },
   }

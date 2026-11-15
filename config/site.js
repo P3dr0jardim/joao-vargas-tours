@@ -12,6 +12,12 @@ export const ogLocales = { en: 'en_GB', pt: 'pt_PT' }
 /** Language names shown in the switcher, each in its own language. */
 export const localeLabels = { en: 'English', pt: 'Português' }
 
+/**
+ * Search engine indexing switch. Off unless SITE_INDEXING=on, so placeholder content and preview
+ * deployments are never indexed by accident. Switch it on at launch, once real content is in.
+ */
+export const indexingEnabled = process.env.SITE_INDEXING === 'on'
+
 const whatsappNumber = process.env.NEXT_PUBLIC_DRIVER_WHATSAPP_NUMBER || '351966167435'
 
 export const siteConfig = {
