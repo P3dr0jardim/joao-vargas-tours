@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+build/
+next-env.d.ts
+
+# Environment variables (never commit; .env.example is the documented template)
+.env*
+!.env.example
+
+# Large original media (>1 MB). Only optimised copies in public/images are versioned.
+media/
+
+# Vercel
+.vercel
+
+# Editors / local tooling
+.claude/settings.local.json
+.vscode/*
+!.vscode/extensions.json
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs and test output
+*.log
+npm-debug.log*
+/coverage

@@ -1,0 +1,39 @@
+{
+  "name": "joao-vargas-tours",
+  "version": "0.1.0",
+  "private": true,
+  "description": "João Vargas Tours: private tours and transfers in Madeira",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": "24.x"
+  },
+  "dependencies": {
+    "date-fns": "^4.4.0",
+    "mongoose": "^9.12.1",
+    "next": "^16.4.6",
+    "next-intl": "^4.15.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-hook-form": "^7.92.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.6.2",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.6",
+    "postcss": "^8.5.33",
+    "prettier": "^3.10.1",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "tailwindcss": "^3.4.19",
+    "vitest": "^5.1.0"
+  }
+}
