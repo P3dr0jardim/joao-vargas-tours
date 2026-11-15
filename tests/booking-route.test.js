@@ -88,6 +88,7 @@ describe('POST /api/booking-requests (route handler)', () => {
     for (const verb of ['GET', 'PUT', 'PATCH', 'DELETE']) expect(route[verb]).toBeUndefined()
     expect(route.dynamic).toBe('force-dynamic')
     expect(route.runtime).toBe('nodejs')
+    expect(route.maxDuration).toBe(15)
   })
 
   it('returns 201 JSON with no-store for a valid request', async () => {
@@ -129,7 +130,39 @@ describe('POST /api/booking-requests (route handler)', () => {
   it('rejects an oversized body even without a Content-Length header', async () => {
     const res = await post(validBody({ notes: 'x'.repeat(20 * 1024) }))
     expect(res.status).toBe(400)
-    expect((await res.json()).ok).toBe(false)
+    expect((await res.json()).errors).toEqual({ _form: 'too_long' }) // same code as the declared case
+  })
+
+  it('measures the limit in BYTES, not characters', async () => {
+    // 6000 euro signs are 6000 characters but 18000 bytes in UTF-8.
+    const raw = JSON.stringify(validBody({ notes: '€'.repeat(6000) }))
+    expect(raw.length).toBeLessThan(16 * 1024)
+    const res = await post(raw)
+    expect(res.status).toBe(400)
+    expect((await res.json()).errors).toEqual({ _form: 'too_long' })
+  })
+
+  it('stops reading a chunked body (no Content-Length) once the cap is passed', async () => {
+    let pulled = 0
+    const chunk = new TextEncoder().encode('x'.repeat(4096))
+    const stream = new ReadableStream({
+      pull(controller) {
+        pulled += 1
+        if (pulled > 1000) return controller.close()
+        controller.enqueue(chunk)
+      },
+    })
+    const res = await route.POST(
+      new Request('http://localhost:3000/api/booking-requests', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', origin: 'http://localhost:3000' },
+        body: stream,
+        duplex: 'half',
+      })
+    )
+    expect(res.status).toBe(400)
+    expect((await res.json()).errors).toEqual({ _form: 'too_long' })
+    expect(pulled).toBeLessThan(20) // cancelled early instead of buffering 4 MB
   })
 
   it('accepts a body just under the limit and lets field validation decide', async () => {

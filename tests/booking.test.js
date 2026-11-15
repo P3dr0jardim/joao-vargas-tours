@@ -285,21 +285,21 @@ describe('booking request: security gates', () => {
     enableChannels()
     vi.stubEnv('MONGODB_URI', 'mongodb://mock')
     const fetchMock = mockFetch()
-    const res = await submit(validBody({ website: 'http://spam.example' }))
+    const res = await submit(validBody({ bot_trap_field: 'http://spam.example' }))
     expect(res.status).toBe(201)
     expect(res.body.ref).toMatch(/^JV-\d{4}-[A-Z0-9]{6}$/)
     expect(fetchMock).not.toHaveBeenCalled()
     expect(db.create).not.toHaveBeenCalled()
   })
 
-  it('answers too-fast submissions with a fake 201 and does nothing', async () => {
+  it('processes too-fast submissions normally and flags them as suspect', async () => {
     enableChannels()
     vi.stubEnv('MONGODB_URI', 'mongodb://mock')
     const fetchMock = mockFetch()
     const res = await submit(validBody({ formStartedAt: NOW - 1000 }))
     expect(res.status).toBe(201)
-    expect(fetchMock).not.toHaveBeenCalled()
-    expect(db.create).not.toHaveBeenCalled()
+    expect(fetchMock).toHaveBeenCalled()
+    expect(db.create.mock.calls[0][0].meta.suspect).toBe(true)
   })
 
   it('rate limits per IP with 429 and Retry-After', async () => {

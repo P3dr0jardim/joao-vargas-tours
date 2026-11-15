@@ -56,6 +56,38 @@ Important: the recipient must be a different WhatsApp number from the sending bu
 A number cannot message itself. If João wants the alert on his main phone, the sending number has
 to be another one (or see the open point at the end).
 
+## Production environment checklist (booking API)
+
+Set these on the host before the first real request. "Fail" says what happens when it is wrong.
+
+| Variable | Needed for | If missing or wrong |
+|---|---|---|
+| `NEXT_PUBLIC_SITE_URL` | Origin check (www and apex both accepted) | Fails closed: every booking gets 403 `FORBIDDEN_ORIGIN`; one warning is logged per instance. `ALLOWED_ORIGINS` (comma separated) can add origins. |
+| `EMAIL_FROM` | Driver email (a sender on a domain verified in Resend) | Channel fails with `config_missing`: the email is not sent. With no other channel and no DB the customer gets 502 and the WhatsApp fallback link. |
+| `RESEND_API_KEY`, `EMAIL_BOOKINGS_TO` | Driver email | Email is silently `skipped` (no error). |
+| `MONGODB_URI` | Booking log and cross-instance idempotency | Silent: nothing is stored, the notifications still go out. Check the logs for `db save failed`. |
+| `IP_HASH_SALT` | Hashed IP in the log, rate-limit keys | Fails safe: no IP hash is stored, a random per-instance salt is used, one warning is logged. |
+| `EMAIL_CUSTOMER_COPY_ENABLED` | Confirmation email to the customer | Default off. Keep it off until a captcha or Upstash exists (abuse risk). Notes are never echoed. |
+| `WHATSAPP_*` | WhatsApp alert (see above) | Off unless `WHATSAPP_ENABLED=true`; misconfigured is a failed channel, not an error for the customer. |
+
+Behaviour worth knowing:
+
+- Real client IP for rate limiting comes from `x-vercel-forwarded-for`, then `x-real-ip`, then the first
+  `x-forwarded-for` entry. On Vercel these are set by the platform. On any other host without a trusted
+  proxy they can be forged by the client, so the limiter is then easy to dodge.
+- The limiter is in memory per instance (max 10000 keys, oldest evicted). Upstash is the real fix.
+- Honeypot: a filled `bot_trap_field` gets a fake 201 and nothing is stored or sent (counted in the log as
+  "bot submission dropped"). Only that field name is honoured.
+- A submit faster than 3 s (on a believable clock) is processed normally and stored with `meta.suspect = true`.
+- A repeated `idempotencyKey` returns 200 with the original ref, even if the body differs. Concurrent
+  duplicates share one result. Resend gets `<idempotencyKey>-driver` as Idempotency-Key.
+- Saved but neither channel delivered: the record gets `status: 'delivery_failed'` and the ref is logged with
+  `console.error` ("DELIVERY_FAILED saved but not delivered"). Search the logs for it. An alert or retry job is a
+  v1.1 item. A 502 does not use up the customer's daily quota.
+- The privacy policy and consent text versions stored with each consent are placeholders
+  (`PRIVACY_POLICY_VERSION`, `CONSENT_TEXT_VERSION` in `lib/booking/service.js`) until the legal texts are final.
+- The route has `maxDuration = 15`; DB calls time out after 2.5 s, providers after 6 s.
+
 ## Setup steps (coexistence mode)
 
 Coexistence lets one number work in the WhatsApp Business app (João keeps chatting with clients)

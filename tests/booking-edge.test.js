@@ -118,7 +118,9 @@ describe('phone normalisation edge cases', () => {
     ['00 351 966 167 435', '+351966167435'],
     ['(+351) 966-167-435', '+351966167435'],
     ['+351.966.167.435', '+351966167435'],
-    ['+44 (0)7700 900123', '+4407700900123'], // the optional (0) is kept: documented behaviour
+    ['+44 (0)7700 900123', '+447700900123'], // the optional (0) trunk digit is dropped
+    ['+351 (0) 912 345 678', '+351912345678'],
+    ['+351 0912345678', '+351912345678'], // stray 0 after a known country code
     ['+12345678', '+12345678'], // 8 digits: lower bound
     ['+123456789012345', '+123456789012345'], // 15 digits: E.164 upper bound
     ['0044 7700 900123', '+447700900123'],
@@ -442,13 +444,15 @@ describe('Origin and client IP', () => {
       mod.createBookingRequest({ body: validBody(), headers: headersFor({ origin }), now: NOW })
     for (const origin of [
       'http://localhost:3000',
-      'https://example.pt',
       'http://www.example.pt',
+      'http://example.pt',
       'https://www.example.pt.evil.example',
     ])
       expect((await call(origin)).status, origin).toBe(403)
     // An allowed origin passes the gate (no channel is configured, so production answers 502).
+    // www and apex of the site URL are equivalent.
     expect((await call('https://www.example.pt')).status).toBe(502)
+    expect((await call('https://example.pt')).status).toBe(502)
   })
 
   it('uses the first x-forwarded-for entry as the client IP', async () => {
@@ -501,7 +505,7 @@ describe('Origin and client IP', () => {
   it('counts honeypot and too-fast hits against the IP limit too', async () => {
     const out = []
     for (let i = 0; i < 6; i++)
-      out.push(await submit(validBody({ website: 'x' }), { ip: '3.3.3.3' }))
+      out.push(await submit(validBody({ bot_trap_field: 'x' }), { ip: '3.3.3.3' }))
     expect(out[5].status).toBe(429)
   })
 
@@ -521,31 +525,45 @@ describe('Origin and client IP', () => {
 })
 
 describe('bot gates: boundaries', () => {
-  it('3000 ms is the first accepted fill time, 2999 ms is a bot', async () => {
+  it('3000 ms is the first unflagged fill time, 2999 ms is processed but suspect', async () => {
     enableChannels()
+    vi.stubEnv('MONGODB_URI', 'mongodb://mock')
     const fetchMock = mockFetch()
-    await submit(validBody({ formStartedAt: NOW - 2999 }))
-    expect(fetchMock).not.toHaveBeenCalled()
+    const fast = await submit(validBody({ formStartedAt: NOW - 2999 }))
+    expect(fast.status).toBe(201)
+    expect(fetchMock).toHaveBeenCalled() // never discarded
+    expect(db.create.mock.calls[0][0].meta.suspect).toBe(true)
     const ok = await submit(validBody({ formStartedAt: NOW - 3000 }))
     expect(ok.status).toBe(201)
-    expect(fetchMock).toHaveBeenCalled()
+    expect(db.create.mock.calls[1][0].meta.suspect).toBeUndefined()
   })
 
-  it('a start time more than one minute in the future is a bot, exactly one minute is not', async () => {
-    const future = await submit(validBody({ formStartedAt: NOW + 60001 }))
-    expect(future.status).toBe(201) // fake success
-    expect(db.create).not.toHaveBeenCalled()
+  it('a client clock too far ahead or too far behind is ignored, not punished', async () => {
     enableChannels()
+    vi.stubEnv('MONGODB_URI', 'mongodb://mock')
     const fetchMock = mockFetch()
-    await submit(validBody({ formStartedAt: NOW + 60000 }))
-    // fill time is negative (< 3000) so this is also treated as too fast
-    expect(fetchMock).not.toHaveBeenCalled()
+    const metas = []
+    for (const offset of [60001, 3 * 3600 * 1000, -(24 * 3600 * 1000 + 1)]) {
+      const res = await submit(
+        validBody({ formStartedAt: NOW + offset, email: `clock${metas.length}@example.com` })
+      )
+      expect(res.status, String(offset)).toBe(201)
+      metas.push(db.create.mock.calls.at(-1)[0].meta.suspect)
+    }
+    expect(metas).toEqual([undefined, undefined, undefined])
+    expect(fetchMock).toHaveBeenCalled()
+    // inside the tolerance the clock is plausible: negative fill time is suspect, but processed
+    const edge = await submit(
+      validBody({ formStartedAt: NOW + 60000, email: 'clock9@example.com' })
+    )
+    expect(edge.status).toBe(201)
+    expect(db.create.mock.calls.at(-1)[0].meta.suspect).toBe(true)
   })
 
   it('a whitespace-only honeypot is not treated as filled', async () => {
     enableChannels()
     const fetchMock = mockFetch()
-    const res = await submit(validBody({ website: '   ' }))
+    const res = await submit(validBody({ bot_trap_field: '   ' }))
     expect(res.status).toBe(201)
     expect(fetchMock).toHaveBeenCalled()
   })
@@ -553,13 +571,13 @@ describe('bot gates: boundaries', () => {
   it('a non-string honeypot value still counts as a bot', async () => {
     enableChannels()
     const fetchMock = mockFetch()
-    expect((await submit(validBody({ website: 1 }))).status).toBe(201)
-    expect((await submit(validBody({ website: ['x'] }))).status).toBe(201)
+    expect((await submit(validBody({ bot_trap_field: 1 }))).status).toBe(201)
+    expect((await submit(validBody({ bot_trap_field: ['x'] }))).status).toBe(201)
     expect(fetchMock).not.toHaveBeenCalled()
   })
 
   it('a bot reference never equals a stored one and follows the ref format', async () => {
-    const res = await submit(validBody({ website: 'spam' }))
+    const res = await submit(validBody({ bot_trap_field: 'spam' }))
     expect(res.body.ref).toMatch(/^JV-2026-[A-Z0-9]{6}$/)
   })
 })
@@ -749,14 +767,15 @@ describe('driver and customer email content', () => {
     expect(mail.from).not.toMatch(/[\r\n]/)
   })
 
-  it('sends the driver email to every recipient and uses the ref as idempotency header', async () => {
+  it('sends the driver email to every recipient and uses the idempotency key as Resend header', async () => {
     enableChannels()
     vi.stubEnv('EMAIL_BOOKINGS_TO', 'a@example.com, b@example.com ,,')
     const fetchMock = mockFetch()
-    const res = await submit(validBody())
+    const body = validBody()
+    await submit(body)
     const call = fetchMock.mock.calls.find((c) => String(c[0]).includes('resend'))
     expect(JSON.parse(call[1].body).to).toEqual(['a@example.com', 'b@example.com'])
-    expect(call[1].headers['Idempotency-Key']).toBe(`${res.body.ref}-driver`)
+    expect(call[1].headers['Idempotency-Key']).toBe(`${body.idempotencyKey}-driver`)
   })
 
   it('reports config_missing when From is empty and skips without recipients', async () => {
