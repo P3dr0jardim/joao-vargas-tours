@@ -29,7 +29,15 @@ customers as possible organically (excellent SEO, a lot of real content).
 5. Booking form UI and thank-you page.
 6. Tester and reviewer passes.
 
-## Review findings still open (reviewer verdict: needs changes)
+## Update: review and tester findings below were FIXED on branch fix/booking-review
+(lint clean, 393 tests green, build OK). Still partly open: cross-instance idempotency lookup runs
+before sends (sequential on purpose); late-save follow-up is best effort on serverless (Next `after()`
+not added); no alert/retry for `delivery_failed` yet (v1.1); no real browser/screen-reader test;
+privacy policy and consent text versions are placeholders; EMAIL_CUSTOMER_COPY_ENABLED must stay off
+until captcha/Upstash exist. New contract: honeypot field is `bot_trap_field`; fast fills are stored with
+`meta.suspect=true` instead of being discarded; env var ALLOWED_ORIGINS added.
+
+## Review findings (original, now fixed; reviewer verdict was: needs changes)
 Blockers:
 1. DB save always fails: `serviceSnapshot.title` is a String in the model but the code passes `{pt, en}`
    (`models/BookingRequest.js`, `lib/booking/service.js`). Tests mock the model, so they miss it.
