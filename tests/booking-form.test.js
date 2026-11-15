@@ -9,11 +9,13 @@ import {
   interpretResponse,
   maxDate,
   minDate,
+  newKey,
   normalisePhone,
   parseServiceParam,
   sanitiseRef,
   validateBooking,
 } from '@/components/booking/booking-helpers'
+import { maxAdultsFor } from '@/lib/booking/schema'
 import { getPublishedServices } from '@/lib/services'
 import en from '@/messages/en.json'
 import pt from '@/messages/pt.json'
@@ -21,7 +23,7 @@ import pt from '@/messages/pt.json'
 const services = getPublishedServices().map((s) => ({
   slug: s.slug,
   type: s.type,
-  capacity: s.capacity,
+  maxAdults: maxAdultsFor(s),
   title: s.title.en,
 }))
 const bySlug = (slug) => services.find((s) => s.slug === slug)
@@ -47,7 +49,7 @@ const valid = {
   email: 'jane@example.com',
   phone: '+44 7700 900123',
   consent: true,
-  website: '',
+  bot_trap_field: '',
 }
 
 describe('parseServiceParam', () => {
@@ -107,6 +109,41 @@ describe('dates', () => {
   })
 })
 
+describe('date limits on a leap day', () => {
+  it('clamps 29 Feb 2028 + 2 years to 28 Feb 2030, like date-fns addYears', () => {
+    expect(maxDate(new Date('2028-02-29T12:00:00Z'))).toBe('2030-02-28')
+    expect(minDate(new Date('2028-02-29T12:00:00Z'))).toBe('2028-03-01')
+    expect(minDate(new Date('2026-12-31T12:00:00Z'))).toBe('2027-01-01')
+  })
+})
+
+describe('capacity default', () => {
+  it('uses maxAdults and falls back to 8 like the server', () => {
+    const base = { ...valid, service: tour.slug }
+    expect(
+      validateBooking({ ...base, adults: 8 }, { ...tour, maxAdults: undefined }, NOW).adults
+    ).toBeUndefined()
+    expect(
+      validateBooking({ ...base, adults: 9 }, { ...tour, maxAdults: undefined }, NOW).adults
+    ).toBe('too_large')
+  })
+})
+
+describe('newKey', () => {
+  const V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/
+  it('uses randomUUID when available', () => {
+    expect(newKey({ randomUUID: () => 'x' })).toBe('x')
+  })
+  it('builds a valid v4 UUID from getRandomValues without randomUUID', () => {
+    for (const fill of [0, 255, 7]) {
+      expect(newKey({ getRandomValues: (a) => a.fill(fill) })).toMatch(V4)
+    }
+  })
+  it('still returns a valid v4 UUID when crypto is absent', () => {
+    expect(newKey(undefined)).toMatch(V4)
+  })
+})
+
 describe('normalisePhone', () => {
   it('needs an international number like the server', () => {
     expect(normalisePhone('+44 7700 900123')).toBe('+447700900123')
@@ -145,7 +182,7 @@ describe('validateBooking', () => {
 
   it('limits adults to the service capacity', () => {
     expect(validateBooking({ ...valid, adults: 0 }, tour, NOW).adults).toBe('too_small')
-    expect(validateBooking({ ...valid, adults: tour.capacity + 1 }, tour, NOW).adults).toBe(
+    expect(validateBooking({ ...valid, adults: tour.maxAdults + 1 }, tour, NOW).adults).toBe(
       'too_large'
     )
     expect(validateBooking({ ...valid, adults: 'x' }, tour, NOW).adults).toBe('invalid')
@@ -199,7 +236,7 @@ describe('buildPayload', () => {
       children: 0,
       dropoffLocation: 'Hotel',
       flightNumber: 'TP1693',
-      website: '',
+      bot_trap_field: '',
       formStartedAt: 1700000000000,
       idempotencyKey: 'key',
       locale: 'pt',

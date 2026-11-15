@@ -19,20 +19,17 @@ import {
   LIMITS,
   maxDate,
   minDate,
+  newKey,
   parseServiceParam,
+  todayInMadeira,
   validateBooking,
 } from '@/components/booking/booking-helpers'
 
 const ENDPOINT = '/api/booking-requests'
 
-function newKey() {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID()
-  return `${Date.now()}-${Math.random().toString(36).slice(2)}`
-}
-
 /**
  * Booking request form.
- * `services`: [{ slug, type, title, capacity }] for the select.
+ * `services`: [{ slug, type, title, maxAdults }] for the select.
  * `summaries`: { [slug]: ReactNode } server-rendered summary cards, one per service.
  */
 export default function BookingForm({ services, summaries }) {
@@ -45,7 +42,7 @@ export default function BookingForm({ services, summaries }) {
 
   // Created once when the form mounts and reused on every retry, so the server can de-duplicate.
   const [meta] = useState(() => ({ formStartedAt: Date.now(), idempotencyKey: newKey() }))
-  const [now] = useState(() => new Date())
+  const [now, setNow] = useState(() => new Date())
   const [sending, setSending] = useState(false)
   const [notice, setNotice] = useState(null)
   const [focusTick, setFocusTick] = useState(0)
@@ -86,20 +83,31 @@ export default function BookingForm({ services, summaries }) {
       email: '',
       phone: '',
       consent: false,
-      website: '',
+      bot_trap_field: '',
     },
   })
 
   const values = useWatch({ control })
   const service = services.find((s) => s.slug === values.service)
   const visible = fieldVisibility(service)
-  const capacity = service?.capacity ?? 4
+  const capacity = service?.maxAdults ?? 8
   const overCapacity = Number(values.adults || 0) + Number(values.children || 0) > capacity
 
   // Move focus to the error summary (role=alert, links to each field) after a failed submit.
   useEffect(() => {
     if (focusTick > 0) summaryRef.current?.focus()
   }, [focusTick])
+
+  // Refresh min/max dates if the tab stays open past midnight in Madeira.
+  useEffect(() => {
+    const id = setInterval(() => {
+      setNow((prev) => {
+        const next = new Date()
+        return todayInMadeira(next) === todayInMadeira(prev) ? prev : next
+      })
+    }, 60000)
+    return () => clearInterval(id)
+  }, [])
 
   useEffect(() => {
     if (notice) noticeRef.current?.focus()
@@ -116,9 +124,19 @@ export default function BookingForm({ services, summaries }) {
   const step = (name, next) =>
     setValue(name, next, { shouldDirty: true, shouldValidate: submitCount > 0 })
 
+  /** Move focus into the control (works for select, date, time, stepper inputs and checkbox). */
+  const focusField = (event, field) => {
+    const el = document.getElementById(`field-${field}`)
+    if (!el) return
+    event.preventDefault()
+    el.focus()
+    el.scrollIntoView({ block: 'center' })
+  }
+
   const fieldLabel = (field) => t(`fields.${field}.label`)
 
   async function onSubmit(data) {
+    if (sending) return
     setNotice(null)
     setSending(true)
     const selected = services.find((s) => s.slug === data.service)
@@ -138,7 +156,7 @@ export default function BookingForm({ services, summaries }) {
     }
 
     if (outcome.kind === 'success') {
-      // Keep the button disabled while navigating away.
+      // Keep the form locked (sending stays true) while navigating away.
       router.push(`/book/thank-you?ref=${encodeURIComponent(outcome.ref)}`)
       return
     }
@@ -206,7 +224,11 @@ export default function BookingForm({ services, summaries }) {
             <ul className="mt-2 list-disc space-y-1 pl-5">
               {FIELD_ORDER.filter((f) => errorFields.includes(f)).map((field) => (
                 <li key={field}>
-                  <a href={`#field-${field}`} className="font-semibold text-red-700 underline">
+                  <a
+                    href={`#field-${field}`}
+                    onClick={(event) => focusField(event, field)}
+                    className="font-semibold text-red-700 underline"
+                  >
                     {fieldLabel(field)}
                   </a>
                   : {message(field)}
@@ -483,13 +505,16 @@ export default function BookingForm({ services, summaries }) {
 
           {/* Honeypot: invisible to people and assistive tech, bots fill it in. */}
           <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
-            <label htmlFor="field-website">{t('honeypotLabel')}</label>
+            <label htmlFor="field-bot-trap">{t('honeypotLabel')}</label>
             <input
-              id="field-website"
+              id="field-bot-trap"
               type="text"
               tabIndex={-1}
               autoComplete="off"
-              {...register('website')}
+              data-lpignore="true"
+              data-1p-ignore="true"
+              data-form-type="other"
+              {...register('bot_trap_field')}
             />
           </div>
 
@@ -524,12 +549,17 @@ export default function BookingForm({ services, summaries }) {
         <div className="space-y-3">
           <button
             type="submit"
-            disabled={sending}
             aria-disabled={sending}
-            className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-blue-600 px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-blue-800 disabled:cursor-wait disabled:opacity-70 sm:w-auto"
+            onClick={(event) => {
+              if (sending) event.preventDefault()
+            }}
+            className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-blue-600 px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-blue-800 aria-disabled:cursor-wait aria-disabled:opacity-70 sm:w-auto"
           >
             {sending ? t('submitting') : t('submit')}
           </button>
+          <p role="status" aria-live="polite" className="sr-only">
+            {sending ? t('submitting') : ''}
+          </p>
           <p className="text-sm">{t('requestNote')}</p>
         </div>
       </form>

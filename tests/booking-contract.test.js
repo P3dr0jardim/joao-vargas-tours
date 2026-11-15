@@ -15,7 +15,7 @@ const read = (rel) => readFileSync(join(ROOT, rel), 'utf8')
 const offered = getPublishedServices().map((s) => ({
   slug: s.slug,
   type: s.type,
-  capacity: s.capacity,
+  maxAdults: maxAdultsFor(s),
   title: s.title.en,
 }))
 
@@ -35,7 +35,7 @@ const formValues = (overrides = {}) => ({
   email: 'jane@example.com',
   phone: '+44 7700 900123',
   consent: true,
-  website: '',
+  bot_trap_field: '',
   ...overrides,
 })
 
@@ -59,7 +59,7 @@ describe('contract: every service the form offers is accepted by the server', ()
     const values = formValues({
       service: service.slug,
       dropoff: service.type === 'transfer' ? 'Hotel Calheta' : '',
-      adults: service.capacity,
+      adults: service.maxAdults,
     })
     // 1. client validation passes
     expect(client.validateBooking(values, service, NOW)).toEqual({})
@@ -74,8 +74,12 @@ describe('contract: every service the form offers is accepted by the server', ()
     '%s: client and server agree on capacity',
     (_, service) => {
       const server = getPublishedServices().find((s) => s.slug === service.slug)
-      expect(maxAdultsFor(server)).toBe(service.capacity)
-      const over = formValues({ service: service.slug, dropoff: 'X', adults: service.capacity + 1 })
+      expect(maxAdultsFor(server)).toBe(service.maxAdults)
+      const over = formValues({
+        service: service.slug,
+        dropoff: 'X',
+        adults: service.maxAdults + 1,
+      })
       expect(client.validateBooking(over, service, NOW).adults).toBe('too_large')
       expect(serverResultFor(over, service).errors.adults).toBe('too_large')
     }
@@ -143,7 +147,7 @@ describe('contract: every service the form offers is accepted by the server', ()
     )
     const parsed = validateBooking(payload, { now: NOW })
     expect(parsed.success).toBe(true)
-    const sentKeys = Object.keys(payload).filter((k) => k !== 'website')
+    const sentKeys = Object.keys(payload).filter((k) => k !== 'bot_trap_field')
     for (const key of sentKeys) expect(parsed.data, key).toHaveProperty(key)
   })
 })
@@ -229,10 +233,8 @@ describe('contract: client and server validation agree', () => {
     }
   })
 
-  // KNOWN BUG (reported to frontend-dev): booking-helpers maxDate() uses new Date(y + 2, m - 1, d),
-  // which rolls 29 Feb 2028 + 2 years over to 1 Mar 2030, while the server (date-fns addYears)
-  // stops at 28 Feb 2030. it.fails turns green-to-red once the helper is fixed: then remove .fails.
-  it.fails('agrees on the two-year limit on a leap day (29 Feb 2028)', () => {
+  // 29 Feb 2028 + 2 years: the server (date-fns addYears) stops at 28 Feb 2030.
+  it('agrees on the two-year limit on a leap day (29 Feb 2028)', () => {
     const now = new Date('2028-02-29T12:00:00Z')
     for (const date of ['2030-02-28', '2030-03-01']) {
       const values = formValues({ date })
@@ -242,6 +244,27 @@ describe('contract: client and server validation agree', () => {
       })
       expect(c, date).toBe(s.success ? undefined : s.errors.date)
     }
+  })
+})
+
+describe('contract: honeypot and idempotency key', () => {
+  const tour = offered.find((s) => s.slug === 'west-madeira-tour')
+
+  it('sends the honeypot under the name the server reads, and no longer as "website"', () => {
+    const payload = client.buildPayload(formValues(), tour, meta)
+    expect(payload).toHaveProperty('bot_trap_field', '')
+    expect(payload).not.toHaveProperty('website')
+    expect(read('lib/booking/schema.js')).toContain('bot_trap_field')
+  })
+
+  it('the fallback idempotency key is accepted by the server schema', () => {
+    const fake = { getRandomValues: (a) => a.fill(255) }
+    const key = client.newKey(fake)
+    const parsed = validateBooking(
+      client.buildPayload(formValues(), tour, { ...meta, idempotencyKey: key }),
+      { now: NOW }
+    )
+    expect(parsed.errors?.idempotencyKey).toBeUndefined()
   })
 })
 

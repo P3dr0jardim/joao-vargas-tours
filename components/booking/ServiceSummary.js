@@ -1,5 +1,6 @@
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
+import { maxAdultsFor } from '@/lib/booking/schema'
 import { pick, servicePath } from '@/lib/services'
 import ServicePrice from '@/components/services/ServicePrice'
 
@@ -23,7 +24,7 @@ export default async function ServiceSummary({ service }) {
         </div>
         <div className="flex gap-1">
           <dt className="font-semibold">{t('facts.capacity')}:</dt>
-          <dd>{t('capacityValue', { count: service.capacity })}</dd>
+          <dd>{t('capacityValue', { count: maxAdultsFor(service) })}</dd>
         </div>
       </dl>
       <div className="border-t border-sky-300 pt-4">

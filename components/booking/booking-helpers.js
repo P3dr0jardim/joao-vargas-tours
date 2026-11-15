@@ -123,10 +123,17 @@ export function todayInMadeira(now = new Date()) {
   }).format(now)
 }
 
+/**
+ * Add days and/or years to a YYYY-MM-DD string. Calendar arithmetic is done in UTC so it never
+ * depends on the browser time zone. Years clamp to the last day of the month, like date-fns
+ * addYears on the server (29 Feb 2028 + 2 years = 28 Feb 2030).
+ */
 function shift(iso, { days = 0, years = 0 }) {
   const [y, m, d] = iso.split('-').map(Number)
-  const date = new Date(y + years, m - 1, d + days)
-  return toISODate(date)
+  const year = y + years
+  const lastDay = new Date(Date.UTC(year, m, 0)).getUTCDate()
+  const date = new Date(Date.UTC(year, m - 1, Math.min(d, lastDay) + days))
+  return date.toISOString().slice(0, 10)
 }
 
 /** Earliest bookable date: tomorrow (Madeira time). */
@@ -189,7 +196,7 @@ export function validateBooking(values, service, now = new Date()) {
   const time = String(values.time ?? '').trim()
   if (time && !/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) set('time', 'invalid')
 
-  const capacity = service?.capacity ?? 4
+  const capacity = service?.maxAdults ?? 8
   const adults = String(values.adults ?? '').trim()
   if (!adults) set('adults', 'required')
   else if (!isWholeNumber(adults)) set('adults', 'invalid')
@@ -263,7 +270,7 @@ export function buildPayload(values, service, meta) {
     email: text(values.email),
     phone: text(values.phone),
     consent: Boolean(values.consent),
-    website: String(values.website ?? ''),
+    bot_trap_field: String(values.bot_trap_field ?? ''),
     formStartedAt: meta.formStartedAt,
     idempotencyKey: meta.idempotencyKey,
     locale: meta.locale,
@@ -297,4 +304,16 @@ export function interpretResponse(status, body) {
     return { kind: 'deliveryFailed', whatsappUrl: safe }
   }
   return { kind: 'error' }
+}
+
+/** Random idempotency key in UUID v4 format (the server only accepts valid UUIDs). */
+export function newKey(cryptoObj = globalThis.crypto) {
+  if (typeof cryptoObj?.randomUUID === 'function') return cryptoObj.randomUUID()
+  const bytes = new Uint8Array(16)
+  if (typeof cryptoObj?.getRandomValues === 'function') cryptoObj.getRandomValues(bytes)
+  else for (let i = 0; i < 16; i += 1) bytes[i] = Math.floor(Math.random() * 256)
+  bytes[6] = (bytes[6] & 0x0f) | 0x40
+  bytes[8] = (bytes[8] & 0x3f) | 0x80
+  const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('')
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
 }

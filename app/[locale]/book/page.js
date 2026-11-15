@@ -3,6 +3,8 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import BookingForm from '@/components/booking/BookingForm'
 import ServiceSummary from '@/components/booking/ServiceSummary'
 import Section from '@/components/ui/Section'
+import { siteConfig } from '@/config/site'
+import { maxAdultsFor } from '@/lib/booking/schema'
 import { pageMetadata } from '@/lib/page-metadata'
 import { getPublishedServices, pick } from '@/lib/services'
 
@@ -14,14 +16,15 @@ export default async function BookPage({ params }) {
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('Pages.book')
-  const loading = (await getTranslations('Booking'))('loading')
+  const b = await getTranslations('Booking')
+  const loading = b('loading')
 
   const published = getPublishedServices()
   // Light list for the client select; summaries are server-rendered (they reuse ServicePrice).
   const services = published.map((s) => ({
     slug: s.slug,
     type: s.type,
-    capacity: s.capacity,
+    maxAdults: maxAdultsFor(s),
     title: pick(s.title, locale),
   }))
   const summaries = Object.fromEntries(
@@ -34,6 +37,24 @@ export default async function BookPage({ params }) {
         <h1 id="book-title">{t('title')}</h1>
         <p className="mt-4 text-lg">{t('intro')}</p>
       </div>
+      {/* The form needs JavaScript. Without it, show how to reach João directly. */}
+      <noscript>
+        <div className="space-y-3 rounded-2xl border-2 border-blue-600 bg-white p-5">
+          <p className="font-semibold">{b('noscript.text')}</p>
+          <ul className="space-y-1">
+            <li>
+              <a href={siteConfig.whatsapp.href} className="font-semibold text-blue-800 underline">
+                {b('noscript.whatsapp')}
+              </a>
+            </li>
+            <li>
+              <a href={siteConfig.phone.href} className="font-semibold text-blue-800 underline">
+                {b('noscript.phone', { number: siteConfig.phone.display })}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </noscript>
       {/* useSearchParams (?service=) needs a Suspense boundary to keep the page static. */}
       <Suspense fallback={<p>{loading}</p>}>
         <BookingForm services={services} summaries={summaries} />

@@ -193,7 +193,7 @@
   "Booking": {
     "optional": "opcional",
     "loading": "A carregar o formulário…",
-    "honeypotLabel": "Deixe este campo vazio",
+    "honeypotLabel": "Informação adicional, deixe vazio",
     "requestNote": "Isto é um pedido, não uma reserva confirmada. O João responde por WhatsApp ou email. Não paga nada nesta página.",
     "sections": {
       "trip": "A sua viagem",
@@ -258,7 +258,7 @@
       },
       "notes": {
         "label": "Notas",
-        "hint": "Sítios que quer ver, cadeiras de criança, mobilidade reduzida, tudo o que o João deva saber."
+        "hint": "Detalhes práticos da viagem: sítios que quer ver, cadeiras de criança, bagagem. Indique necessidades de acessibilidade só se afetarem a viatura. Não inclua dados de saúde sensíveis."
       },
       "name": {
         "label": "Nome completo"
@@ -273,7 +273,7 @@
     },
     "capacityHint": "Uma viatura leva até {count} passageiros. Se forem mais, diga-o nas notas.",
     "capacityOver": "São mais de {count} pessoas. Diga-o nas notas e o João sugere alternativas.",
-    "consent": "Aceito que a João Vargas Tours use estes dados para responder ao meu pedido, como explicado na <link>política de privacidade</link>.",
+    "consent": "Aceito que a João Vargas Tours use estes dados para responder ao meu pedido e o envie ao João por email e WhatsApp (prestadores de serviços que o tratam por nossa conta), como explicado na <link>política de privacidade</link>.",
     "submit": "Enviar pedido",
     "submitting": "A enviar…",
     "errors": {
@@ -353,6 +353,11 @@
       "whatsappMessage": "Olá João, enviei um pedido de reserva no seu site. A minha referência é {ref}.",
       "whatsappMessageNoRef": "Olá João, enviei um pedido de reserva no seu site.",
       "home": "Voltar ao início"
+    },
+    "noscript": {
+      "text": "Este formulário precisa de JavaScript. Pode enviar o pedido diretamente ao João:",
+      "whatsapp": "Enviar mensagem ao João no WhatsApp",
+      "phone": "Ligar para {number}"
     }
   }
 }
