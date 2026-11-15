@@ -1,0 +1,157 @@
+{
+  "Meta": {
+    "siteTitle": "João Vargas Tours | Tours privados e transfers na Madeira",
+    "siteDescription": "Tours privados e transfers de aeroporto na Madeira com o João, taxista da Calheta. Envie um pedido de reserva e ele responde por WhatsApp ou email."
+  },
+  "Common": {
+    "brand": "João Vargas Tours",
+    "skipToContent": "Saltar para o conteúdo principal",
+    "requestBooking": "Pedir reserva",
+    "whatsapp": "WhatsApp",
+    "whatsappAria": "Falar com o João no WhatsApp",
+    "call": "Ligar",
+    "seeTours": "Ver tours",
+    "seeTransfers": "Ver transfers",
+    "todo": "Provisório"
+  },
+  "Header": {
+    "homeAria": "João Vargas Tours, página inicial",
+    "mainNav": "Navegação principal",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu"
+  },
+  "Nav": {
+    "tours": "Tours",
+    "transfers": "Transfers",
+    "about": "Sobre o João",
+    "info": "Informações",
+    "contact": "Contactos"
+  },
+  "LanguageSwitch": {
+    "label": "Idioma",
+    "switchTo": "Mudar para {language}"
+  },
+  "Footer": {
+    "tagline": "Tours privados e transfers na Madeira com um motorista local.",
+    "contactTitle": "Contactos",
+    "legalTitle": "Legal",
+    "licencesTitle": "Licenças",
+    "rnaat": "RNAAT",
+    "nif": "NIF",
+    "taxiLicence": "Licença de táxi",
+    "company": "Empresa",
+    "rights": "Todos os direitos reservados."
+  },
+  "Legal": {
+    "privacy": "Privacidade",
+    "terms": "Termos",
+    "cookies": "Cookies",
+    "complaints": "Livro de reclamações"
+  },
+  "BottomBar": {
+    "label": "Contacto rápido"
+  },
+  "Home": {
+    "hero": {
+      "imageAlt": "Vista aérea do Seixal, na costa norte da Madeira, com casas brancas e laranja junto a uma costa rochosa e piscinas naturais",
+      "title": "Tours privados e transfers na Madeira, com um motorista local",
+      "subtitle": "TODO: Texto provisório. Diga ao João onde está alojado e quando chega, e ele organiza o dia à sua medida."
+    },
+    "services": {
+      "title": "Tours e transfers",
+      "intro": "TODO: Texto provisório. Os tours e transfers em destaque vão aparecer aqui.",
+      "toursTitle": "Tours privados",
+      "toursText": "TODO: Texto provisório. Tours de dia inteiro ou meio dia pela ilha, ao seu ritmo.",
+      "transfersTitle": "Transfers de aeroporto e hotel",
+      "transfersText": "TODO: Texto provisório. Viagens porta a porta do aeroporto do Funchal para qualquer ponto da Madeira.",
+      "empty": "Os tours e transfers estarão disponíveis em breve. Envie um pedido de reserva e o João sugere um plano."
+    },
+    "about": {
+      "title": "Conheça o João",
+      "imageAlt": "João Vargas, taxista da Calheta, a sorrir, de camisa branca",
+      "text1": "TODO: Texto provisório. O João é taxista na Calheta e há anos que mostra a Madeira aos visitantes.",
+      "text2": "TODO: Texto provisório. Conhece os miradouros sossegados, as melhores horas para fugir à multidão e onde parar para um bom almoço.",
+      "cta": "Reservar com o João"
+    },
+    "why": {
+      "title": "Porquê viajar com o João",
+      "private": {
+        "title": "Privado",
+        "text": "TODO: Texto provisório. Só o seu grupo, sem carrinhas partilhadas."
+      },
+      "local": {
+        "title": "Local",
+        "text": "TODO: Texto provisório. Da Calheta, na costa oeste e soalheira da ilha."
+      },
+      "flexible": {
+        "title": "Flexível",
+        "text": "TODO: Texto provisório. Mude o percurso ou fique mais tempo onde gostar."
+      },
+      "licensed": {
+        "title": "Táxi licenciado",
+        "text": "TODO: Texto provisório. Dados da licença e do seguro a confirmar com o João."
+      }
+    },
+    "testimonials": {
+      "title": "O que dizem os clientes",
+      "empty": "TODO: Provisório. As opiniões dos clientes vão aparecer aqui, com a sua autorização."
+    },
+    "cta": {
+      "title": "Pronto para planear o seu dia?",
+      "text": "TODO: Texto provisório. Envie um pedido, não um pagamento. O João responde por WhatsApp ou email para confirmar os detalhes.",
+      "button": "Pedir reserva"
+    }
+  },
+  "Pages": {
+    "tours": {
+      "title": "Tours privados na Madeira",
+      "description": "Tours privados de dia inteiro ou meio dia na Madeira, com um taxista local da Calheta.",
+      "intro": "TODO: Página provisória. A lista de tours será adicionada aqui."
+    },
+    "transfers": {
+      "title": "Transfers de aeroporto e hotel",
+      "description": "Transfers privados do aeroporto do Funchal e entre hotéis na Madeira, com um motorista local.",
+      "intro": "TODO: Página provisória. Os trajetos e preços dos transfers serão adicionados aqui."
+    },
+    "info": {
+      "title": "Informações de viagem",
+      "description": "Tempo, o que levar, bagagem, crianças, cancelamento e pagamento: respostas antes de reservar.",
+      "intro": "TODO: Página provisória. As perguntas frequentes serão adicionadas aqui."
+    },
+    "contact": {
+      "title": "Contactar o João",
+      "description": "Telefone, WhatsApp e email da João Vargas Tours, na Calheta, Madeira.",
+      "intro": "TODO: Página provisória. Os contactos e o mapa serão adicionados aqui."
+    },
+    "book": {
+      "title": "Pedir uma reserva",
+      "description": "Envie um pedido de reserva de tour ou transfer privado na Madeira. O João responde por WhatsApp ou email.",
+      "intro": "TODO: Página provisória. O formulário de pedido de reserva será adicionado aqui."
+    },
+    "privacy": {
+      "title": "Política de privacidade",
+      "description": "Como a João Vargas Tours trata os seus dados pessoais.",
+      "intro": "TODO: Página provisória. O texto da política de privacidade tem de ser fornecido e revisto."
+    },
+    "terms": {
+      "title": "Termos e condições",
+      "description": "Termos e condições dos tours e transfers da João Vargas Tours.",
+      "intro": "TODO: Página provisória. Os termos têm de ser fornecidos e revistos."
+    },
+    "cookies": {
+      "title": "Política de cookies",
+      "description": "Que cookies a João Vargas Tours utiliza e porquê.",
+      "intro": "TODO: Página provisória. A política de cookies tem de ser fornecida e revista."
+    },
+    "complaints": {
+      "title": "Livro de reclamações",
+      "description": "Como apresentar uma reclamação sobre a João Vargas Tours.",
+      "intro": "TODO: Página provisória. A ligação ao livro de reclamações online será adicionada aqui."
+    }
+  },
+  "NotFound": {
+    "title": "Página não encontrada",
+    "text": "Esta página não existe ou mudou de endereço. Volte à página inicial ou peça uma reserva.",
+    "home": "Voltar ao início"
+  }
+}

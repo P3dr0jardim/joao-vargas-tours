@@ -1,0 +1,157 @@
+{
+  "Meta": {
+    "siteTitle": "João Vargas Tours | Private tours and transfers in Madeira",
+    "siteDescription": "Private tours and airport transfers in Madeira with João, a local taxi driver from Calheta. Send a booking request and he replies by WhatsApp or email."
+  },
+  "Common": {
+    "brand": "João Vargas Tours",
+    "skipToContent": "Skip to main content",
+    "requestBooking": "Request booking",
+    "whatsapp": "WhatsApp",
+    "whatsappAria": "Chat with João on WhatsApp",
+    "call": "Call",
+    "seeTours": "See tours",
+    "seeTransfers": "See transfers",
+    "todo": "Placeholder"
+  },
+  "Header": {
+    "homeAria": "João Vargas Tours, home",
+    "mainNav": "Main navigation",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "Nav": {
+    "tours": "Tours",
+    "transfers": "Transfers",
+    "about": "About João",
+    "info": "Info",
+    "contact": "Contact"
+  },
+  "LanguageSwitch": {
+    "label": "Language",
+    "switchTo": "Switch to {language}"
+  },
+  "Footer": {
+    "tagline": "Private tours and transfers in Madeira with a local driver.",
+    "contactTitle": "Contact",
+    "legalTitle": "Legal",
+    "licencesTitle": "Licences",
+    "rnaat": "RNAAT",
+    "nif": "NIF",
+    "taxiLicence": "Taxi licence",
+    "company": "Company",
+    "rights": "All rights reserved."
+  },
+  "Legal": {
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "cookies": "Cookies",
+    "complaints": "Complaints book"
+  },
+  "BottomBar": {
+    "label": "Quick contact"
+  },
+  "Home": {
+    "hero": {
+      "imageAlt": "Aerial view of Seixal on Madeira's north coast, with white and orange houses beside a rocky coastline and natural sea pools",
+      "title": "Private tours and transfers in Madeira, with a local driver",
+      "subtitle": "TODO: Placeholder copy. Tell João where you are staying and when you land, and he will plan the day around you."
+    },
+    "services": {
+      "title": "Tours and transfers",
+      "intro": "TODO: Placeholder copy. The featured tours and transfers will appear here.",
+      "toursTitle": "Private tours",
+      "toursText": "TODO: Placeholder copy. Full-day and half-day tours of the island at your pace.",
+      "transfersTitle": "Airport and hotel transfers",
+      "transfersText": "TODO: Placeholder copy. Door-to-door rides from Funchal airport to anywhere in Madeira.",
+      "empty": "Tours and transfers are coming soon. Send a booking request and João will suggest a plan."
+    },
+    "about": {
+      "title": "Meet João",
+      "imageAlt": "João Vargas, taxi driver from Calheta, smiling in a white shirt",
+      "text1": "TODO: Placeholder copy. João is a taxi driver from Calheta who has driven visitors around Madeira for years.",
+      "text2": "TODO: Placeholder copy. He knows the quiet viewpoints, the best times to avoid the crowds and where to stop for a good lunch.",
+      "cta": "Book with João"
+    },
+    "why": {
+      "title": "Why travel with João",
+      "private": {
+        "title": "Private",
+        "text": "TODO: Placeholder copy. Just your group, no shared minibus."
+      },
+      "local": {
+        "title": "Local",
+        "text": "TODO: Placeholder copy. Born and based in Calheta, on the sunny west coast."
+      },
+      "flexible": {
+        "title": "Flexible",
+        "text": "TODO: Placeholder copy. Change the route or stop longer where you like it."
+      },
+      "licensed": {
+        "title": "Licensed taxi",
+        "text": "TODO: Placeholder copy. Licence and insurance details to be confirmed with João."
+      }
+    },
+    "testimonials": {
+      "title": "What guests say",
+      "empty": "TODO: Placeholder. Guest reviews will appear here, with their permission."
+    },
+    "cta": {
+      "title": "Ready to plan your day?",
+      "text": "TODO: Placeholder copy. Send a request, not a payment. João replies by WhatsApp or email to confirm the details.",
+      "button": "Request booking"
+    }
+  },
+  "Pages": {
+    "tours": {
+      "title": "Private tours in Madeira",
+      "description": "Private full-day and half-day tours in Madeira with a local taxi driver from Calheta.",
+      "intro": "TODO: Placeholder page. The list of tours will be added here."
+    },
+    "transfers": {
+      "title": "Airport and hotel transfers",
+      "description": "Private transfers from Funchal airport and between hotels in Madeira, with a local driver.",
+      "intro": "TODO: Placeholder page. Transfer routes and prices will be added here."
+    },
+    "info": {
+      "title": "Travel information",
+      "description": "Weather, what to bring, luggage, children, cancellation and payment: answers before you book.",
+      "intro": "TODO: Placeholder page. Frequently asked questions will be added here."
+    },
+    "contact": {
+      "title": "Contact João",
+      "description": "Phone, WhatsApp and email for João Vargas Tours in Calheta, Madeira.",
+      "intro": "TODO: Placeholder page. The contact details and map will be added here."
+    },
+    "book": {
+      "title": "Request a booking",
+      "description": "Send a booking request for a private tour or transfer in Madeira. João replies by WhatsApp or email.",
+      "intro": "TODO: Placeholder page. The booking request form will be added here."
+    },
+    "privacy": {
+      "title": "Privacy policy",
+      "description": "How João Vargas Tours handles your personal data.",
+      "intro": "TODO: Placeholder page. The privacy policy text must be supplied and reviewed."
+    },
+    "terms": {
+      "title": "Terms and conditions",
+      "description": "Terms and conditions for tours and transfers with João Vargas Tours.",
+      "intro": "TODO: Placeholder page. The terms must be supplied and reviewed."
+    },
+    "cookies": {
+      "title": "Cookie policy",
+      "description": "Which cookies João Vargas Tours uses and why.",
+      "intro": "TODO: Placeholder page. The cookie policy must be supplied and reviewed."
+    },
+    "complaints": {
+      "title": "Complaints book",
+      "description": "How to submit a complaint about João Vargas Tours.",
+      "intro": "TODO: Placeholder page. Link to the online complaints book (Livro de Reclamações) to be added."
+    }
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "text": "This page does not exist or has moved. Go back to the home page or request a booking.",
+    "home": "Back to home"
+  }
+}
