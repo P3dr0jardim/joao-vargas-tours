@@ -18,7 +18,7 @@ const bookingRequestSchema = new Schema(
     // Frozen copy of the service at request time, so later content edits do not rewrite history.
     serviceSnapshot: {
       id: String,
-      title: String, // pt
+      title: { pt: String, en: String }, // same shape as the service content
       priceFrom: Number,
       currency: String,
       placeholder: Boolean,
@@ -41,13 +41,17 @@ const bookingRequestSchema = new Schema(
     locale: { type: String, enum: ['en', 'pt'], required: true },
     consent: {
       privacy: { type: Boolean, required: true },
-      version: { type: String },
+      version: { type: String }, // privacy policy version
+      textVersion: { type: String }, // version of the consent checkbox wording
+      locale: { type: String }, // language the consent text was shown in
       at: { type: Date },
     },
-    status: { type: String, enum: ['new'], default: 'new' }, // more states when an admin exists
+    // 'delivery_failed': saved, but neither email nor WhatsApp reached the driver (needs follow-up).
+    status: { type: String, enum: ['new', 'delivery_failed'], default: 'new' },
     delivery: { email: channel, whatsapp: channel },
     payment: { status: { type: String, default: 'none' } }, // reserved, no payments in v1
-    meta: { ipHash: String, userAgent: String },
+    // suspect: filled in faster than a human normally can (kept, not discarded).
+    meta: { ipHash: String, userAgent: String, suspect: Boolean },
   },
   { timestamps: true }
 )
