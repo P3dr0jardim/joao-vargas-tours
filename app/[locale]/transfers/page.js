@@ -1,5 +1,5 @@
 import { setRequestLocale } from 'next-intl/server'
-import StubPage from '@/components/ui/StubPage'
+import ServiceList from '@/components/services/ServiceList'
 import { pageMetadata } from '@/lib/page-metadata'
 
 export async function generateMetadata(props) {
@@ -9,5 +9,5 @@ export async function generateMetadata(props) {
 export default async function TransfersPage({ params }) {
   const { locale } = await params
   setRequestLocale(locale)
-  return <StubPage pageKey="transfers" />
+  return <ServiceList type="transfer" pageKey="transfers" />
 }

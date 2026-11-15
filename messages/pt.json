@@ -12,7 +12,8 @@
     "call": "Ligar",
     "seeTours": "Ver tours",
     "seeTransfers": "Ver transfers",
-    "todo": "Provisório"
+    "todo": "Provisório",
+    "breadcrumb": "Caminho de navegação"
   },
   "Header": {
     "homeAria": "João Vargas Tours, página inicial",
@@ -21,6 +22,7 @@
     "closeMenu": "Fechar menu"
   },
   "Nav": {
+    "home": "Início",
     "tours": "Tours",
     "transfers": "Transfers",
     "about": "Sobre o João",
@@ -63,12 +65,11 @@
     },
     "services": {
       "title": "Tours e transfers",
-      "intro": "TODO: Texto provisório. Os tours e transfers em destaque vão aparecer aqui.",
+      "intro": "Escolha um serviço para ver o percurso, o que está incluído e um preço indicativo.",
       "toursTitle": "Tours privados",
-      "toursText": "TODO: Texto provisório. Tours de dia inteiro ou meio dia pela ilha, ao seu ritmo.",
       "transfersTitle": "Transfers de aeroporto e hotel",
-      "transfersText": "TODO: Texto provisório. Viagens porta a porta do aeroporto do Funchal para qualquer ponto da Madeira.",
-      "empty": "Os tours e transfers estarão disponíveis em breve. Envie um pedido de reserva e o João sugere um plano."
+      "toursAll": "Todos os tours",
+      "transfersAll": "Todos os transfers"
     },
     "about": {
       "title": "Conheça o João",
@@ -110,12 +111,12 @@
     "tours": {
       "title": "Tours privados na Madeira",
       "description": "Tours privados de dia inteiro ou meio dia na Madeira, com um taxista local da Calheta.",
-      "intro": "TODO: Página provisória. A lista de tours será adicionada aqui."
+      "intro": "Tours de um ou dois dias com motorista local, transporte para passeios pelas levadas e viagens à medida. Escolha um ou peça o seu próprio plano."
     },
     "transfers": {
       "title": "Transfers de aeroporto e hotel",
       "description": "Transfers privados do aeroporto do Funchal e entre hotéis na Madeira, com um motorista local.",
-      "intro": "TODO: Página provisória. Os trajetos e preços dos transfers serão adicionados aqui."
+      "intro": "Viagens privadas entre o aeroporto, o seu alojamento e os miradouros. Um táxi, até 4 passageiros."
     },
     "info": {
       "title": "Informações de viagem",
@@ -157,5 +158,32 @@
     "title": "Página não encontrada",
     "text": "Esta página não existe ou mudou de endereço. Volte à página inicial ou peça uma reserva.",
     "home": "Voltar ao início"
+  },
+  "Services": {
+    "priceFrom": "A partir de <strong>{price}</strong>",
+    "pricing": {
+      "perVehicle": "por viatura"
+    },
+    "priceNote": "Preço indicativo, confirmado pelo João após o seu pedido",
+    "capacityValue": "Até {count} passageiros",
+    "facts": {
+      "duration": "Duração",
+      "capacity": "Capacidade",
+      "price": "Preço",
+      "from": "De",
+      "to": "Para"
+    },
+    "factsTitle": "Dados principais",
+    "stopsTitle": "Percurso sugerido",
+    "stopsNote": "É apenas uma sugestão. O João ajusta-o ao seu dia.",
+    "includesTitle": "Incluído",
+    "excludesTitle": "Não incluído",
+    "faqTitle": "Perguntas frequentes",
+    "relatedTitle": "Também lhe pode interessar",
+    "requestThis": "Pedir este serviço",
+    "askWhatsapp": "Perguntar por WhatsApp",
+    "whatsappMessage": "Olá, João. Gostaria de saber mais sobre: {title}.",
+    "requestNote": "Isto é um pedido, não uma reserva confirmada. O João responde por WhatsApp ou email.",
+    "empty": "Ainda não há serviços para mostrar. Envie um pedido de reserva e o João sugere um plano."
   }
 }

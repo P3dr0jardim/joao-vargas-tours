@@ -47,6 +47,14 @@ export function MenuIcon(props) {
   )
 }
 
+export function CheckIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M20 6 9 17l-5-5" />
+    </svg>
+  )
+}
+
 export function CloseIcon(props) {
   return (
     <svg {...base} {...props}>

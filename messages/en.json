@@ -12,7 +12,8 @@
     "call": "Call",
     "seeTours": "See tours",
     "seeTransfers": "See transfers",
-    "todo": "Placeholder"
+    "todo": "Placeholder",
+    "breadcrumb": "Breadcrumb"
   },
   "Header": {
     "homeAria": "João Vargas Tours, home",
@@ -21,6 +22,7 @@
     "closeMenu": "Close menu"
   },
   "Nav": {
+    "home": "Home",
     "tours": "Tours",
     "transfers": "Transfers",
     "about": "About João",
@@ -63,12 +65,11 @@
     },
     "services": {
       "title": "Tours and transfers",
-      "intro": "TODO: Placeholder copy. The featured tours and transfers will appear here.",
+      "intro": "Choose a service to see the route, what is included and an indicative price.",
       "toursTitle": "Private tours",
-      "toursText": "TODO: Placeholder copy. Full-day and half-day tours of the island at your pace.",
       "transfersTitle": "Airport and hotel transfers",
-      "transfersText": "TODO: Placeholder copy. Door-to-door rides from Funchal airport to anywhere in Madeira.",
-      "empty": "Tours and transfers are coming soon. Send a booking request and João will suggest a plan."
+      "toursAll": "All tours",
+      "transfersAll": "All transfers"
     },
     "about": {
       "title": "Meet João",
@@ -110,12 +111,12 @@
     "tours": {
       "title": "Private tours in Madeira",
       "description": "Private full-day and half-day tours in Madeira with a local taxi driver from Calheta.",
-      "intro": "TODO: Placeholder page. The list of tours will be added here."
+      "intro": "Full-day and two-day tours with a local driver, levada walk drop-offs and custom trips. Pick one or ask for your own plan."
     },
     "transfers": {
       "title": "Airport and hotel transfers",
       "description": "Private transfers from Funchal airport and between hotels in Madeira, with a local driver.",
-      "intro": "TODO: Placeholder page. Transfer routes and prices will be added here."
+      "intro": "Private rides between the airport, your accommodation and the viewpoints. One taxi, up to 4 passengers."
     },
     "info": {
       "title": "Travel information",
@@ -157,5 +158,32 @@
     "title": "Page not found",
     "text": "This page does not exist or has moved. Go back to the home page or request a booking.",
     "home": "Back to home"
+  },
+  "Services": {
+    "priceFrom": "From <strong>{price}</strong>",
+    "pricing": {
+      "perVehicle": "per vehicle"
+    },
+    "priceNote": "Indicative price, confirmed by João after your request",
+    "capacityValue": "Up to {count} passengers",
+    "facts": {
+      "duration": "Duration",
+      "capacity": "Capacity",
+      "price": "Price",
+      "from": "From",
+      "to": "To"
+    },
+    "factsTitle": "Key facts",
+    "stopsTitle": "Suggested route",
+    "stopsNote": "A suggestion only. João adjusts it to your day.",
+    "includesTitle": "Included",
+    "excludesTitle": "Not included",
+    "faqTitle": "Frequently asked questions",
+    "relatedTitle": "You may also like",
+    "requestThis": "Request this service",
+    "askWhatsapp": "Ask on WhatsApp",
+    "whatsappMessage": "Hello João, I would like to ask about: {title}.",
+    "requestNote": "This is a request, not a confirmed booking. João replies by WhatsApp or email.",
+    "empty": "No services to show yet. Send a booking request and João will suggest a plan."
   }
 }
