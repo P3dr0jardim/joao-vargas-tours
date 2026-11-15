@@ -55,7 +55,11 @@
     "hero": {
       "imageAlt": "Vista aérea do Seixal, na costa norte da Madeira, com casas brancas e laranja junto a uma costa rochosa e piscinas naturais",
       "title": "Tours privados e transfers na Madeira, com um motorista local",
-      "subtitle": "TODO: Texto provisório. Diga ao João onde está alojado e quando chega, e ele organiza o dia à sua medida."
+      "subtitle": "TODO: Texto provisório. Diga ao João onde está alojado e quando chega, e ele organiza o dia à sua medida.",
+      "driver": {
+        "label": "O seu motorista",
+        "role": "Taxista na Calheta"
+      }
     },
     "services": {
       "title": "Tours e transfers",

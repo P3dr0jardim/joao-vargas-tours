@@ -55,7 +55,11 @@
     "hero": {
       "imageAlt": "Aerial view of Seixal on Madeira's north coast, with white and orange houses beside a rocky coastline and natural sea pools",
       "title": "Private tours and transfers in Madeira, with a local driver",
-      "subtitle": "TODO: Placeholder copy. Tell João where you are staying and when you land, and he will plan the day around you."
+      "subtitle": "TODO: Placeholder copy. Tell João where you are staying and when you land, and he will plan the day around you.",
+      "driver": {
+        "label": "Your driver",
+        "role": "Taxi driver from Calheta"
+      }
     },
     "services": {
       "title": "Tours and transfers",
