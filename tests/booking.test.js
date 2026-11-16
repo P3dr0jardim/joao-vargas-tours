@@ -172,7 +172,7 @@ describe('booking request: validation', () => {
     ['adults', { adults: undefined }, 'required'],
     ['adults', { adults: 0 }, 'too_small'],
     ['adults', { adults: 1.5 }, 'invalid'],
-    ['adults', { adults: 5 }, 'too_large'], // capacity is 4
+    ['adults', { adults: 7 }, 'too_large'], // capacity is 6
     ['children', { children: -1 }, 'too_small'],
     ['infants', { infants: 'x' }, 'invalid'],
     ['pickupLocation', { pickupLocation: 'x'.repeat(201) }, 'too_long'],

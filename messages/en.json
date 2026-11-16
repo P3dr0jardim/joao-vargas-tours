@@ -116,7 +116,7 @@
     "transfers": {
       "title": "Airport and hotel transfers",
       "description": "Private transfers from Funchal airport and between hotels in Madeira, with a local driver.",
-      "intro": "Private rides between the airport, your accommodation and the viewpoints. One taxi, up to 4 passengers."
+      "intro": "Private rides between the airport, your accommodation and the viewpoints. One vehicle, up to 6 passengers."
     },
     "info": {
       "title": "Travel information",
@@ -131,7 +131,10 @@
     "book": {
       "title": "Request a booking",
       "description": "Send a booking request for a private tour or transfer in Madeira. João replies by WhatsApp or email.",
-      "intro": "Choose a service, a date and how many of you are travelling. João checks availability and replies by WhatsApp or email. Nothing is confirmed until he does."
+      "intro": "Choose a service, a date and how many of you are travelling. João checks availability and replies by WhatsApp or email. Nothing is confirmed until he does.",
+      "whatsappPrompt": "Prefer to arrange it directly?",
+      "whatsappLink": "Message João on WhatsApp",
+      "whatsappMessage": "Hello João, I would like to request a booking."
     },
     "privacy": {
       "title": "Privacy policy",

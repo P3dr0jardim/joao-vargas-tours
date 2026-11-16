@@ -9,7 +9,7 @@
 // Data model: docs/seo-content-plan.md, section "Data model additions" (later MongoDB).
 // Slugs are identical in en and pt on purpose: localised slugs are not approved yet.
 //
-// TODO: larger vehicle (more than 4 passengers). Not offered until João confirms it exists.
+// TODO: larger vehicle (more than 6 passengers). Not offered until João confirms it exists.
 // TODO: real photos per service. Until then every gallery reuses /images/hero.webp.
 
 /** Localised string helper: l('English', 'Português europeu'). */
@@ -56,7 +56,7 @@ const base = {
   placeholder: true,
   currency: 'EUR',
   pricingModel: 'perVehicle',
-  capacity: 4, // passengers, one taxi
+  capacity: 6, // passengers, one vehicle
   updatedAt: '2026-11-15',
 }
 
@@ -125,8 +125,8 @@ export const services = [
       {
         q: l('How many people and bags fit?', 'Quantas pessoas e malas cabem?'),
         a: l(
-          'Up to 4 passengers with normal luggage. If you carry something large, such as a surfboard, mention it in the request.',
-          'Até 4 passageiros com bagagem normal. Se levar algo volumoso, como uma prancha de surf, refira-o no pedido.'
+          'Up to 6 passengers with normal luggage. If you carry something large, such as a surfboard, mention it in the request.',
+          'Até 6 passageiros com bagagem normal. Se levar algo volumoso, como uma prancha de surf, refira-o no pedido.'
         ),
       },
     ],

@@ -2,8 +2,9 @@ import { Suspense } from 'react'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import BookingForm from '@/components/booking/BookingForm'
 import ServiceSummary from '@/components/booking/ServiceSummary'
+import { WhatsAppIcon } from '@/components/ui/icons'
 import Section from '@/components/ui/Section'
-import { siteConfig } from '@/config/site'
+import { siteConfig, whatsappLink } from '@/config/site'
 import { maxAdultsFor } from '@/lib/booking/schema'
 import { pageMetadata } from '@/lib/page-metadata'
 import { getPublishedServices, pick } from '@/lib/services'
@@ -36,6 +37,16 @@ export default async function BookPage({ params }) {
       <div className="mb-10 max-w-2xl">
         <h1 id="book-title">{t('title')}</h1>
         <p className="mt-4 text-lg">{t('intro')}</p>
+        <p className="mt-3">
+          {t('whatsappPrompt')}{' '}
+          <a
+            href={whatsappLink(t('whatsappMessage'))}
+            className="inline-flex items-center gap-1.5 font-semibold text-blue-800 underline"
+          >
+            <WhatsAppIcon />
+            {t('whatsappLink')}
+          </a>
+        </p>
       </div>
       {/* The form needs JavaScript. Without it, show how to reach João directly. */}
       <noscript>

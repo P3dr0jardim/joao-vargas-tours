@@ -1,7 +1,7 @@
 {
   "Meta": {
     "siteTitle": "João Vargas Tours | Tours privados e transfers na Madeira",
-    "siteDescription": "Tours privados e transfers de aeroporto na Madeira com o João, taxista da Calheta. Envie um pedido de reserva e ele responde por WhatsApp ou email."
+    "siteDescription": "Tours privados e transfers de aeroporto na Madeira com o João, motorista de táxi da Calheta. Envie um pedido de reserva e ele responde por WhatsApp ou email."
   },
   "Common": {
     "brand": "João Vargas Tours",
@@ -60,7 +60,7 @@
       "subtitle": "TODO: Texto provisório. Diga ao João onde está alojado e quando chega, e ele organiza o dia à sua medida.",
       "driver": {
         "label": "O seu motorista",
-        "role": "Taxista na Calheta"
+        "role": "Motorista de táxi na Calheta"
       }
     },
     "services": {
@@ -73,8 +73,8 @@
     },
     "about": {
       "title": "Conheça o João",
-      "imageAlt": "João Vargas, taxista da Calheta, a sorrir, de camisa branca",
-      "text1": "TODO: Texto provisório. O João é taxista na Calheta e há anos que mostra a Madeira aos visitantes.",
+      "imageAlt": "João Vargas, motorista de táxi da Calheta, a sorrir, de camisa branca",
+      "text1": "TODO: Texto provisório. O João é motorista de táxi na Calheta e há anos que mostra a Madeira aos visitantes.",
       "text2": "TODO: Texto provisório. Conhece os miradouros sossegados, as melhores horas para fugir à multidão e onde parar para um bom almoço.",
       "cta": "Reservar com o João"
     },
@@ -110,13 +110,13 @@
   "Pages": {
     "tours": {
       "title": "Tours privados na Madeira",
-      "description": "Tours privados de dia inteiro ou meio dia na Madeira, com um taxista local da Calheta.",
+      "description": "Tours privados de dia inteiro ou meio dia na Madeira, com um motorista de táxi local da Calheta.",
       "intro": "Tours de um ou dois dias com motorista local, transporte para passeios pelas levadas e viagens à medida. Escolha um ou peça o seu próprio plano."
     },
     "transfers": {
       "title": "Transfers de aeroporto e hotel",
       "description": "Transfers privados do aeroporto do Funchal e entre hotéis na Madeira, com um motorista local.",
-      "intro": "Viagens privadas entre o aeroporto, o seu alojamento e os miradouros. Um táxi, até 4 passageiros."
+      "intro": "Viagens privadas entre o aeroporto, o seu alojamento e os miradouros. Uma viatura, até 6 passageiros."
     },
     "info": {
       "title": "Informações de viagem",
@@ -131,7 +131,10 @@
     "book": {
       "title": "Pedir uma reserva",
       "description": "Envie um pedido de reserva de tour ou transfer privado na Madeira. O João responde por WhatsApp ou email.",
-      "intro": "Escolha um serviço, uma data e quantas pessoas viajam. O João verifica a disponibilidade e responde por WhatsApp ou email. Nada fica confirmado até ele o fazer."
+      "intro": "Escolha um serviço, uma data e quantas pessoas viajam. O João verifica a disponibilidade e responde por WhatsApp ou email. Nada fica confirmado até ele o fazer.",
+      "whatsappPrompt": "Prefere combinar diretamente?",
+      "whatsappLink": "Fale com o João no WhatsApp",
+      "whatsappMessage": "Olá João, gostaria de pedir uma reserva."
     },
     "privacy": {
       "title": "Política de privacidade",

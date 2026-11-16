@@ -91,7 +91,7 @@ describe('services content', () => {
       expect(s.currency).toBe('EUR')
       expect(s.pricingModel).toBe('perVehicle')
       expect(Number.isInteger(s.priceFrom) && s.priceFrom > 0, `${s.id} price`).toBe(true)
-      expect(s.capacity).toBe(4)
+      expect(s.capacity).toBe(6)
       expect(s.updatedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/)
     }
   })
