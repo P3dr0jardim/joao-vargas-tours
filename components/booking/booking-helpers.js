@@ -87,6 +87,30 @@ export function fieldVisibility(service) {
   }
 }
 
+const ROUTE_FIELDS = ['pickup', 'dropoff']
+
+/** Pickup and drop-off a service starts with (empty strings when it has none). */
+export function routePrefill(service) {
+  return {
+    pickup: service?.prefill?.pickup ?? '',
+    dropoff: service?.prefill?.dropoff ?? '',
+  }
+}
+
+/**
+ * Route values to set after the service changes: a field takes the new service's prefill only when
+ * it is empty or still holds the old service's prefill, so text the customer typed is never lost.
+ */
+export function nextRouteValues(current, previousPrefill, nextPrefill) {
+  const updates = {}
+  for (const field of ROUTE_FIELDS) {
+    const value = String(current[field] ?? '')
+    const untouched = !value.trim() || value === previousPrefill[field]
+    if (untouched && value !== nextPrefill[field]) updates[field] = nextPrefill[field]
+  }
+  return updates
+}
+
 /** Group services for the select: tours first, then transfers. Empty groups are dropped. */
 export function groupServices(services) {
   return [

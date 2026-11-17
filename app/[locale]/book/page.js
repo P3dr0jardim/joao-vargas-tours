@@ -27,6 +27,10 @@ export default async function BookPage({ params }) {
     type: s.type,
     maxAdults: maxAdultsFor(s),
     title: pick(s.title, locale),
+    prefill: {
+      pickup: s.prefill?.pickup ? pick(s.prefill.pickup, locale) : '',
+      dropoff: s.prefill?.dropoff ? pick(s.prefill.dropoff, locale) : '',
+    },
   }))
   const summaries = Object.fromEntries(
     published.map((s) => [s.slug, <ServiceSummary key={s.slug} service={s} />])

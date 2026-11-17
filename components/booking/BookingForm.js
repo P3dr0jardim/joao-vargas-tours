@@ -20,7 +20,9 @@ import {
   maxDate,
   minDate,
   newKey,
+  nextRouteValues,
   parseServiceParam,
+  routePrefill,
   todayInMadeira,
   validateBooking,
 } from '@/components/booking/booking-helpers'
@@ -29,7 +31,7 @@ const ENDPOINT = '/api/booking-requests'
 
 /**
  * Booking request form.
- * `services`: [{ slug, type, title, maxAdults }] for the select.
+ * `services`: [{ slug, type, title, maxAdults, prefill: { pickup, dropoff } }] for the select.
  * `summaries`: { [slug]: ReactNode } server-rendered summary cards, one per service.
  */
 export default function BookingForm({ services, summaries }) {
@@ -39,6 +41,7 @@ export default function BookingForm({ services, summaries }) {
   const searchParams = useSearchParams()
 
   const initialService = parseServiceParam(searchParams.get('service'), services)
+  const initialPrefill = routePrefill(services.find((s) => s.slug === initialService))
 
   // Created once when the form mounts and reused on every retry, so the server can de-duplicate.
   const [meta] = useState(() => ({ formStartedAt: Date.now(), idempotencyKey: newKey() }))
@@ -48,6 +51,7 @@ export default function BookingForm({ services, summaries }) {
   const [focusTick, setFocusTick] = useState(0)
   const noticeRef = useRef(null)
   const summaryRef = useRef(null)
+  const prefillRef = useRef(initialPrefill)
 
   // Resolver validates by hand with the same codes as the API (no extra packages).
   const resolver = (values) => {
@@ -60,6 +64,7 @@ export default function BookingForm({ services, summaries }) {
   const {
     register,
     handleSubmit,
+    getValues,
     setValue,
     setError,
     control,
@@ -74,8 +79,8 @@ export default function BookingForm({ services, summaries }) {
       adults: 2,
       children: 0,
       infants: 0,
-      pickup: '',
-      dropoff: '',
+      pickup: initialPrefill.pickup,
+      dropoff: initialPrefill.dropoff,
       flightNumber: '',
       luggage: '',
       notes: '',
@@ -92,6 +97,14 @@ export default function BookingForm({ services, summaries }) {
   const visible = fieldVisibility(service)
   const capacity = service?.maxAdults ?? 8
   const overCapacity = Number(values.adults || 0) + Number(values.children || 0) > capacity
+
+  // Fill pickup/drop-off from the chosen service, keeping anything the customer typed.
+  useEffect(() => {
+    const next = routePrefill(service)
+    const updates = nextRouteValues(getValues(), prefillRef.current, next)
+    for (const [field, value] of Object.entries(updates)) setValue(field, value)
+    prefillRef.current = next
+  }, [service, getValues, setValue])
 
   // Move focus to the error summary (role=alert, links to each field) after a failed submit.
   useEffect(() => {

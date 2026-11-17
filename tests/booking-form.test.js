@@ -10,11 +10,14 @@ import {
   maxDate,
   minDate,
   newKey,
+  nextRouteValues,
   normalisePhone,
   parseServiceParam,
+  routePrefill,
   sanitiseRef,
   validateBooking,
 } from '@/components/booking/booking-helpers'
+import { customerMessage } from '@/lib/email'
 import { maxAdultsFor } from '@/lib/booking/schema'
 import { getPublishedServices } from '@/lib/services'
 import en from '@/messages/en.json'
@@ -326,5 +329,85 @@ describe('error messages', () => {
     for (const messages of [en, pt]) {
       for (const code of codes) expect(has(messages, `errors.${code}`), code).toBe(true)
     }
+  })
+})
+
+describe('route prefill', () => {
+  const airport = { pickup: 'Aeroporto do Funchal', dropoff: '' }
+  const city = { pickup: 'Calheta', dropoff: 'Funchal' }
+  const none = { pickup: '', dropoff: '' }
+
+  it('reads the prefill of a service, or empty strings', () => {
+    expect(routePrefill({ prefill: airport })).toEqual(airport)
+    expect(routePrefill({ prefill: { dropoff: 'Funchal' } })).toEqual({
+      pickup: '',
+      dropoff: 'Funchal',
+    })
+    expect(routePrefill(undefined)).toEqual(none)
+  })
+
+  it('fills empty fields from the new service', () => {
+    expect(nextRouteValues({ pickup: '', dropoff: '' }, none, airport)).toEqual({
+      pickup: 'Aeroporto do Funchal',
+    })
+  })
+
+  it('replaces the old prefill when the service changes', () => {
+    expect(nextRouteValues({ pickup: 'Aeroporto do Funchal', dropoff: '' }, airport, city)).toEqual(
+      { pickup: 'Calheta', dropoff: 'Funchal' }
+    )
+    expect(nextRouteValues({ pickup: 'Calheta', dropoff: 'Funchal' }, city, none)).toEqual({
+      pickup: '',
+      dropoff: '',
+    })
+  })
+
+  it('never overwrites what the customer typed', () => {
+    expect(nextRouteValues({ pickup: 'Hotel Savoy', dropoff: '' }, airport, city)).toEqual({
+      dropoff: 'Funchal',
+    })
+  })
+
+  it('services that show route fields have prefills in both languages', () => {
+    for (const s of getPublishedServices()) {
+      for (const value of Object.values(s.prefill ?? {})) {
+        expect(value.en && value.pt, s.slug).toBeTruthy()
+      }
+    }
+    expect(
+      getPublishedServices().find((s) => s.slug === 'funchal-airport-transfer').prefill.pickup.pt
+    ).toBe('Aeroporto do Funchal')
+  })
+})
+
+describe('customer confirmation email', () => {
+  const booking = {
+    locale: 'pt',
+    name: 'Ana <b>',
+    date: '2026-12-20',
+    adults: 2,
+    children: 1,
+    infants: 0,
+    pickupLocation: 'Aeroporto do Funchal',
+  }
+  const snapshot = {
+    title: { pt: 'Transfer do aeroporto do Funchal', en: 'Funchal airport transfer' },
+  }
+
+  it('is branded, in the customer language, with a WhatsApp link carrying the ref', () => {
+    const m = customerMessage({ ref: 'JV-2026-AB12CD', booking, snapshot })
+    expect(m.html).toContain('João Vargas')
+    expect(m.html).toContain('Recebemos o seu pedido')
+    expect(m.html).toContain('2 adultos, 1 criança')
+    expect(m.html).toContain('https://wa.me/')
+    expect(m.html).toContain('JV-2026-AB12CD')
+    expect(m.html).toContain('Ana &lt;b&gt;')
+    expect(m.text).toContain('Passageiros: 2 adultos, 1 criança')
+  })
+
+  it('falls back to English', () => {
+    const m = customerMessage({ ref: 'JV-1', booking: { ...booking, locale: 'en' }, snapshot })
+    expect(m.subject).toBe('We received your booking request JV-1')
+    expect(m.html).toContain('2 adults, 1 child')
   })
 })
