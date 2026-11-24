@@ -13,5 +13,5 @@ export async function generateMetadata(props) {
 export default async function TransfersDetailPage({ params }) {
   const { locale, slug } = await params
   setRequestLocale(locale)
-  return <ServiceDetail service={requireService('transfer', slug)} />
+  return <ServiceDetail service={await requireService('transfer', slug)} />
 }

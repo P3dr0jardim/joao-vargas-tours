@@ -1,6 +1,7 @@
 import { setRequestLocale } from 'next-intl/server'
 import Hero from '@/components/home/Hero'
 import FeaturedServices from '@/components/home/FeaturedServices'
+import CalhetaPrices from '@/components/home/CalhetaPrices'
 import AboutDriver from '@/components/home/AboutDriver'
 import WhyUs from '@/components/home/WhyUs'
 import Testimonials from '@/components/home/Testimonials'
@@ -15,6 +16,7 @@ export default async function HomePage({ params }) {
     <>
       <Hero />
       <FeaturedServices />
+      <CalhetaPrices />
       <AboutDriver />
       <WhyUs />
       <Testimonials />

@@ -1,8 +1,8 @@
 import { getTranslations } from 'next-intl/server'
 import Section from '@/components/ui/Section'
 import ButtonLink from '@/components/ui/ButtonLink'
-import { WhatsAppIcon } from '@/components/ui/icons'
-import { whatsappLink } from '@/config/site'
+import { PhoneIcon, WhatsAppIcon } from '@/components/ui/icons'
+import { siteConfig, whatsappLink } from '@/config/site'
 
 export default async function FinalCta() {
   const t = await getTranslations()
@@ -13,10 +13,16 @@ export default async function FinalCta() {
         <h2 id="cta-title">{t('Home.cta.title')}</h2>
         <p className="mt-3">{t('Home.cta.text')}</p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <ButtonLink href="/book">{t('Home.cta.button')}</ButtonLink>
-          <ButtonLink href={whatsappLink()} variant="outline" aria-label={t('Common.whatsappAria')}>
+          <ButtonLink
+            href={whatsappLink(t('Pages.contact.whatsappMessage'))}
+            aria-label={t('Common.whatsappAria')}
+          >
             <WhatsAppIcon />
-            {t('Common.whatsapp')}
+            {t('Home.cta.button')}
+          </ButtonLink>
+          <ButtonLink href={siteConfig.phone.href} variant="outline">
+            <PhoneIcon />
+            {siteConfig.phone.display}
           </ButtonLink>
         </div>
       </div>

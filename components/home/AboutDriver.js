@@ -2,9 +2,12 @@ import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import Section from '@/components/ui/Section'
 import ButtonLink from '@/components/ui/ButtonLink'
+import { WhatsAppIcon } from '@/components/ui/icons'
+import { whatsappLink } from '@/config/site'
 
 export default async function AboutDriver() {
   const t = await getTranslations('Home.about')
+  const contact = await getTranslations('Pages.contact')
 
   return (
     <Section id="about" labelledBy="about-title">
@@ -24,7 +27,8 @@ export default async function AboutDriver() {
           <h2 id="about-title">{t('title')}</h2>
           <p>{t('text1')}</p>
           <p>{t('text2')}</p>
-          <ButtonLink href="/book" className="mt-4">
+          <ButtonLink href={whatsappLink(contact('whatsappMessage'))} className="mt-4">
+            <WhatsAppIcon />
             {t('cta')}
           </ButtonLink>
         </div>

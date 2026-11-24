@@ -1,12 +1,12 @@
 import { locales, siteConfig } from '@/config/site'
 import { absoluteUrl, languageAlternates } from '@/lib/seo'
-import { getPublishedServices, servicePath } from '@/lib/services'
+import { getPublishedServices, loadCatalog, servicePath } from '@/lib/services'
 
 // One entry per locale and path; each entry lists all language alternates (reciprocal hreflang).
 // lastModified is omitted for static pages on purpose; services carry their own updatedAt.
-export default function sitemap() {
+export default async function sitemap() {
   const pages = siteConfig.routes.map((path) => ({ path }))
-  const services = getPublishedServices().map((service) => ({
+  const services = getPublishedServices(undefined, await loadCatalog()).map((service) => ({
     path: servicePath(service),
     lastModified: service.updatedAt,
   }))

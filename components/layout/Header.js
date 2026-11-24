@@ -1,8 +1,9 @@
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
-import { siteConfig } from '@/config/site'
+import { siteConfig, whatsappLink } from '@/config/site'
 import ButtonLink from '@/components/ui/ButtonLink'
 import Wordmark from '@/components/ui/Wordmark'
+import { PhoneIcon, WhatsAppIcon } from '@/components/ui/icons'
 import LanguageSwitch from './LanguageSwitch'
 import MobileMenu from './MobileMenu'
 
@@ -33,8 +34,20 @@ export default async function Header() {
 
         <div className="flex items-center gap-2 sm:gap-4">
           <LanguageSwitch />
-          <ButtonLink href="/book" className="hidden sm:inline-flex">
-            {t('Common.requestBooking')}
+          <a
+            href={siteConfig.phone.href}
+            className="hidden min-h-11 items-center gap-2 rounded-full px-3 font-medium text-blue-800 hover:bg-sky-50 xl:inline-flex"
+          >
+            <PhoneIcon />
+            {siteConfig.phone.display}
+          </a>
+          <ButtonLink
+            href={whatsappLink(t('Pages.contact.whatsappMessage'))}
+            aria-label={t('Common.whatsappAria')}
+            className="hidden sm:inline-flex"
+          >
+            <WhatsAppIcon />
+            {t('Common.whatsapp')}
           </ButtonLink>
           <MobileMenu />
         </div>

@@ -55,7 +55,6 @@ export const siteConfig = {
     '/transfers',
     '/info',
     '/contact',
-    '/book',
     '/privacy',
     '/terms',
     '/cookies',

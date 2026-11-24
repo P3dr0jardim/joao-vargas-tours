@@ -1,19 +1,21 @@
 {
   "Meta": {
-    "siteTitle": "João Vargas Tours | Private tours and transfers in Madeira",
-    "siteDescription": "Private tours and airport transfers in Madeira with João, a local taxi driver from Calheta. Send a booking request and he replies by WhatsApp or email."
+    "siteTitle": "João Vargas Tours | Taxi, tours and levadas from Calheta, Madeira",
+    "siteDescription": "Taxi tours, levada walks and transfers to and from Calheta, Madeira, with João, a local taxi driver. Prices per taxi. Message on WhatsApp or call."
   },
   "Common": {
     "brand": "João Vargas Tours",
     "skipToContent": "Skip to main content",
-    "requestBooking": "Request booking",
+    "requestBooking": "Ask on WhatsApp",
     "whatsapp": "WhatsApp",
     "whatsappAria": "Chat with João on WhatsApp",
     "call": "Call",
     "seeTours": "See tours",
     "seeTransfers": "See transfers",
     "todo": "Placeholder",
-    "breadcrumb": "Breadcrumb"
+    "breadcrumb": "Breadcrumb",
+    "callAria": "Call João",
+    "seeLevadas": "See levadas"
   },
   "Header": {
     "homeAria": "João Vargas Tours, home",
@@ -56,27 +58,29 @@
   "Home": {
     "hero": {
       "imageAlt": "Aerial view of Seixal on Madeira's north coast, with white and orange houses beside a rocky coastline and natural sea pools",
-      "title": "Private tours and transfers in Madeira, with a local driver",
-      "subtitle": "TODO: Placeholder copy. Tell João where you are staying and when you land, and he will plan the day around you.",
+      "title": "Tours and taxi from Calheta",
+      "subtitle": "Island tours, levada walks and transfers to and from Calheta, with João, a local taxi driver. No forms: message him on WhatsApp or give him a call.",
       "driver": {
         "label": "Your driver",
         "role": "Taxi driver from Calheta"
       }
     },
     "services": {
-      "title": "Tours and transfers",
-      "intro": "Choose a service to see the route, what is included and an indicative price.",
-      "toursTitle": "Private tours",
-      "transfersTitle": "Airport and hotel transfers",
+      "title": "Tours from Calheta",
+      "intro": "The same routes and prices as the Calheta taxi rank. Pick a tour and send João the message on WhatsApp.",
+      "toursTitle": "Island tours",
+      "transfersTitle": "Transfers from Calheta",
       "toursAll": "All tours",
-      "transfersAll": "All transfers"
+      "transfersAll": "All transfers",
+      "levadasTitle": "Levada walks",
+      "levadasAll": "All levada walks"
     },
     "about": {
       "title": "Meet João",
       "imageAlt": "João Vargas, taxi driver from Calheta, smiling in a white shirt",
-      "text1": "TODO: Placeholder copy. João is a taxi driver from Calheta who has driven visitors around Madeira for years.",
+      "text1": "TODO: Placeholder copy. João is a taxi driver from Calheta who has shown visitors around Madeira from the west coast for years.",
       "text2": "TODO: Placeholder copy. He knows the quiet viewpoints, the best times to avoid the crowds and where to stop for a good lunch.",
-      "cta": "Book with João"
+      "cta": "Message João on WhatsApp"
     },
     "why": {
       "title": "Why travel with João",
@@ -102,21 +106,31 @@
       "empty": "TODO: Placeholder. Guest reviews will appear here, with their permission."
     },
     "cta": {
-      "title": "Ready to plan your day?",
-      "text": "TODO: Placeholder copy. Send a request, not a payment. João replies by WhatsApp or email to confirm the details.",
-      "button": "Request booking"
+      "title": "Staying in Calheta? Message João now",
+      "text": "Send the tour, the date and how many people, or give him a call. João confirms availability and the price.",
+      "button": "Send a WhatsApp message"
+    },
+    "prices": {
+      "title": "Price list from Calheta",
+      "intro": "Price per taxi, starting in Calheta. Tap WhatsApp and the message opens with the service already filled in.",
+      "tours": "Tours",
+      "levadas": "Levada walks",
+      "transfers": "Transfers"
     }
   },
   "Pages": {
     "tours": {
-      "title": "Private tours in Madeira",
-      "description": "Private full-day and half-day tours in Madeira with a local taxi driver from Calheta.",
-      "intro": "Full-day and two-day tours with a local driver, levada walk drop-offs and custom trips. Pick one or ask for your own plan."
+      "title": "Taxi tours from Calheta",
+      "description": "Private taxi tours of Madeira starting in Calheta: West Tour, Middle Tour, East Tour and levada walks. Prices per taxi.",
+      "intro": "Every tour starts and ends in Calheta. Price per taxi, up to 4 people (20% more above 4). Pick one and ask for it on WhatsApp.",
+      "toursTitle": "Island tours",
+      "levadasTitle": "Levada walks",
+      "levadasIntro": "João takes you to the start of the trail and, on return trips, collects you at the end."
     },
     "transfers": {
-      "title": "Airport and hotel transfers",
-      "description": "Private transfers from Funchal airport and between hotels in Madeira, with a local driver.",
-      "intro": "Private rides between the airport, your accommodation and the viewpoints. One vehicle, up to 6 passengers."
+      "title": "Taxi transfers from Calheta",
+      "description": "Taxi from Calheta to Madeira airport, Funchal centre and Porto Moniz, with weekday and weekend prices.",
+      "intro": "Private rides to and from Calheta. One taxi, up to 6 passengers. Prices differ on weekdays and at weekends."
     },
     "info": {
       "title": "Travel information",
@@ -124,17 +138,16 @@
       "intro": "TODO: Placeholder page. Frequently asked questions will be added here."
     },
     "contact": {
-      "title": "Contact João",
-      "description": "Phone, WhatsApp and email for João Vargas Tours in Calheta, Madeira.",
-      "intro": "TODO: Placeholder page. The contact details and map will be added here."
-    },
-    "book": {
-      "title": "Request a booking",
-      "description": "Send a booking request for a private tour or transfer in Madeira. João replies by WhatsApp or email.",
-      "intro": "Choose a service, a date and how many of you are travelling. João checks availability and replies by WhatsApp or email. Nothing is confirmed until he does.",
-      "whatsappPrompt": "Prefer to arrange it directly?",
-      "whatsappLink": "Message João on WhatsApp",
-      "whatsappMessage": "Hello João, I would like to request a booking."
+      "title": "Talk to João",
+      "description": "WhatsApp and phone for João Vargas Tours, taxi and tours in Calheta, Madeira.",
+      "intro": "There are no forms: talk to João directly. Tell him the service, the date, the time and how many people, and he replies with availability and the price.",
+      "whatsappTitle": "WhatsApp",
+      "whatsappText": "The quickest way. The message opens already filled in.",
+      "phoneTitle": "Phone",
+      "phoneText": "Prefer to talk? Give João a call.",
+      "baseTitle": "Where we are",
+      "baseText": "Calheta, on the west coast of Madeira. Every price on the site starts in Calheta. From elsewhere on the island, ask for the price.",
+      "whatsappMessage": "Hello João, I saw your website and would like some information.\nService:\nDate:\nNumber of people:\nPick-up place:"
     },
     "privacy": {
       "title": "Privacy policy",
@@ -155,23 +168,19 @@
       "title": "Complaints book",
       "description": "How to submit a complaint about João Vargas Tours.",
       "intro": "TODO: Placeholder page. Link to the online complaints book (Livro de Reclamações) to be added."
-    },
-    "thankYou": {
-      "title": "Request received",
-      "description": "Your booking request was sent to João."
     }
   },
   "NotFound": {
     "title": "Page not found",
-    "text": "This page does not exist or has moved. Go back to the home page or request a booking.",
+    "text": "This page does not exist or has moved. Go back to the home page or message João on WhatsApp.",
     "home": "Back to home"
   },
   "Services": {
     "priceFrom": "From <strong>{price}</strong>",
     "pricing": {
-      "perVehicle": "per vehicle"
+      "perVehicle": "per taxi"
     },
-    "priceNote": "Indicative price, confirmed by João after your request",
+    "priceNote": "Indicative price, confirmed by João on WhatsApp",
     "capacityValue": "Up to {count} passengers",
     "facts": {
       "duration": "Duration",
@@ -187,180 +196,14 @@
     "excludesTitle": "Not included",
     "faqTitle": "Frequently asked questions",
     "relatedTitle": "You may also like",
-    "requestThis": "Request this service",
-    "askWhatsapp": "Ask on WhatsApp",
-    "whatsappMessage": "Hello João, I would like to ask about: {title}.",
-    "requestNote": "This is a request, not a confirmed booking. João replies by WhatsApp or email.",
-    "empty": "No services to show yet. Send a booking request and João will suggest a plan."
-  },
-  "Booking": {
-    "optional": "optional",
-    "loading": "Loading the form…",
-    "honeypotLabel": "Extra information, leave empty",
-    "requestNote": "This is a request, not a confirmed booking. João replies by WhatsApp or email. You pay nothing on this page.",
-    "sections": {
-      "trip": "Your trip",
-      "group": "Who is travelling",
-      "route": "Pick-up and drop-off",
-      "extras": "Anything else",
-      "contact": "Your details"
-    },
-    "summary": {
-      "title": "What you are requesting",
-      "empty": "Choose a service to see its details and indicative price here.",
-      "details": "See full service details",
-      "errorsTitle": "Please fix these fields before sending:"
-    },
-    "fields": {
-      "service": {
-        "label": "Service",
-        "placeholder": "Choose a service",
-        "groups": {
-          "tour": "Tours",
-          "transfer": "Transfers"
-        }
-      },
-      "date": {
-        "label": "Date",
-        "hint": "From tomorrow. João confirms availability."
-      },
-      "time": {
-        "label": "Preferred time",
-        "hint": "An approximate time is fine."
-      },
-      "adults": {
-        "label": "Adults",
-        "decrease": "Fewer adults",
-        "increase": "More adults"
-      },
-      "children": {
-        "label": "Children",
-        "decrease": "Fewer children",
-        "increase": "More children"
-      },
-      "infants": {
-        "label": "Infants",
-        "decrease": "Fewer infants",
-        "increase": "More infants"
-      },
-      "pickup": {
-        "label": "Pick-up place",
-        "hint": "Hotel name or address."
-      },
-      "dropoff": {
-        "label": "Drop-off place",
-        "hint": "Hotel name, address or the place you want to reach."
-      },
-      "flightNumber": {
-        "label": "Flight number",
-        "hint": "So João can follow delays. For example TP1693."
-      },
-      "luggage": {
-        "label": "Luggage",
-        "hint": "For example: 2 large suitcases and 1 cabin bag."
-      },
-      "notes": {
-        "label": "Notes",
-        "hint": "Practical details for the trip: places you want to see, child seats, luggage. Mention accessibility needs only if they affect the vehicle. Please do not include sensitive health details."
-      },
-      "name": {
-        "label": "Full name"
-      },
-      "email": {
-        "label": "Email"
-      },
-      "phone": {
-        "label": "Phone or WhatsApp number",
-        "hint": "Include the country code, for example +44 7700 900123."
-      }
-    },
-    "capacityHint": "One vehicle seats up to {count} passengers. If you are more, say so in the notes.",
-    "capacityOver": "You are more than {count} people. Say so in the notes and João will suggest options.",
-    "consent": "I agree that João Vargas Tours uses these details to answer my request and sends it to João by email and WhatsApp (service providers that process it for us), as explained in the <link>privacy policy</link>.",
-    "submit": "Send request",
-    "submitting": "Sending…",
-    "errors": {
-      "required": "This field is required.",
-      "invalid": "Check this value and try again.",
-      "too_short": "This is too short.",
-      "too_long": "This is too long.",
-      "too_early": "Choose a date from tomorrow onwards.",
-      "too_far": "That date is too far ahead. Choose an earlier one.",
-      "unknown_service": "Choose a service from the list.",
-      "consent_required": "Tick the box to send your request.",
-      "generic": "Check this field and try again.",
-      "service": {
-        "required": "Choose a service."
-      },
-      "date": {
-        "required": "Choose a date.",
-        "invalid": "Enter a valid date."
-      },
-      "time": {
-        "invalid": "Enter a valid time, for example 09:30."
-      },
-      "adults": {
-        "required": "Enter the number of adults.",
-        "invalid": "Enter between 1 and {max} adults.",
-        "too_small": "Enter at least 1 adult.",
-        "too_large": "Enter {max} adults at most. For a bigger group, say so in the notes."
-      },
-      "children": {
-        "invalid": "Enter a valid number of children.",
-        "too_large": "Enter {max} children at most."
-      },
-      "infants": {
-        "invalid": "Enter a valid number of infants.",
-        "too_large": "Enter {max} infants at most."
-      },
-      "dropoff": {
-        "required": "Enter where João should drop you off."
-      },
-      "name": {
-        "required": "Enter your name.",
-        "too_short": "Enter your full name."
-      },
-      "email": {
-        "required": "Enter your email address.",
-        "invalid": "Enter a valid email address, like name@example.com."
-      },
-      "phone": {
-        "required": "Enter your phone number.",
-        "invalid": "Enter a phone number with the country code, like +44 7700 900123."
-      },
-      "consent": {
-        "consent_required": "Tick the box to agree before sending your request."
-      },
-      "too_small": "This number is too low.",
-      "too_large": "This number is too high."
-    },
-    "notice": {
-      "rateLimited": "Too many attempts. Wait a few minutes and try again.",
-      "forbidden": "We could not accept this request. Reload the page and try again, or message João on WhatsApp.",
-      "network": "We could not reach the server. Check your connection and try again. Your details are still here.",
-      "error": "Something went wrong on our side. Try again in a moment, or message João on WhatsApp.",
-      "deliveryFailed": "Sorry, your request did not reach João. Please send it on WhatsApp instead. We have prepared the message for you.",
-      "whatsappButton": "Send on WhatsApp",
-      "whatsappAria": "Send your request to João on WhatsApp",
-      "whatsappMessage": "Hello João, I tried to send a booking request on your website but it failed. Service: {service}. Date: {date}. Passengers: {passengers}. Name: {name}."
-    },
-    "thanks": {
-      "title": "Request received",
-      "refLabel": "Your reference",
-      "refHint": "Keep this reference if you contact João.",
-      "noRef": "Your request was sent. If you message João, include your name and travel date.",
-      "notConfirmed": "This is a request, not a confirmed booking.",
-      "next": "João will check availability and reply by WhatsApp or email.",
-      "whatsappButton": "Message João on WhatsApp",
-      "whatsappAria": "Message João on WhatsApp about your request",
-      "whatsappMessage": "Hello João, I sent a booking request on your website. My reference is {ref}.",
-      "whatsappMessageNoRef": "Hello João, I sent a booking request on your website.",
-      "home": "Back to home"
-    },
-    "noscript": {
-      "text": "This form needs JavaScript. You can still send your request directly to João:",
-      "whatsapp": "Message João on WhatsApp",
-      "phone": "Call {number}"
-    }
+    "requestThis": "Ask on WhatsApp",
+    "whatsappMessage": "Hello João, I saw “{title}” on your website and would like to book it.\nDate:\nTime:\nNumber of people:\nPick-up place:",
+    "requestNote": "No forms and no online payment. João confirms availability and the price on WhatsApp.",
+    "empty": "No services to show yet. Message João on WhatsApp and he will suggest a plan.",
+    "priceOnRequest": "Price on request",
+    "groupNote": "Up to 4 people. Above 4 people, 20% is added to the price.",
+    "weekend": "Weekend: {price}",
+    "callJoao": "Call João",
+    "whatsappAria": "Ask João about “{title}” on WhatsApp"
   }
 }

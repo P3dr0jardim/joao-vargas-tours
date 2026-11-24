@@ -6,15 +6,15 @@ import { pick } from '@/lib/services'
 export default async function ServiceFaq({ faq }) {
   const t = await getTranslations('Services')
   const locale = await getLocale()
-  if (faq.length === 0) return null
+  if (!faq?.length) return null
 
   return (
     <Section labelledBy="faq-title" tone="sky">
       <h2 id="faq-title">{t('faqTitle')}</h2>
       <div className="mt-8 max-w-3xl space-y-3">
-        {faq.map((item) => (
+        {faq.map((item, i) => (
           <details
-            key={item.q.en}
+            key={i}
             className="group rounded-2xl border border-sky-300 bg-white open:border-blue-600"
           >
             <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 px-5 py-3 font-semibold text-blue-800 [&::-webkit-details-marker]:hidden">

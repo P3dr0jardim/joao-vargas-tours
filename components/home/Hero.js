@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import ButtonLink from '@/components/ui/ButtonLink'
-import { siteConfig } from '@/config/site'
+import { WhatsAppIcon } from '@/components/ui/icons'
+import { siteConfig, whatsappLink } from '@/config/site'
 
 export default async function Hero() {
   const t = await getTranslations()
@@ -31,7 +32,12 @@ export default async function Hero() {
           </h1>
           <p className="mt-5 max-w-xl text-lg text-white">{t('Home.hero.subtitle')}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/book" variant="light">
+            <ButtonLink
+              href={whatsappLink(t('Pages.contact.whatsappMessage'))}
+              variant="light"
+              aria-label={t('Common.whatsappAria')}
+            >
+              <WhatsAppIcon />
               {t('Common.requestBooking')}
             </ButtonLink>
             <ButtonLink href="/tours" variant="ghostLight">

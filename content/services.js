@@ -1,15 +1,16 @@
-// PLACEHOLDER VALUES - replace with João's real data
+// Catalogue based on the "Taxi Tours Calheta" price board at the Calheta taxi rank.
 //
-// Every record below is a draft. Prices, durations, capacities, routes, stops, inclusions and
-// FAQ answers are INVENTED so the site can be built and reviewed. João must confirm or replace
-// each one before launch, then remove `placeholder: true` from the record.
-// Prices are shown on the site together with the note "Indicative price, confirmed by João
-// after your request" (messages: Services.priceNote).
+// Prices, routes and stops come from that board (prices per taxi, departing from Calheta).
+// Durations, texts and FAQ answers are still drafts: João must confirm them before launch, then
+// remove `placeholder: true` from the record.
+// Board rules shown on the site: weekend prices for transfers (`priceWeekend`) and "+20% above
+// 4 people" (messages: Services.groupNote).
 //
-// Data model: docs/seo-content-plan.md, section "Data model additions" (later MongoDB).
+// Every service is requested by WhatsApp or phone: there is no booking form.
+//
+// Levada services use ids starting with "levada-": the tours page lists them in their own group.
 // Slugs are identical in en and pt on purpose: localised slugs are not approved yet.
 //
-// TODO: larger vehicle (more than 6 passengers). Not offered until João confirms it exists.
 // TODO: real photos per service. Until then every gallery reuses /images/hero.webp.
 
 /** Localised string helper: l('English', 'Português europeu'). */
@@ -24,30 +25,32 @@ const HERO_IMAGE = {
   ),
 }
 
+const CALHETA = l('Calheta', 'Calheta')
+
 const INCLUDES = {
-  driver: l('Private vehicle with a local driver', 'Viatura particular com motorista local'),
-  fuel: l('Fuel', 'Combustível'),
-  door: l('Pick-up and drop-off at your address', 'Recolha e entrega na sua morada'),
-  arrivals: l('Meeting you at the arrivals hall', 'Receção na zona de chegadas'),
-  viewpoints: l(
-    'Short stops at viewpoints along the way',
-    'Paragens curtas em miradouros pelo caminho'
+  driver: l('Private taxi with a local driver', 'Táxi particular com motorista local'),
+  fuel: l('Fuel and tolls', 'Combustível e portagens'),
+  door: l('Pick-up at your accommodation in Calheta', 'Recolha no seu alojamento na Calheta'),
+  viewpoints: l('Stops at every viewpoint on the route', 'Paragens em todos os miradouros da rota'),
+  waiting: l('Waiting time at each stop', 'Tempo de espera em cada paragem'),
+  trailhead: l('Drop-off at the start of the trail', 'Deixa no início do trilho'),
+  roundTrip: l(
+    'Return trip, with pick-up at the end of the walk',
+    'Regresso, com recolha no fim da caminhada'
   ),
-  waiting: l(
-    'Waiting time while you enjoy the stop',
-    'Tempo de espera enquanto desfruta da paragem'
-  ),
-  planning: l('Help planning the route with you', 'Ajuda a planear o percurso consigo'),
 }
 
 const EXCLUDES = {
   meals: l('Meals and drinks', 'Refeições e bebidas'),
-  entrance: l('Entrance fees', 'Bilhetes de entrada'),
+  entrance: l(
+    'Entrance fees (cable cars, gardens, distillery)',
+    'Entradas (teleféricos, jardins, destilaria)'
+  ),
   tips: l('Tips (optional)', 'Gorjetas (opcionais)'),
-  lodging: l('Accommodation', 'Alojamento'),
-  gear: l(
-    'Walking boots, rain jacket, water and a torch',
-    'Botas de caminhada, impermeável, água e lanterna'
+  guide: l('Walking guide', 'Guia de caminhada'),
+  returnTrip: l(
+    'Pick-up at the end of the walk (ask for the price)',
+    'Recolha no fim da caminhada (pergunte o preço)'
   ),
 }
 
@@ -56,753 +59,694 @@ const base = {
   placeholder: true,
   currency: 'EUR',
   pricingModel: 'perVehicle',
-  capacity: 6, // passengers, one vehicle
-  updatedAt: '2026-11-15',
+  capacity: 6, // passengers, one taxi
+  updatedAt: '2026-11-24',
 }
 
-export const services = [
-  // ---------------------------------------------------------------- Transfers
-  {
+const FAQ_GROUP = {
+  q: l('What if we are more than 4 people?', 'E se formos mais de 4 pessoas?'),
+  a: l(
+    'The taxi takes up to 6 passengers. Above 4 people the price goes up by 20%.',
+    'O táxi leva até 6 passageiros. Acima de 4 pessoas, o valor tem um acréscimo de 20%.'
+  ),
+}
+
+const FAQ_OUTSIDE = {
+  q: l('Can you pick me up outside Calheta?', 'Podem recolher-me fora da Calheta?'),
+  a: l(
+    'Yes. The prices shown start in Calheta. From Ponta do Sol, Funchal or elsewhere, send João your address on WhatsApp and he tells you the price.',
+    'Sim. Os preços indicados são com partida da Calheta. A partir da Ponta do Sol, do Funchal ou de outro local, envie a morada ao João por WhatsApp e ele indica o valor.'
+  ),
+}
+
+// ------------------------------------------------------------------ Transfers
+
+/** Transfer from Calheta with a weekday and a weekend price (board: "Táxi Calheta Transfers"). */
+function transfer({ id, slug, place, title, seo, summary, body, duration, price, weekend, faq }) {
+  return {
     ...base,
-    id: 'transfer-funchal-airport',
+    id,
     type: 'transfer',
-    slug: 'funchal-airport-transfer',
-    title: l('Funchal airport transfer', 'Transfer do aeroporto do Funchal'),
+    slug,
+    title,
+    seo,
+    summary,
+    body,
+    duration,
+    priceFrom: price,
+    priceWeekend: weekend,
+    route: { from: CALHETA, to: place },
+    stops: [],
+    includes: [INCLUDES.driver, INCLUDES.door, INCLUDES.fuel],
+    excludes: [EXCLUDES.tips],
+    faq: [...faq, FAQ_GROUP],
+    gallery: [HERO_IMAGE],
+  }
+}
+
+const transfers = [
+  transfer({
+    id: 'transfer-calheta-airport',
+    slug: 'calheta-airport-transfer',
+    place: l('Madeira airport', 'Aeroporto da Madeira'),
+    title: l('Calheta ↔ Madeira airport', 'Calheta ↔ Aeroporto da Madeira'),
     seo: {
       title: l(
-        'Funchal airport transfer with a local driver',
-        'Transfer do aeroporto do Funchal com motorista local'
+        'Taxi from Calheta to Madeira airport',
+        'Táxi da Calheta para o aeroporto da Madeira'
       ),
       description: l(
-        'Private transfer from Funchal airport to your hotel or home in Madeira. A local driver waits at arrivals. Send a request and João confirms.',
-        'Transfer privado do aeroporto do Funchal para o seu hotel ou alojamento na Madeira. Um motorista local espera-o nas chegadas. Envie um pedido e o João confirma.'
+        'Private taxi between Calheta and Madeira airport: €75 on weekdays, €90 at weekends. Ask João on WhatsApp or call.',
+        'Táxi privado entre a Calheta e o aeroporto da Madeira: 75 € em dias úteis, 90 € ao fim de semana. Fale com o João por WhatsApp ou telefone.'
       ),
     },
     summary: l(
-      'A private ride from the airport to your door, with a driver who knows the island roads.',
-      'Uma viagem privada do aeroporto até à porta do seu alojamento, com um motorista que conhece as estradas da ilha.'
+      'From the airport straight to your door in Calheta, or from Calheta to your flight.',
+      'Do aeroporto diretamente até à sua porta na Calheta, ou da Calheta até ao seu voo.'
     ),
     body: {
       en: [
-        'After a flight you want a simple start. João meets you at arrivals, helps with the bags and drives you straight to your hotel, apartment or guesthouse anywhere on the island.',
-        'Tell him your flight number and where you are staying when you send the request. If you want a quick stop on the way, for a pharmacy or a supermarket, just ask.',
+        'João meets you at arrivals, helps with the bags and drives you along the south coast to Calheta. For the way back, he picks you up at your accommodation with time to spare before your flight.',
+        'Send your flight number on WhatsApp so he can follow the arrival time. Weekday price €75, weekends €90, per taxi.',
       ],
       pt: [
-        'Depois de um voo, o melhor é começar sem complicações. O João espera-o nas chegadas, ajuda com as malas e leva-o diretamente ao hotel, apartamento ou alojamento, em qualquer ponto da ilha.',
-        'Indique o número do voo e onde vai ficar quando enviar o pedido. Se quiser fazer uma paragem rápida pelo caminho, numa farmácia ou num supermercado, é só pedir.',
+        'O João espera-o nas chegadas, ajuda com as malas e leva-o pela costa sul até à Calheta. No regresso, recolhe-o no alojamento com tempo de sobra para o voo.',
+        'Envie o número do voo por WhatsApp para ele acompanhar a hora de chegada. Preço em dias úteis 75 €, ao fim de semana 90 €, por táxi.',
       ],
     },
-    duration: l(
-      'From 20 minutes, depending on the destination',
-      'A partir de 20 minutos, consoante o destino'
-    ),
-    priceFrom: 50,
-    route: {
-      from: l('Funchal airport', 'Aeroporto do Funchal'),
-      to: l('Your accommodation', 'O seu alojamento'),
-    },
-    // Booking form starts with these (customer can edit). Only real places, never "your accommodation".
-    prefill: { pickup: l('Funchal airport', 'Aeroporto do Funchal') },
-    stops: [],
-    includes: [INCLUDES.driver, INCLUDES.arrivals, INCLUDES.door, INCLUDES.fuel],
-    excludes: [EXCLUDES.tips],
+    duration: l('About 50 minutes', 'Cerca de 50 minutos'),
+    price: 75,
+    weekend: 90,
     faq: [
       {
         q: l('What if my flight is late?', 'E se o meu voo se atrasar?'),
         a: l(
-          'Give João your flight number in the request. He can follow the arrival time and adjust the pick-up.',
-          'Indique o número do voo no pedido. O João pode acompanhar a hora de chegada e ajustar a recolha.'
-        ),
-      },
-      {
-        q: l(
-          'Can I travel to somewhere other than Calheta?',
-          'Posso ir para outro sítio que não a Calheta?'
-        ),
-        a: l(
-          'Yes. The transfer goes to any address on the island. The price depends on the distance and is confirmed after your request.',
-          'Sim. O transfer vai para qualquer morada da ilha. O preço depende da distância e é confirmado após o seu pedido.'
-        ),
-      },
-      {
-        q: l('How many people and bags fit?', 'Quantas pessoas e malas cabem?'),
-        a: l(
-          'Up to 6 passengers with normal luggage. If you carry something large, such as a surfboard, mention it in the request.',
-          'Até 6 passageiros com bagagem normal. Se levar algo volumoso, como uma prancha de surf, refira-o no pedido.'
+          'Send João your flight number. He follows the arrival time and adjusts the pick-up.',
+          'Envie ao João o número do voo. Ele acompanha a hora de chegada e ajusta a recolha.'
         ),
       },
     ],
-    gallery: [HERO_IMAGE],
-    related: ['transfer-calheta-funchal', 'transfer-sunrise', 'tour-west'],
-  },
-  {
-    ...base,
+  }),
+  transfer({
     id: 'transfer-calheta-funchal',
-    type: 'transfer',
     slug: 'calheta-funchal-transfer',
-    title: l('Calheta to Funchal transfer', 'Transfer Calheta - Funchal'),
+    place: l('Funchal centre', 'Centro do Funchal'),
+    title: l('Calheta ↔ Funchal centre', 'Calheta ↔ Centro do Funchal'),
     seo: {
-      title: l('Calheta to Funchal private transfer', 'Transfer privado Calheta - Funchal'),
+      title: l('Taxi from Calheta to Funchal centre', 'Táxi da Calheta para o centro do Funchal'),
       description: l(
-        'Private taxi transfer between Calheta and Funchal, one way or return, with a local driver. Send a request and João confirms the price.',
-        'Transfer privado de táxi entre a Calheta e o Funchal, só de ida ou de ida e volta, com motorista local. Envie um pedido e o João confirma o preço.'
+        'Private taxi between Calheta and Funchal centre: €50 on weekdays, €60 at weekends. Ask João on WhatsApp or call.',
+        'Táxi privado entre a Calheta e o centro do Funchal: 50 € em dias úteis, 60 € ao fim de semana. Fale com o João por WhatsApp ou telefone.'
       ),
     },
     summary: l(
-      'One way or return between the west coast and the capital, at the time that suits you.',
-      'Só de ida ou de ida e volta entre a costa oeste e a capital, à hora que lhe der mais jeito.'
+      'A day in the capital, a dinner in town or a cruise connection, from Calheta.',
+      'Um dia na capital, um jantar na cidade ou a ligação a um cruzeiro, a partir da Calheta.'
     ),
     body: {
       en: [
-        'Calheta is where João lives and works, so this is the route he drives most. Use it for a day in Funchal, a dinner in town, a medical appointment or a ferry or cruise connection.',
-        'You choose the pick-up time. For a return trip, agree a time and place for the way back and João will be there.',
+        'Calheta is where João lives and works, so this is the route he drives most. Use it for a day in Funchal, a dinner in town, an appointment or a cruise connection.',
+        'You choose the time. For the way back, agree a time and place on WhatsApp and João will be there. Weekday price €50, weekends €60, per taxi.',
       ],
       pt: [
-        'A Calheta é onde o João vive e trabalha, por isso é o percurso que mais faz. Serve para um dia no Funchal, um jantar na cidade, uma consulta ou a ligação a um ferry ou a um cruzeiro.',
-        'É o cliente que escolhe a hora de recolha. Numa viagem de ida e volta, combine a hora e o local do regresso e o João estará lá.',
+        'A Calheta é onde o João vive e trabalha, por isso é o percurso que mais faz. Serve para um dia no Funchal, um jantar na cidade, uma consulta ou a ligação a um cruzeiro.',
+        'É o cliente que escolhe a hora. Para o regresso, combine a hora e o local por WhatsApp e o João estará lá. Preço em dias úteis 50 €, ao fim de semana 60 €, por táxi.',
       ],
     },
-    duration: l('About 40 minutes each way', 'Cerca de 40 minutos em cada sentido'),
-    priceFrom: 60,
-    route: { from: l('Calheta', 'Calheta'), to: l('Funchal', 'Funchal') },
-    prefill: { pickup: l('Calheta', 'Calheta'), dropoff: l('Funchal', 'Funchal') },
-    stops: [],
-    includes: [INCLUDES.driver, INCLUDES.door, INCLUDES.fuel],
-    excludes: [EXCLUDES.tips],
+    duration: l('About 40 minutes', 'Cerca de 40 minutos'),
+    price: 50,
+    weekend: 60,
     faq: [
       {
-        q: l('Can I book the return trip too?', 'Posso reservar também a viagem de regresso?'),
+        q: l('Can I book the way back too?', 'Posso reservar também o regresso?'),
         a: l(
-          'Yes. Mention both trips in your request, with the time and place for the way back.',
-          'Sim. Indique as duas viagens no pedido, com a hora e o local para o regresso.'
-        ),
-      },
-      {
-        q: l('Can you pick me up outside Calheta?', 'Podem recolher-me fora da Calheta?'),
-        a: l(
-          'Nearby villages on the west coast are usually fine. Tell João the address and he confirms the price.',
-          'As localidades vizinhas da costa oeste costumam ser possíveis. Indique a morada ao João e ele confirma o preço.'
+          'Yes. Tell João both times on WhatsApp. Each way is charged at the price shown.',
+          'Sim. Indique as duas horas ao João por WhatsApp. Cada sentido é cobrado ao preço indicado.'
         ),
       },
     ],
-    gallery: [HERO_IMAGE],
-    related: ['transfer-funchal-airport', 'transfer-sunset', 'tour-west'],
-  },
-  {
-    ...base,
-    id: 'transfer-sunrise',
-    type: 'transfer',
-    slug: 'sunrise-transfer',
-    title: l(
-      'Sunrise transfer to a high viewpoint',
-      'Transfer ao nascer do sol para um miradouro alto'
-    ),
+  }),
+  transfer({
+    id: 'transfer-calheta-porto-moniz',
+    slug: 'calheta-porto-moniz-transfer',
+    place: l('Porto Moniz', 'Porto Moniz'),
+    title: l('Calheta ↔ Porto Moniz', 'Calheta ↔ Porto Moniz'),
     seo: {
-      title: l(
-        'Sunrise transfer to a mountain viewpoint in Madeira',
-        'Transfer ao nascer do sol para um miradouro na Madeira'
-      ),
+      title: l('Taxi from Calheta to Porto Moniz', 'Táxi da Calheta para o Porto Moniz'),
       description: l(
-        'Private early-morning transfer to a high viewpoint in Madeira, with a local driver who waits and brings you back. Send a request to João.',
-        'Transfer privado de madrugada para um miradouro de altitude na Madeira, com um motorista local que espera e o traz de volta. Envie um pedido ao João.'
+        'Private taxi between Calheta and the natural pools of Porto Moniz: €55 on weekdays, €65 at weekends. Ask João on WhatsApp.',
+        'Táxi privado entre a Calheta e as piscinas naturais do Porto Moniz: 55 € em dias úteis, 65 € ao fim de semana. Fale com o João por WhatsApp.'
       ),
     },
     summary: l(
-      'A very early start, a seat at a high viewpoint before the light comes, and a ride back.',
-      'Um arranque muito cedo, um lugar num miradouro de altitude antes de a luz chegar e boleia de volta.'
+      'Over the mountains to the volcanic sea pools on the north-west tip of the island.',
+      'Pela serra até às piscinas naturais vulcânicas no extremo noroeste da ilha.'
     ),
     body: {
       en: [
-        'Mountain roads are slow in the dark and the viewpoints fill up with cars. With a driver you can stay warm, arrive at the right time and enjoy the view without watching the road.',
-        'The pick-up time depends on the sunrise on your date, so João works it out with you. Bring a warm jacket: it is much colder up there than on the coast.',
+        'The road from Calheta climbs over the plateau and drops down to Porto Moniz, famous for its natural pools carved out of volcanic rock. Spend the day swimming and having lunch by the sea.',
+        'Agree the time to come back on WhatsApp and João picks you up. Weekday price €55, weekends €65, per taxi.',
       ],
       pt: [
-        'As estradas de montanha são lentas no escuro e os miradouros enchem-se de carros. Com motorista, fica aquecido, chega à hora certa e aprecia a vista sem pensar na estrada.',
-        'A hora de recolha depende do nascer do sol na sua data, por isso o João combina-a consigo. Leve um casaco quente: lá em cima faz muito mais frio do que na costa.',
+        'A estrada da Calheta sobe ao planalto e desce até ao Porto Moniz, famoso pelas piscinas naturais escavadas na rocha vulcânica. Passe o dia a nadar e almoce junto ao mar.',
+        'Combine a hora de regresso por WhatsApp e o João vai buscá-lo. Preço em dias úteis 55 €, ao fim de semana 65 €, por táxi.',
       ],
     },
-    duration: l('About 4 hours', 'Cerca de 4 horas'),
-    priceFrom: 90,
-    route: {
-      from: l('Your accommodation', 'O seu alojamento'),
-      to: l('A high viewpoint in the mountains', 'Um miradouro de altitude na serra'),
-    },
-    prefill: {
-      dropoff: l('A high viewpoint in the mountains', 'Um miradouro de altitude na serra'),
-    },
-    stops: [],
-    includes: [INCLUDES.driver, INCLUDES.door, INCLUDES.waiting, INCLUDES.fuel],
-    excludes: [EXCLUDES.meals, EXCLUDES.tips],
+    duration: l('About 40 minutes', 'Cerca de 40 minutos'),
+    price: 55,
+    weekend: 65,
     faq: [
       {
-        q: l('Which viewpoint do we go to?', 'Para que miradouro vamos?'),
+        q: l('Are the pools open all year?', 'As piscinas estão abertas todo o ano?'),
         a: l(
-          'João suggests one based on the weather and your starting point. Mountain viewpoints are often in cloud, so he checks the forecast with you.',
-          'O João sugere um, consoante o tempo e o seu ponto de partida. Os miradouros da serra estão muitas vezes cobertos de nuvens, por isso ele vê a previsão consigo.'
-        ),
-      },
-      {
-        q: l('What if the sky is cloudy?', 'E se o céu estiver nublado?'),
-        a: l(
-          'Tell João the day before or on the morning itself. You can postpone to another date if one is free.',
-          'Avise o João no dia anterior ou na própria manhã. Pode adiar para outra data, se houver disponibilidade.'
+          'They depend on the sea. On rough days they can close, so check with João before you go.',
+          'Dependem do mar. Em dias de mar agitado podem fechar, por isso confirme com o João antes de ir.'
         ),
       },
     ],
-    gallery: [HERO_IMAGE],
-    related: ['transfer-sunset', 'tour-central', 'transfer-funchal-airport'],
-  },
-  {
-    ...base,
-    id: 'transfer-sunset',
-    type: 'transfer',
-    slug: 'sunset-transfer',
-    title: l('Sunset transfer', 'Transfer ao pôr do sol'),
-    seo: {
-      title: l(
-        'Sunset transfer on the west coast of Madeira',
-        'Transfer ao pôr do sol na costa oeste da Madeira'
-      ),
-      description: l(
-        'Private evening transfer to a west coast viewpoint to watch the sunset in Madeira, with a local driver who waits. Send a request to João.',
-        'Transfer privado ao fim do dia para um miradouro da costa oeste da Madeira, para ver o pôr do sol, com um motorista local que espera. Envie um pedido ao João.'
-      ),
-    },
-    summary: l(
-      'Watch the sun go down from a good spot on the west coast, then ride home.',
-      'Veja o sol a pôr-se num bom local da costa oeste e regresse de boleia.'
-    ),
-    body: {
-      en: [
-        'The west coast faces the open Atlantic, which makes it a natural place for an evening view. João picks you up in time to get to the viewpoint before the light changes.',
-        'He waits while you take photos or have a drink nearby, then drives you back to your accommodation or to a restaurant.',
-      ],
-      pt: [
-        'A costa oeste está virada para o Atlântico aberto, o que a torna um sítio natural para ver o fim do dia. O João recolhe-o a tempo de chegar ao miradouro antes de a luz mudar.',
-        'Ele espera enquanto tira fotografias ou toma uma bebida por perto e depois leva-o ao alojamento ou a um restaurante.',
-      ],
-    },
-    duration: l('About 3 hours', 'Cerca de 3 horas'),
-    priceFrom: 70,
-    route: {
-      from: l('Your accommodation', 'O seu alojamento'),
-      to: l('A west coast viewpoint', 'Um miradouro da costa oeste'),
-    },
-    prefill: { dropoff: l('A west coast viewpoint', 'Um miradouro da costa oeste') },
-    stops: [],
-    includes: [INCLUDES.driver, INCLUDES.door, INCLUDES.waiting, INCLUDES.fuel],
-    excludes: [EXCLUDES.meals, EXCLUDES.tips],
-    faq: [
-      {
-        q: l('Can we finish at a restaurant?', 'Podemos terminar num restaurante?'),
-        a: l(
-          'Yes. Say so in the request and João drops you at the restaurant instead of your accommodation.',
-          'Sim. Diga-o no pedido e o João deixa-o no restaurante, em vez de no alojamento.'
-        ),
-      },
-      {
-        q: l('How long does João wait?', 'Quanto tempo espera o João?'),
-        a: l(
-          'The waiting time is agreed when he confirms your request, so there are no surprises.',
-          'O tempo de espera é combinado quando ele confirma o pedido, para não haver surpresas.'
-        ),
-      },
-    ],
-    gallery: [HERO_IMAGE],
-    related: ['transfer-sunrise', 'transfer-calheta-funchal', 'tour-west'],
-  },
+  }),
+]
 
-  // -------------------------------------------------------------------- Tours
-  {
-    ...base,
-    id: 'tour-levada-walks',
-    type: 'tour',
-    slug: 'levada-walks-transfer',
-    title: l(
-      'Levada walks: drop-off and pick-up',
-      'Passeios pelas levadas: levantamento e recolha'
-    ),
-    seo: {
-      title: l(
-        'Levada walk transfers in Madeira: drop-off and pick-up',
-        'Transfer para passeios pelas levadas da Madeira: ida e recolha'
-      ),
-      description: l(
-        'A local driver takes you to the start of a levada walk in Madeira and collects you at the end. Walk one way, no need to retrace your steps.',
-        'Um motorista local leva-o ao início de um passeio pelas levadas da Madeira e recolhe-o no fim. Caminhe num só sentido, sem ter de voltar para trás.'
-      ),
-    },
-    summary: l(
-      'Walk a levada in one direction. João drops you at the start and collects you at the end.',
-      'Percorra uma levada num só sentido. O João deixa-o no início e vai buscá-lo ao fim.'
-    ),
-    body: {
-      en: [
-        'Many levada paths are easier and more enjoyable when you walk them one way instead of there and back. The catch is getting your own transport from the end to the start. João solves that.',
-        "He drops you at the start, goes to the end point and is there when you arrive. He can suggest walks that match your fitness and the day's weather, and tell you which ones are closed or crowded.",
-      ],
-      pt: [
-        'Muitos caminhos de levada são mais fáceis e agradáveis quando se fazem num só sentido, em vez de ida e volta. A dificuldade é ter transporte entre o fim e o início. O João resolve isso.',
-        'Deixa-o no início, segue para o ponto final e está lá quando chegar. Pode sugerir passeios adequados à sua condição física e ao tempo do dia e dizer-lhe quais estão fechados ou muito concorridos.',
-      ],
-    },
-    duration: l('Half day, depending on the walk', 'Meio dia, consoante o percurso'),
-    priceFrom: 80,
-    route: {
-      from: l('Your accommodation', 'O seu alojamento'),
-      to: l('Start of the levada, collected at the end', 'Início da levada, com recolha no fim'),
-    },
-    stops: [
-      l('Pick-up at your accommodation', 'Recolha no seu alojamento'),
-      l('Drop-off at the start of the levada', 'Deixa no início da levada'),
-      l('You walk; João drives to the end point', 'Você caminha; o João segue para o ponto final'),
-      l('Pick-up at the end and drive back', 'Recolha no fim e regresso'),
-    ],
-    includes: [INCLUDES.driver, INCLUDES.door, INCLUDES.planning, INCLUDES.fuel],
-    excludes: [EXCLUDES.gear, EXCLUDES.meals, EXCLUDES.tips],
-    faq: [
-      {
-        q: l('Which levada should I choose?', 'Que levada devo escolher?'),
-        a: l(
-          'Tell João how long you want to walk and how comfortable you are on narrow paths. He suggests options for that day.',
-          'Diga ao João quanto tempo quer caminhar e se se sente à vontade em caminhos estreitos. Ele sugere opções para esse dia.'
-        ),
-      },
-      {
-        q: l('Are you my walking guide?', 'O João é o meu guia de caminhada?'),
-        a: l(
-          'No. João is a local driver. He takes you to and from the walk, but he does not walk with you.',
-          'Não. O João é motorista local. Leva-o e vai buscá-lo ao passeio, mas não o acompanha na caminhada.'
-        ),
-      },
-      {
-        q: l('What should I bring?', 'O que devo levar?'),
-        a: l(
-          'Sturdy shoes, a rain jacket, water and a torch for tunnels. João can tell you more once the walk is chosen.',
-          'Calçado resistente, impermeável, água e uma lanterna para os túneis. O João pode dizer-lhe mais depois de escolhido o percurso.'
-        ),
-      },
-    ],
-    gallery: [HERO_IMAGE],
-    related: ['tour-central', 'tour-north', 'tour-custom'],
-  },
+// ---------------------------------------------------------------------- Tours
+
+const TOUR_INCLUDES = [
+  INCLUDES.driver,
+  INCLUDES.door,
+  INCLUDES.viewpoints,
+  INCLUDES.waiting,
+  INCLUDES.fuel,
+]
+const TOUR_EXCLUDES = [EXCLUDES.meals, EXCLUDES.entrance, EXCLUDES.tips]
+const ROUND_CALHETA = { from: CALHETA, to: l('Back to Calheta', 'Regresso à Calheta') }
+
+const tours = [
   {
     ...base,
     id: 'tour-west',
     type: 'tour',
     slug: 'west-madeira-tour',
-    title: l('West Madeira private tour', 'Tour privado pelo oeste da Madeira'),
+    title: l('West Tour: Porto Moniz route', 'West Tour: Rota do Porto Moniz'),
     seo: {
       title: l(
-        'West Madeira private tour from Calheta',
-        'Tour privado pelo oeste da Madeira a partir da Calheta'
+        'West Madeira taxi tour from Calheta: Porto Moniz',
+        'Tour de táxi pelo oeste da Madeira a partir da Calheta'
       ),
       description: l(
-        'Full-day private tour of west Madeira with a local driver from Calheta: coast, cliffs and villages at your own pace. Send a request to João.',
-        'Tour privado de dia inteiro pelo oeste da Madeira com um motorista local da Calheta: costa, falésias e aldeias ao seu ritmo. Envie um pedido ao João.'
+        'Full-day private taxi tour from Calheta: Jardim do Mar, Paul do Mar, Ponta do Pargo, Porto Moniz, Seixal and São Vicente. €150 per taxi.',
+        'Tour privado de táxi de dia inteiro a partir da Calheta: Jardim do Mar, Paul do Mar, Ponta do Pargo, Porto Moniz, Seixal e São Vicente. 150 € por táxi.'
       ),
     },
     summary: l(
-      "A relaxed day through the villages, cliffs and viewpoints of the west, on João's home ground.",
-      'Um dia tranquilo pelas aldeias, falésias e miradouros do oeste, no território do João.'
+      "Fishing villages, the Ponta do Pargo lighthouse and the Porto Moniz sea pools, on João's home ground.",
+      'Aldeias piscatórias, o farol da Ponta do Pargo e as piscinas do Porto Moniz, no território do João.'
     ),
     body: {
       en: [
-        'The west is where João lives, so this is the tour where he can show you the places he goes himself, not only the ones on the postcards. The route follows the coast and climbs into the hills when the weather is clear.',
-        'The stops below are a suggestion. If you like a spot, stay longer. If you prefer a quiet lunch to one more viewpoint, say so and the day changes.',
+        'The west is where João lives, so this tour starts at your door in Calheta. It follows the coast through Jardim do Mar and Paul do Mar, climbs to the lighthouse at Ponta do Pargo and drops to the north coast at Porto Moniz.',
+        'From there the road runs past Seixal and the Bride’s Veil waterfall to São Vicente, then crosses the island back to Ribeira Brava and Calheta. Stay longer where you like it.',
       ],
       pt: [
-        'O oeste é onde o João vive, por isso este é o tour em que pode mostrar os sítios que ele próprio frequenta, e não apenas os dos postais. O percurso segue a costa e sobe à serra quando o tempo está limpo.',
-        'As paragens abaixo são uma sugestão. Se gostar de um sítio, fique mais tempo. Se preferir um almoço sossegado a mais um miradouro, diga-o e o dia muda.',
+        'O oeste é onde o João vive, por isso este tour começa à sua porta, na Calheta. Segue a costa pelo Jardim do Mar e pelo Paul do Mar, sobe ao farol da Ponta do Pargo e desce à costa norte, no Porto Moniz.',
+        'Daí, a estrada passa pelo Seixal e pelo Véu da Noiva até São Vicente, e atravessa a ilha de volta à Ribeira Brava e à Calheta. Fique mais tempo onde gostar.',
       ],
     },
-    duration: l('About 8 hours', 'Cerca de 8 horas'),
-    priceFrom: 200,
-    route: {
-      from: l('Calheta or your accommodation', 'Calheta ou o seu alojamento'),
-      to: l('Same place', 'O mesmo local'),
-    },
+    duration: l('Full day, about 7 hours', 'Dia inteiro, cerca de 7 horas'),
+    priceFrom: 150,
+    route: ROUND_CALHETA,
     stops: [
-      l('Calheta', 'Calheta'),
+      l('Jardim do Mar', 'Jardim do Mar'),
       l('Paul do Mar', 'Paul do Mar'),
       l('Ponta do Pargo lighthouse', 'Farol da Ponta do Pargo'),
-      l('Paul da Serra plateau', 'Planalto do Paul da Serra'),
-      l('Ponta do Sol', 'Ponta do Sol'),
-      l('Cabo Girão viewpoint', 'Miradouro do Cabo Girão'),
-    ],
-    includes: [
-      INCLUDES.driver,
-      INCLUDES.door,
-      INCLUDES.viewpoints,
-      INCLUDES.planning,
-      INCLUDES.fuel,
-    ],
-    excludes: [EXCLUDES.meals, EXCLUDES.entrance, EXCLUDES.tips],
-    faq: [
-      {
-        q: l('Can I start from Funchal?', 'Posso começar no Funchal?'),
-        a: l(
-          'Yes, but the drive to the west adds time. Tell João where you are staying and he adjusts the stops.',
-          'Sim, mas a viagem até ao oeste acrescenta tempo. Diga ao João onde está alojado e ele ajusta as paragens.'
-        ),
-      },
-      {
-        q: l('Can we change the stops?', 'Podemos mudar as paragens?'),
-        a: l(
-          'Yes. The route is a starting point. Send your wishes with the request and João builds the day around them.',
-          'Sim. O percurso é um ponto de partida. Envie os seus desejos com o pedido e o João constrói o dia à volta deles.'
-        ),
-      },
-      {
-        q: l('Where do we have lunch?', 'Onde almoçamos?'),
-        a: l(
-          'João suggests a local place on the route. Lunch is not included, so you pay for what you order.',
-          'O João sugere um local na rota. O almoço não está incluído, pelo que paga o que pedir.'
-        ),
-      },
-    ],
-    gallery: [HERO_IMAGE],
-    related: ['tour-north', 'tour-central', 'transfer-calheta-funchal'],
-  },
-  {
-    ...base,
-    id: 'tour-north',
-    type: 'tour',
-    slug: 'north-madeira-tour',
-    title: l('North Madeira private tour', 'Tour privado pelo norte da Madeira'),
-    seo: {
-      title: l(
-        'North Madeira private tour: Porto Moniz and Seixal',
-        'Tour privado pelo norte da Madeira: Porto Moniz e Seixal'
-      ),
-      description: l(
-        'Full-day private tour of the north coast of Madeira with a local driver: sea pools, waterfalls and green valleys. Send a request to João.',
-        'Tour privado de dia inteiro pela costa norte da Madeira com um motorista local: piscinas naturais, cascatas e vales verdes. Envie um pedido ao João.'
-      ),
-    },
-    summary: l(
-      'The wild north coast: sea pools, waterfalls, forest and small villages.',
-      'A costa norte, mais selvagem: piscinas naturais, cascatas, floresta e pequenas aldeias.'
-    ),
-    body: {
-      en: [
-        'The north is greener and wetter than the south, and the roads wind along the cliffs. It is a long day to drive on your own, and an easy one when someone else is at the wheel.',
-        'Stops are planned around the weather: if one area is in cloud, João can swap the order and keep the best views for the clear part of the day.',
-      ],
-      pt: [
-        'O norte é mais verde e mais húmido do que o sul, e as estradas serpenteiam junto às falésias. É um dia longo para conduzir sozinho e um dia fácil quando é outra pessoa ao volante.',
-        'As paragens são planeadas em função do tempo: se uma zona estiver coberta de nuvens, o João pode trocar a ordem e guardar as melhores vistas para a parte limpa do dia.',
-      ],
-    },
-    duration: l('About 8 hours', 'Cerca de 8 horas'),
-    priceFrom: 220,
-    route: {
-      from: l('Calheta or your accommodation', 'Calheta ou o seu alojamento'),
-      to: l('Same place', 'O mesmo local'),
-    },
-    stops: [
       l('Porto Moniz natural pools', 'Piscinas naturais do Porto Moniz'),
       l('Seixal', 'Seixal'),
       l('São Vicente', 'São Vicente'),
-      l('Encumeada pass', 'Passo da Encumeada'),
-      l('Ribeira da Janela', 'Ribeira da Janela'),
+      l('Ribeira Brava', 'Ribeira Brava'),
     ],
-    includes: [
-      INCLUDES.driver,
-      INCLUDES.door,
-      INCLUDES.viewpoints,
-      INCLUDES.planning,
-      INCLUDES.fuel,
-    ],
-    excludes: [EXCLUDES.meals, EXCLUDES.entrance, EXCLUDES.tips],
+    includes: TOUR_INCLUDES,
+    excludes: TOUR_EXCLUDES,
     faq: [
       {
-        q: l('Will we have time to swim?', 'Teremos tempo para nadar?'),
+        q: l(
+          'Will we have time to swim in Porto Moniz?',
+          'Teremos tempo para nadar no Porto Moniz?'
+        ),
         a: l(
-          'Usually yes, if the sea is calm and you bring swimwear and a towel. Tell João in advance so he plans the time.',
-          'Normalmente sim, se o mar estiver calmo e levar fato de banho e toalha. Avise o João com antecedência para ele planear o tempo.'
+          'Usually yes. Bring swimwear and a towel and tell João, so he plans the time.',
+          'Normalmente sim. Leve fato de banho e toalha e avise o João, para ele planear o tempo.'
         ),
       },
-      {
-        q: l('What if it rains in the north?', 'E se chover no norte?'),
-        a: l(
-          'The weather changes quickly between coasts. João checks the forecast the day before and can swap to another route.',
-          'O tempo muda depressa de costa para costa. O João vê a previsão no dia anterior e pode trocar por outro percurso.'
-        ),
-      },
+      FAQ_GROUP,
+      FAQ_OUTSIDE,
     ],
     gallery: [HERO_IMAGE],
-    related: ['tour-west', 'tour-east', 'tour-two-day'],
+    related: ['tour-middle', 'tour-east', 'transfer-calheta-porto-moniz'],
+  },
+  {
+    ...base,
+    id: 'tour-middle',
+    type: 'tour',
+    slug: 'middle-madeira-tour',
+    title: l(
+      "Middle Tour: Cabo Girão and Nuns' Valley",
+      'Middle Tour: Cabo Girão e Curral das Freiras'
+    ),
+    seo: {
+      title: l(
+        "Cabo Girão and Nuns' Valley taxi tour from Calheta",
+        'Tour Cabo Girão e Curral das Freiras a partir da Calheta'
+      ),
+      description: l(
+        "Private taxi tour from Calheta: Cabo Girão skywalk, Câmara de Lobos, Pico dos Barcelos and Eira do Serrado over Nuns' Valley. €120 per taxi.",
+        'Tour privado de táxi a partir da Calheta: Cabo Girão, Câmara de Lobos, Pico dos Barcelos e Eira do Serrado sobre o Curral das Freiras. 120 € por táxi.'
+      ),
+    },
+    summary: l(
+      "Europe's highest sea cliff, a fishing village and the valley hidden in the mountains.",
+      'A falésia mais alta da Europa, uma vila piscatória e o vale escondido na serra.'
+    ),
+    body: {
+      en: [
+        'A shorter day in the middle of the south coast. Walk out on the glass platform at Cabo Girão, 580 metres above the sea, then have a coffee by the boats in Câmara de Lobos, the village Winston Churchill liked to paint.',
+        'The road then climbs to Pico dos Barcelos, with its view over Funchal, and to Eira do Serrado, high above Curral das Freiras, the valley where the nuns hid from pirates.',
+      ],
+      pt: [
+        'Um dia mais curto no centro da costa sul. Caminhe na plataforma de vidro do Cabo Girão, a 580 metros sobre o mar, e beba um café junto aos barcos em Câmara de Lobos, a vila que Winston Churchill gostava de pintar.',
+        'A estrada sobe depois ao Pico dos Barcelos, com vista sobre o Funchal, e à Eira do Serrado, bem acima do Curral das Freiras, o vale onde as freiras se escondiam dos piratas.',
+      ],
+    },
+    duration: l('About 5 hours', 'Cerca de 5 horas'),
+    priceFrom: 120,
+    route: ROUND_CALHETA,
+    stops: [
+      l('Cabo Girão skywalk', 'Miradouro do Cabo Girão'),
+      l('Câmara de Lobos', 'Câmara de Lobos'),
+      l('Pico dos Barcelos', 'Pico dos Barcelos'),
+      l("Eira do Serrado, over Nuns' Valley", 'Eira do Serrado, sobre o Curral das Freiras'),
+    ],
+    includes: TOUR_INCLUDES,
+    excludes: TOUR_EXCLUDES,
+    faq: [
+      {
+        q: l('Is it cold at Eira do Serrado?', 'Está frio na Eira do Serrado?'),
+        a: l(
+          'It is over 1,000 metres high and often cooler than the coast. Bring a light jacket.',
+          'Fica a mais de 1000 metros de altitude e costuma estar mais fresco do que na costa. Leve um casaco leve.'
+        ),
+      },
+      FAQ_GROUP,
+      FAQ_OUTSIDE,
+    ],
+    gallery: [HERO_IMAGE],
+    related: ['tour-west', 'tour-east', 'transfer-calheta-funchal'],
   },
   {
     ...base,
     id: 'tour-east',
     type: 'tour',
     slug: 'east-madeira-tour',
-    title: l('East Madeira private tour', 'Tour privado pelo leste da Madeira'),
+    title: l('East Tour: Santana route', 'East Tour: Rota de Santana'),
     seo: {
       title: l(
-        'East Madeira private tour with a local driver',
-        'Tour privado pelo leste da Madeira com motorista local'
+        'East Madeira taxi tour from Calheta: Santana',
+        'Tour de táxi pelo leste da Madeira a partir da Calheta'
       ),
       description: l(
-        'Full-day private tour of east Madeira with a local driver: peninsula trails, traditional villages and sea views. Send a request to João.',
-        'Tour privado de dia inteiro pelo leste da Madeira com um motorista local: trilhos na península, aldeias tradicionais e vistas de mar. Envie um pedido ao João.'
+        'Full-day private taxi tour from Calheta: Cristo Rei, Machico, Ponta de São Lourenço, Porto da Cruz, Santana and São Jorge. €170 per taxi.',
+        'Tour privado de táxi de dia inteiro a partir da Calheta: Cristo Rei, Machico, Ponta de São Lourenço, Porto da Cruz, Santana e São Jorge. 170 € por táxi.'
       ),
     },
     summary: l(
-      'Drier, rockier and quieter: the east end of the island, from the peninsula to the old villages.',
-      'Mais seco, mais rochoso e mais sossegado: o extremo leste da ilha, da península às aldeias antigas.'
+      'Across the island to the east: Cristo Rei, the São Lourenço peninsula and the Santana houses.',
+      'Atravessar a ilha até ao leste: Cristo Rei, a península de São Lourenço e as casas de Santana.'
     ),
     body: {
       en: [
-        'The east has a different landscape from the rest of Madeira: lower, drier and more open. It is a good choice if you have already seen the west or want a day with less climbing.',
-        'The day includes time for a short walk on the peninsula if you want it, and a stop in a village for lunch.',
+        'The longest tour on the board. From Calheta, João drives east to the Christ the King statue at Garajau, the bay of Machico and the Rosto viewpoint over Ponta de São Lourenço, where the first settlers landed.',
+        'The way back follows the north coast: the rum distillery at Porto da Cruz, the Guindaste viewpoint in Faial, the thatched houses of Santana, Arco de São Jorge and Ponta Delgada.',
       ],
       pt: [
-        'O leste tem uma paisagem diferente do resto da Madeira: mais baixa, mais seca e mais aberta. É uma boa escolha se já conhece o oeste ou se quer um dia com menos subidas.',
-        'O dia inclui tempo para uma caminhada curta na península, se quiser, e uma paragem numa aldeia para almoçar.',
+        'O tour mais longo da tabela. Da Calheta, o João segue para leste até ao Cristo Rei no Garajau, à baía de Machico e ao Miradouro do Rosto, sobre a Ponta de São Lourenço, onde chegaram os primeiros povoadores.',
+        'O regresso faz-se pela costa norte: a destilaria de rum do Porto da Cruz, o Miradouro do Guindaste no Faial, as casas típicas de Santana, o Arco de São Jorge e a Ponta Delgada.',
       ],
     },
-    duration: l('About 8 hours', 'Cerca de 8 horas'),
-    priceFrom: 240,
-    route: {
-      from: l('Calheta or your accommodation', 'Calheta ou o seu alojamento'),
-      to: l('Same place', 'O mesmo local'),
-    },
+    duration: l('Full day, about 9 hours', 'Dia inteiro, cerca de 9 horas'),
+    priceFrom: 170,
+    route: ROUND_CALHETA,
     stops: [
+      l('Garajau (Christ the King)', 'Garajau (Cristo Rei)'),
       l('Machico', 'Machico'),
-      l('Ponta de São Lourenço', 'Ponta de São Lourenço'),
+      l('Ponta de São Lourenço (Rosto viewpoint)', 'Ponta de São Lourenço (Miradouro do Rosto)'),
+      l('Porto da Cruz (rum distillery)', 'Porto da Cruz (destilaria)'),
+      l('Faial (Guindaste viewpoint)', 'Faial (Miradouro do Guindaste)'),
       l('Santana', 'Santana'),
-      l('Porto da Cruz', 'Porto da Cruz'),
-      l('Camacha', 'Camacha'),
+      l('Arco de São Jorge', 'Arco de São Jorge'),
+      l('Ponta Delgada', 'Ponta Delgada'),
     ],
-    includes: [
-      INCLUDES.driver,
-      INCLUDES.door,
-      INCLUDES.viewpoints,
-      INCLUDES.planning,
-      INCLUDES.fuel,
-    ],
-    excludes: [EXCLUDES.meals, EXCLUDES.entrance, EXCLUDES.tips],
+    includes: TOUR_INCLUDES,
+    excludes: TOUR_EXCLUDES,
     faq: [
       {
-        q: l(
-          'Is this tour a long drive from Calheta?',
-          'Este tour implica uma viagem longa desde a Calheta?'
-        ),
+        q: l('Is it a long day?', 'É um dia longo?'),
         a: l(
-          'Yes, the east is the farthest part of the island from Calheta. If you stay in Funchal, the day is shorter on the road.',
-          'Sim, o leste é a parte da ilha mais distante da Calheta. Se estiver alojado no Funchal, o dia tem menos tempo de estrada.'
+          'Yes, the east is the farthest part of the island from Calheta. Start early and João keeps a steady pace with plenty of stops.',
+          'Sim, o leste é a parte da ilha mais distante da Calheta. Comece cedo e o João mantém um ritmo tranquilo, com muitas paragens.'
         ),
       },
-      {
-        q: l('How hard is the peninsula walk?', 'Quão difícil é a caminhada na península?'),
-        a: l(
-          'It is optional and mostly exposed to sun and wind. Wear sturdy shoes and bring water. João can tell you how long to allow.',
-          'É opcional e fica muito exposta ao sol e ao vento. Use calçado resistente e leve água. O João diz-lhe quanto tempo reservar.'
-        ),
-      },
+      FAQ_GROUP,
+      FAQ_OUTSIDE,
     ],
     gallery: [HERO_IMAGE],
-    related: ['tour-north', 'tour-central', 'tour-two-day'],
-  },
-  {
-    ...base,
-    id: 'tour-central',
-    type: 'tour',
-    slug: 'central-madeira-tour',
-    title: l('Central Madeira private tour', 'Tour privado pelo centro da Madeira'),
-    seo: {
-      title: l(
-        'Central Madeira private tour: mountains and valleys',
-        'Tour privado pelo centro da Madeira: montanhas e vales'
-      ),
-      description: l(
-        'Private tour of the mountains and valleys of central Madeira with a local driver, at your own pace. Send a request to João.',
-        'Tour privado pelas montanhas e vales do centro da Madeira com um motorista local, ao seu ritmo. Envie um pedido ao João.'
-      ),
-    },
-    summary: l(
-      'High viewpoints, deep valleys and mountain villages in the middle of the island.',
-      'Miradouros de altitude, vales profundos e aldeias de montanha no meio da ilha.'
-    ),
-    body: {
-      en: [
-        'The centre of Madeira is where the island is at its most dramatic: steep peaks, forest and valleys that you only reach by winding roads. Many of those roads are narrow, so having a local at the wheel is a relief.',
-        'Weather matters most here. João watches the clouds and will suggest the best order for the day, or a different area if the peaks are hidden.',
-      ],
-      pt: [
-        'O centro da Madeira é onde a ilha é mais dramática: picos escarpados, floresta e vales que só se alcançam por estradas sinuosas. Muitas dessas estradas são estreitas, por isso é um alívio ter um local ao volante.',
-        'Aqui o tempo é o que mais conta. O João acompanha as nuvens e sugere a melhor ordem para o dia, ou outra zona se os picos estiverem escondidos.',
-      ],
-    },
-    duration: l('About 7 hours', 'Cerca de 7 horas'),
-    priceFrom: 220,
-    route: {
-      from: l('Calheta or your accommodation', 'Calheta ou o seu alojamento'),
-      to: l('Same place', 'O mesmo local'),
-    },
-    stops: [
-      l('Encumeada pass', 'Passo da Encumeada'),
-      l('Curral das Freiras viewpoint', 'Miradouro do Curral das Freiras'),
-      l('Câmara de Lobos', 'Câmara de Lobos'),
-      l('A mountain viewpoint chosen on the day', 'Um miradouro de montanha escolhido no dia'),
-    ],
-    includes: [
-      INCLUDES.driver,
-      INCLUDES.door,
-      INCLUDES.viewpoints,
-      INCLUDES.planning,
-      INCLUDES.fuel,
-    ],
-    excludes: [EXCLUDES.meals, EXCLUDES.entrance, EXCLUDES.tips],
-    faq: [
-      {
-        q: l('Is it cold in the mountains?', 'Está frio na serra?'),
-        a: l(
-          'Often, even in summer. Bring a warm layer and a rain jacket.',
-          'Muitas vezes, mesmo no verão. Leve uma camada quente e um impermeável.'
-        ),
-      },
-      {
-        q: l(
-          'Can we combine this with a levada walk?',
-          'Podemos combinar este tour com uma caminhada pela levada?'
-        ),
-        a: l(
-          'Possibly. Ask in your request and João will say whether it fits in the day.',
-          'Possivelmente. Pergunte no pedido e o João diz se cabe no dia.'
-        ),
-      },
-    ],
-    gallery: [HERO_IMAGE],
-    related: ['tour-levada-walks', 'transfer-sunrise', 'tour-west'],
-  },
-  {
-    ...base,
-    id: 'tour-two-day',
-    type: 'tour',
-    slug: 'two-day-island-tour',
-    title: l('Two-day island tour', 'Tour de dois dias pela ilha'),
-    seo: {
-      title: l(
-        'Two-day private island tour of Madeira',
-        'Tour privado de dois dias pela ilha da Madeira'
-      ),
-      description: l(
-        'Two days with the same local driver to see more of Madeira: coast, mountains and villages, with an overnight stop. Send a request to João.',
-        'Dois dias com o mesmo motorista local para ver mais da Madeira: costa, montanhas e aldeias, com uma noite fora. Envie um pedido ao João.'
-      ),
-    },
-    summary: l(
-      'Two unhurried days to cross the island with one driver and one plan.',
-      'Dois dias sem pressa para atravessar a ilha com um só motorista e um só plano.'
-    ),
-    body: {
-      en: [
-        'One day is not enough to see more than one coast without rushing. With two days you can cover more ground, sleep somewhere new and keep the driving time reasonable.',
-        'João plans the two days with you: which regions, where to sleep and how long to spend at each stop. Accommodation is booked and paid by you.',
-      ],
-      pt: [
-        'Um dia não chega para ver mais do que uma costa sem pressa. Com dois dias, percorre mais terreno, dorme num sítio novo e mantém um tempo de condução razoável.',
-        'O João planeia os dois dias consigo: que regiões, onde dormir e quanto tempo ficar em cada paragem. O alojamento é reservado e pago por si.',
-      ],
-    },
-    duration: l('2 days', '2 dias'),
-    priceFrom: 450,
-    route: {
-      from: l('Calheta or your accommodation', 'Calheta ou o seu alojamento'),
-      to: l(
-        'Your accommodation on night one, then back',
-        'O seu alojamento na primeira noite e o regresso'
-      ),
-    },
-    stops: [
-      l('Day 1: west coast and north coast', 'Dia 1: costa oeste e costa norte'),
-      l('Overnight stay chosen with you', 'Pernoita escolhida consigo'),
-      l('Day 2: east and central areas', 'Dia 2: zona leste e zona central'),
-    ],
-    includes: [
-      INCLUDES.driver,
-      INCLUDES.door,
-      INCLUDES.viewpoints,
-      INCLUDES.planning,
-      INCLUDES.fuel,
-    ],
-    excludes: [EXCLUDES.lodging, EXCLUDES.meals, EXCLUDES.entrance, EXCLUDES.tips],
-    faq: [
-      {
-        q: l("Who pays for João's overnight stay?", 'Quem paga a pernoita do João?'),
-        a: l(
-          'This is agreed before you confirm. João states in his reply what the price covers.',
-          'Isto é combinado antes de confirmar. O João indica na resposta o que está incluído no preço.'
-        ),
-      },
-      {
-        q: l('Can the two days be separate?', 'Os dois dias podem ser separados?'),
-        a: l(
-          'Yes, if João has both dates free. Mention the dates you prefer in the request.',
-          'Sim, se o João tiver as duas datas livres. Indique as datas preferidas no pedido.'
-        ),
-      },
-    ],
-    gallery: [HERO_IMAGE],
-    related: ['tour-north', 'tour-east', 'tour-custom'],
+    related: ['tour-west', 'tour-middle', 'levada-ponta-sao-lourenco'],
   },
   {
     ...base,
     id: 'tour-custom',
     type: 'tour',
     slug: 'custom-trip',
-    title: l('Custom trip on request', 'Viagem à medida'),
+    title: l('Around the island or custom tour', 'Volta à ilha ou tour à medida'),
     seo: {
       title: l(
-        'Custom private trip in Madeira on request',
-        'Viagem privada à medida na Madeira, a pedido'
+        'Custom private taxi tour in Madeira from Calheta',
+        'Tour de táxi à medida na Madeira a partir da Calheta'
       ),
       description: l(
-        'Tell João what you want to see in Madeira and he plans a private trip around it, with a local driver. Send a request.',
-        'Diga ao João o que quer ver na Madeira e ele planeia uma viagem privada à sua volta, com motorista local. Envie um pedido.'
+        'Tell João what you want to see in Madeira and he plans a private taxi tour from Calheta around it. Ask on WhatsApp.',
+        'Diga ao João o que quer ver na Madeira e ele planeia um tour privado de táxi a partir da Calheta. Fale por WhatsApp.'
       ),
     },
     summary: l(
-      'Your places, your timing. Tell João what you want and he plans around it.',
-      'Os seus sítios, o seu horário. Diga ao João o que quer e ele planeia em função disso.'
+      'The whole island in one day, or your own list of places. João plans it with you.',
+      'A ilha inteira num dia, ou a sua própria lista de sítios. O João planeia-o consigo.'
     ),
     body: {
       en: [
-        'If none of the fixed tours fits, describe what you have in mind: a particular village, a photo spot, a family visit, a restaurant or a mix of everything. João tells you if it works and how long it takes.',
-        'The price depends on the distance and the time, and he confirms it before you commit.',
+        'If none of the fixed tours fits, send João your idea on WhatsApp: a trip around the whole island, a particular village, Pico do Areeiro, a restaurant or a family visit.',
+        'He tells you if it works, how long it takes and the price before you commit.',
       ],
       pt: [
-        'Se nenhum dos tours fixos lhe servir, descreva o que tem em mente: uma aldeia em particular, um local para fotografias, uma visita a familiares, um restaurante ou uma mistura de tudo. O João diz-lhe se é possível e quanto tempo demora.',
-        'O preço depende da distância e do tempo, e ele confirma-o antes de assumir qualquer compromisso.',
+        'Se nenhum dos tours fixos lhe servir, envie a sua ideia ao João por WhatsApp: uma volta à ilha inteira, uma aldeia em particular, o Pico do Areeiro, um restaurante ou uma visita a familiares.',
+        'Ele diz-lhe se é possível, quanto tempo demora e o preço, antes de assumir qualquer compromisso.',
       ],
     },
     duration: l('To be agreed', 'A combinar'),
-    priceFrom: 150,
-    route: { from: l('Your choice', 'À sua escolha'), to: l('Your choice', 'À sua escolha') },
+    priceFrom: null,
+    route: {
+      from: l('Calheta or your choice', 'Calheta ou à sua escolha'),
+      to: l('Your choice', 'À sua escolha'),
+    },
     stops: [],
-    includes: [INCLUDES.driver, INCLUDES.door, INCLUDES.planning, INCLUDES.fuel],
-    excludes: [EXCLUDES.meals, EXCLUDES.entrance, EXCLUDES.tips],
+    includes: [INCLUDES.driver, INCLUDES.door, INCLUDES.fuel],
+    excludes: TOUR_EXCLUDES,
     faq: [
       {
-        q: l('What should I put in the request?', 'O que devo indicar no pedido?'),
+        q: l('What should I send João?', 'O que devo enviar ao João?'),
         a: l(
-          'The date, where you start, the places you want to see and roughly how many hours you have.',
-          'A data, o ponto de partida, os sítios que quer ver e, aproximadamente, quantas horas tem.'
+          'The date, where you start, the places you want to see, how many people and roughly how many hours you have.',
+          'A data, o ponto de partida, os sítios que quer ver, quantas pessoas são e, aproximadamente, quantas horas tem.'
+        ),
+      },
+      FAQ_GROUP,
+    ],
+    gallery: [HERO_IMAGE],
+    related: ['tour-west', 'tour-east', 'tour-middle'],
+  },
+]
+
+// -------------------------------------------------------------------- Levadas
+
+/**
+ * Taxi to the start of a levada walk, from Calheta (board: "Levadas").
+ * `roundTrip`: ↔ on the board (taken and brought back); otherwise → (one way, drop-off only).
+ */
+function levada({ key, name, area, price, roundTrip, about, seoDescription, related }) {
+  const tripLabel = roundTrip
+    ? l('Return trip from Calheta', 'Ida e volta a partir da Calheta')
+    : l('One way from Calheta', 'Só ida a partir da Calheta')
+  return {
+    ...base,
+    id: `levada-${key}`,
+    type: 'tour',
+    slug: `levada-${key}`,
+    title: l(`Levada walk: ${name.en}`, `Levada: ${name.pt}`),
+    seo: {
+      title: l(
+        `Taxi from Calheta to ${name.en} levada walk`,
+        `Táxi da Calheta para a levada ${name.pt}`
+      ),
+      description: seoDescription,
+    },
+    summary: about.summary,
+    body: {
+      en: [
+        about.en,
+        roundTrip
+          ? `João drops you at the start of the trail, in ${area.en}, and picks you up when you finish. €${price} per taxi, there and back.`
+          : `João drops you at the start of the trail, in ${area.en}. €${price} per taxi, one way. Need a pick-up at the end? Ask on WhatsApp.`,
+      ],
+      pt: [
+        about.pt,
+        roundTrip
+          ? `O João deixa-o no início do trilho, em ${area.pt}, e vai buscá-lo quando terminar. ${price} € por táxi, ida e volta.`
+          : `O João deixa-o no início do trilho, em ${area.pt}. ${price} € por táxi, só ida. Precisa de recolha no fim? Pergunte por WhatsApp.`,
+      ],
+    },
+    duration: tripLabel,
+    priceFrom: price,
+    route: { from: CALHETA, to: area },
+    stops: [],
+    includes: roundTrip
+      ? [INCLUDES.driver, INCLUDES.door, INCLUDES.trailhead, INCLUDES.roundTrip]
+      : [INCLUDES.driver, INCLUDES.door, INCLUDES.trailhead],
+    excludes: roundTrip
+      ? [EXCLUDES.guide, EXCLUDES.meals, EXCLUDES.tips]
+      : [EXCLUDES.returnTrip, EXCLUDES.guide, EXCLUDES.tips],
+    faq: [
+      {
+        q: l('Does João walk with us?', 'O João caminha connosco?'),
+        a: l(
+          'No. João is a taxi driver. He takes you to the trail and, if agreed, collects you at the end.',
+          'Não. O João é taxista. Leva-o ao trilho e, se combinado, vai buscá-lo no fim.'
         ),
       },
       {
-        q: l('Can I add stops on the day?', 'Posso acrescentar paragens no próprio dia?'),
+        q: l('Is the trail open?', 'O trilho está aberto?'),
         a: l(
-          'Small changes are usually fine. Larger ones may change the time and the price, so João will tell you.',
-          'Pequenas alterações costumam ser possíveis. As maiores podem mudar o tempo e o preço, e o João avisa.'
+          'Trails close after storms or for repairs. Check the official IFCN website or ask João the day before.',
+          'Os trilhos fecham depois de temporais ou para obras. Consulte o site oficial do IFCN ou pergunte ao João no dia anterior.'
         ),
       },
+      FAQ_GROUP,
     ],
     gallery: [HERO_IMAGE],
-    related: ['tour-west', 'tour-levada-walks', 'transfer-funchal-airport'],
-  },
+    related,
+  }
+}
+
+const levadas = [
+  levada({
+    key: '25-fontes-risco',
+    name: l('25 Fontes and Risco', '25 Fontes e Risco'),
+    area: l('Rabaçal', 'Rabaçal'),
+    price: 55,
+    roundTrip: true,
+    about: {
+      summary: l(
+        'The most famous walk on the island, to a pool fed by 25 springs and the Risco waterfall.',
+        'O percurso mais famoso da ilha, até à lagoa das 25 Fontes e à cascata do Risco.'
+      ),
+      en: 'From Rabaçal, two levadas lead through laurel forest to the Risco waterfall and to the lagoon of the 25 springs. It is the closest of the big walks to Calheta.',
+      pt: 'A partir do Rabaçal, duas levadas atravessam a floresta laurissilva até à cascata do Risco e à lagoa das 25 Fontes. É a grande caminhada mais próxima da Calheta.',
+    },
+    seoDescription: l(
+      'Taxi from Calheta to Rabaçal for the 25 Fontes and Risco levada walk, there and back: €55 per taxi. Ask João on WhatsApp.',
+      'Táxi da Calheta ao Rabaçal para a levada das 25 Fontes e do Risco, ida e volta: 55 € por táxi. Fale com o João por WhatsApp.'
+    ),
+    related: ['levada-alecrim', 'levada-fanal', 'tour-west'],
+  }),
+  levada({
+    key: 'alecrim',
+    name: l('Alecrim (Rosemary levada)', 'Alecrim'),
+    area: l('Rabaçal', 'Rabaçal'),
+    price: 55,
+    roundTrip: true,
+    about: {
+      summary: l(
+        'A quiet levada through the forest to the Lagoa do Vento and the Lagoa do Dino.',
+        'Uma levada sossegada pela floresta até à Lagoa do Vento e à Lagoa do Dino.'
+      ),
+      en: 'The Rosemary levada also starts at Rabaçal and is calmer than 25 Fontes. It follows the water through the forest to small lakes and waterfalls.',
+      pt: 'A Levada do Alecrim também começa no Rabaçal e é mais calma do que a das 25 Fontes. Segue a água pela floresta até pequenas lagoas e cascatas.',
+    },
+    seoDescription: l(
+      'Taxi from Calheta to Rabaçal for the Rosemary (Alecrim) levada walk, there and back: €55 per taxi. Ask João on WhatsApp.',
+      'Táxi da Calheta ao Rabaçal para a Levada do Alecrim, ida e volta: 55 € por táxi. Fale com o João por WhatsApp.'
+    ),
+    related: ['levada-25-fontes-risco', 'levada-fanal', 'levada-moinho'],
+  }),
+  levada({
+    key: 'fanal',
+    name: l('Fanal forest', 'Fanal'),
+    area: l('Fanal', 'Fanal'),
+    price: 45,
+    roundTrip: false,
+    about: {
+      summary: l(
+        'Centuries-old laurel trees in the mist: the most photographed forest in Madeira.',
+        'Til centenários no meio do nevoeiro: a floresta mais fotografada da Madeira.'
+      ),
+      en: 'Fanal is a high meadow of ancient til trees, famous for its mystical look when the fog rolls in. Walk among the trees or follow one of the trails from there.',
+      pt: 'O Fanal é um prado de altitude com tis centenários, famoso pelo ar místico quando chega o nevoeiro. Passeie entre as árvores ou siga um dos trilhos a partir dali.',
+    },
+    seoDescription: l(
+      'Taxi from Calheta to the Fanal forest: €45 per taxi, one way. Ask João on WhatsApp for the pick-up.',
+      'Táxi da Calheta para a floresta do Fanal: 45 € por táxi, só ida. Fale com o João por WhatsApp para a recolha.'
+    ),
+    related: ['levada-25-fontes-risco', 'levada-lamaceiros', 'tour-west'],
+  }),
+  levada({
+    key: 'moinho',
+    name: l('Levada do Moinho', 'Levada do Moinho'),
+    area: l('Ponta do Pargo', 'Ponta do Pargo'),
+    price: 25,
+    roundTrip: false,
+    about: {
+      summary: l(
+        'A short, gentle levada in the far west, close to Calheta.',
+        'Uma levada curta e tranquila no extremo oeste, perto da Calheta.'
+      ),
+      en: 'Levada do Moinho runs through the green hills of the west, with small tunnels and old water mills. It is the cheapest and closest walk on the board.',
+      pt: 'A Levada do Moinho percorre as colinas verdes do oeste, com pequenos túneis e antigos moinhos de água. É a caminhada mais barata e mais próxima da tabela.',
+    },
+    seoDescription: l(
+      'Taxi from Calheta to the Levada do Moinho walk in the west of Madeira: €25 per taxi, one way. Ask João on WhatsApp.',
+      'Táxi da Calheta para a Levada do Moinho, no oeste da Madeira: 25 € por táxi, só ida. Fale com o João por WhatsApp.'
+    ),
+    related: ['levada-alecrim', 'levada-25-fontes-risco', 'tour-west'],
+  }),
+  levada({
+    key: 'lamaceiros',
+    name: l('Lamaceiros', 'Lamaceiros'),
+    area: l('Lamaceiros, Porto Moniz', 'Lamaceiros, Porto Moniz'),
+    price: 50,
+    roundTrip: false,
+    about: {
+      summary: l(
+        'The Ribeira da Janela levada, with tunnels and views over the north-west valleys.',
+        'A Levada da Ribeira da Janela, com túneis e vistas sobre os vales do noroeste.'
+      ),
+      en: 'From the forest station at Lamaceiros, above Porto Moniz, the levada follows the Ribeira da Janela valley through tunnels and laurel forest.',
+      pt: 'A partir do posto florestal dos Lamaceiros, acima do Porto Moniz, a levada segue o vale da Ribeira da Janela por túneis e floresta laurissilva.',
+    },
+    seoDescription: l(
+      'Taxi from Calheta to Lamaceiros for the Ribeira da Janela levada walk: €50 per taxi, one way. Ask João on WhatsApp.',
+      'Táxi da Calheta aos Lamaceiros para a levada da Ribeira da Janela: 50 € por táxi, só ida. Fale com o João por WhatsApp.'
+    ),
+    related: ['levada-fanal', 'transfer-calheta-porto-moniz', 'tour-west'],
+  }),
+  levada({
+    key: 'levada-do-rei',
+    name: l('Levada do Rei', 'Levada do Rei'),
+    area: l('São Jorge', 'São Jorge'),
+    price: 85,
+    roundTrip: false,
+    about: {
+      summary: l(
+        'An easy walk on the north coast, through laurel forest to a stream in the valley.',
+        'Uma caminhada fácil na costa norte, pela laurissilva até a uma ribeira no vale.'
+      ),
+      en: 'Levada do Rei starts above São Jorge, on the north coast, and is one of the easiest walks into the laurel forest, ending at a clear stream.',
+      pt: 'A Levada do Rei começa acima de São Jorge, na costa norte, e é uma das caminhadas mais fáceis pela laurissilva, terminando numa ribeira de água límpida.',
+    },
+    seoDescription: l(
+      'Taxi from Calheta to the Levada do Rei walk in São Jorge: €85 per taxi, one way. Ask João on WhatsApp.',
+      'Táxi da Calheta para a Levada do Rei, em São Jorge: 85 € por táxi, só ida. Fale com o João por WhatsApp.'
+    ),
+    related: ['levada-caldeirao-verde', 'levada-achada-teixeira', 'tour-east'],
+  }),
+  levada({
+    key: 'caldeirao-verde',
+    name: l('Caldeirão Verde', 'Caldeirão Verde'),
+    area: l('Queimadas, Santana', 'Queimadas, Santana'),
+    price: 105,
+    roundTrip: false,
+    about: {
+      summary: l(
+        'Tunnels, cliffs and a 100-metre waterfall falling into a green pool.',
+        'Túneis, falésias e uma cascata de 100 metros a cair numa lagoa verde.'
+      ),
+      en: 'From the Queimadas forest park in Santana, the Caldeirão Verde levada runs along the cliffs and through tunnels to a waterfall in a deep green basin. Bring a torch.',
+      pt: 'A partir do parque florestal das Queimadas, em Santana, a levada do Caldeirão Verde segue as falésias e atravessa túneis até uma cascata num caldeirão verde. Leve uma lanterna.',
+    },
+    seoDescription: l(
+      'Taxi from Calheta to Queimadas for the Caldeirão Verde levada walk: €105 per taxi, one way. Ask João on WhatsApp.',
+      'Táxi da Calheta às Queimadas para a levada do Caldeirão Verde: 105 € por táxi, só ida. Fale com o João por WhatsApp.'
+    ),
+    related: ['levada-levada-do-rei', 'levada-achada-teixeira', 'tour-east'],
+  }),
+  levada({
+    key: 'pico-areeiro',
+    name: l('Pico do Areeiro', 'Pico do Areeiro'),
+    area: l('Pico do Areeiro', 'Pico do Areeiro'),
+    price: 85,
+    roundTrip: false,
+    about: {
+      summary: l(
+        "The island's third highest peak and start of the ridge walk to Pico Ruivo.",
+        'O terceiro pico mais alto da ilha e início do trilho de crista até ao Pico Ruivo.'
+      ),
+      en: 'Pico do Areeiro, at 1,818 metres, is the only high peak you can drive to. Watch the sunrise above the clouds or start the PR1 ridge walk to Pico Ruivo.',
+      pt: 'O Pico do Areeiro, a 1818 metros, é o único pico alto onde se chega de carro. Veja o nascer do sol acima das nuvens ou comece o trilho PR1 até ao Pico Ruivo.',
+    },
+    seoDescription: l(
+      'Taxi from Calheta to Pico do Areeiro for sunrise or the walk to Pico Ruivo: €85 per taxi, one way. Ask João on WhatsApp.',
+      'Táxi da Calheta ao Pico do Areeiro para o nascer do sol ou o trilho até ao Pico Ruivo: 85 € por táxi, só ida. Fale com o João.'
+    ),
+    related: ['levada-achada-teixeira', 'tour-middle', 'tour-custom'],
+  }),
+  levada({
+    key: 'achada-teixeira',
+    name: l('Achada do Teixeira (Pico Ruivo)', 'Achada do Teixeira (Pico Ruivo)'),
+    area: l('Achada do Teixeira, Santana', 'Achada do Teixeira, Santana'),
+    price: 110,
+    roundTrip: false,
+    about: {
+      summary: l(
+        'The shortest way up to Pico Ruivo, the highest point of Madeira.',
+        'O caminho mais curto até ao Pico Ruivo, o ponto mais alto da Madeira.'
+      ),
+      en: 'From Achada do Teixeira, above Santana, a paved path climbs to Pico Ruivo at 1,862 metres. It is also where the ridge walk from Pico do Areeiro ends.',
+      pt: 'A partir da Achada do Teixeira, acima de Santana, um caminho calcetado sobe até ao Pico Ruivo, a 1862 metros. É também onde termina o trilho que vem do Pico do Areeiro.',
+    },
+    seoDescription: l(
+      'Taxi from Calheta to Achada do Teixeira for the walk to Pico Ruivo: €110 per taxi, one way. Ask João on WhatsApp.',
+      'Táxi da Calheta à Achada do Teixeira para a subida ao Pico Ruivo: 110 € por táxi, só ida. Fale com o João por WhatsApp.'
+    ),
+    related: ['levada-pico-areeiro', 'levada-caldeirao-verde', 'tour-east'],
+  }),
+  levada({
+    key: 'ponta-sao-lourenco',
+    name: l('Ponta de São Lourenço', 'Ponta de São Lourenço'),
+    area: l('Ponta de São Lourenço, Caniçal', 'Ponta de São Lourenço, Caniçal'),
+    price: 95,
+    roundTrip: false,
+    about: {
+      summary: l(
+        'A dry, windy peninsula at the eastern tip of the island, with sea on both sides.',
+        'Uma península seca e ventosa no extremo leste da ilha, com mar dos dois lados.'
+      ),
+      en: 'The PR8 trail crosses the bare peninsula of São Lourenço, with cliffs and sea on both sides. There is little shade, so bring water, sun cream and a hat.',
+      pt: 'O trilho PR8 atravessa a península nua de São Lourenço, com falésias e mar dos dois lados. Há pouca sombra, por isso leve água, protetor solar e chapéu.',
+    },
+    seoDescription: l(
+      'Taxi from Calheta to the Ponta de São Lourenço walk at the east tip of Madeira: €95 per taxi, one way. Ask João on WhatsApp.',
+      'Táxi da Calheta para o trilho da Ponta de São Lourenço, no extremo leste: 95 € por táxi, só ida. Fale com o João por WhatsApp.'
+    ),
+    related: ['tour-east', 'levada-caldeirao-verde', 'transfer-calheta-airport'],
+  }),
 ]
+
+transfers[0].related = ['transfer-calheta-funchal', 'tour-west', 'tour-middle']
+transfers[1].related = ['transfer-calheta-airport', 'tour-middle', 'tour-east']
+transfers[2].related = ['tour-west', 'levada-lamaceiros', 'transfer-calheta-funchal']
+
+export const services = [...tours, ...levadas, ...transfers]

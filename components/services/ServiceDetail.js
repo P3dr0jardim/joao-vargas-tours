@@ -1,13 +1,12 @@
 import Image from 'next/image'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { whatsappLink } from '@/config/site'
 import { absoluteUrl } from '@/lib/seo'
-import { getRelatedServices, pick, sectionPath, servicePath } from '@/lib/services'
+import { getRelatedServices, loadCatalog, pick, sectionPath, servicePath } from '@/lib/services'
 import Breadcrumbs from '@/components/ui/Breadcrumbs'
-import ButtonLink from '@/components/ui/ButtonLink'
 import Section from '@/components/ui/Section'
-import { CheckIcon, WhatsAppIcon } from '@/components/ui/icons'
+import { CheckIcon } from '@/components/ui/icons'
 import JsonLd from '@/components/seo/JsonLd'
+import ServiceContact from '@/components/services/ServiceContact'
 import ServiceFaq from '@/components/services/ServiceFaq'
 import ServiceGrid from '@/components/services/ServiceGrid'
 import ServicePrice from '@/components/services/ServicePrice'
@@ -29,8 +28,12 @@ export default async function ServiceDetail({ service }) {
   const title = pick(service.title, locale)
   const hubPath = sectionPath(service.type)
   const hubLabel = nav(service.type === 'tour' ? 'tours' : 'transfers')
-  const related = getRelatedServices(service)
-  const image = service.gallery[0]
+  const related = getRelatedServices(service, await loadCatalog())
+  // Services created in the admin may have no image yet: fall back to the site hero.
+  const image = service.gallery?.[0] ?? { src: '/images/hero.webp', alt: { en: '', pt: '' } }
+  const paragraphs = service.body?.[locale]?.length
+    ? service.body[locale]
+    : (service.body?.en ?? [])
 
   const crumbs = [
     { label: nav('home'), href: '/' },
@@ -48,8 +51,6 @@ export default async function ServiceDetail({ service }) {
       item: absoluteUrl(locale, crumb.href),
     })),
   }
-
-  const bookHref = `/book?service=${service.slug}`
 
   return (
     <>
@@ -77,8 +78,8 @@ export default async function ServiceDetail({ service }) {
             </div>
 
             <div className="max-w-prose space-y-4">
-              {service.body[locale].map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+              {paragraphs.map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
               ))}
             </div>
 
@@ -89,8 +90,8 @@ export default async function ServiceDetail({ service }) {
                 </h2>
                 <p className="mt-2 text-sm">{t('stopsNote')}</p>
                 <ol className="mt-4 list-decimal space-y-1 pl-6 marker:font-semibold marker:text-blue-600">
-                  {service.stops.map((stop) => (
-                    <li key={stop.en}>{pick(stop, locale)}</li>
+                  {service.stops.map((stop, i) => (
+                    <li key={i}>{pick(stop, locale)}</li>
                   ))}
                 </ol>
               </section>
@@ -102,8 +103,8 @@ export default async function ServiceDetail({ service }) {
                   {t('includesTitle')}
                 </h2>
                 <ul className="mt-4 space-y-2">
-                  {service.includes.map((item) => (
-                    <li key={item.en} className="flex gap-2">
+                  {service.includes.map((item, i) => (
+                    <li key={i} className="flex gap-2">
                       <CheckIcon className="mt-1 shrink-0 text-blue-600" />
                       {pick(item, locale)}
                     </li>
@@ -115,8 +116,8 @@ export default async function ServiceDetail({ service }) {
                   {t('excludesTitle')}
                 </h2>
                 <ul className="mt-4 list-disc space-y-2 pl-5">
-                  {service.excludes.map((item) => (
-                    <li key={item.en}>{pick(item, locale)}</li>
+                  {service.excludes.map((item, i) => (
+                    <li key={i}>{pick(item, locale)}</li>
                   ))}
                 </ul>
               </section>
@@ -131,7 +132,7 @@ export default async function ServiceDetail({ service }) {
               {t('factsTitle')}
             </h2>
             <dl className="space-y-3">
-              {service.type === 'transfer' && (
+              {pick(service.route?.from, locale) && (
                 <>
                   <Fact label={t('facts.from')}>{pick(service.route.from, locale)}</Fact>
                   <Fact label={t('facts.to')}>{pick(service.route.to, locale)}</Fact>
@@ -145,13 +146,7 @@ export default async function ServiceDetail({ service }) {
                 <ServicePrice service={service} />
               </Fact>
             </dl>
-            <div className="flex flex-col gap-3">
-              <ButtonLink href={bookHref}>{t('requestThis')}</ButtonLink>
-              <ButtonLink href={whatsappLink(t('whatsappMessage', { title }))} variant="outline">
-                <WhatsAppIcon />
-                {t('askWhatsapp')}
-              </ButtonLink>
-            </div>
+            <ServiceContact service={service} stacked />
             <p className="text-sm">{t('requestNote')}</p>
           </aside>
         </div>

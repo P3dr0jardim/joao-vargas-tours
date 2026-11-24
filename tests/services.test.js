@@ -3,7 +3,7 @@ import { locales } from '@/config/site'
 import { services } from '@/content/services'
 import sitemap from '@/app/sitemap'
 import { absoluteUrl } from '@/lib/seo'
-import { formatPrice, getPublishedServices, servicePath } from '@/lib/services'
+import { formatPrice, getPublishedServices, isLevada, servicePath } from '@/lib/services'
 
 /** Every localised field is an { en, pt } object with a non-empty string per locale. */
 function expectLocalised(value, where) {
@@ -90,10 +90,29 @@ describe('services content', () => {
       expect(['tour', 'transfer']).toContain(s.type)
       expect(s.currency).toBe('EUR')
       expect(s.pricingModel).toBe('perVehicle')
-      expect(Number.isInteger(s.priceFrom) && s.priceFrom > 0, `${s.id} price`).toBe(true)
+      // null = "price on request" (custom tour); otherwise a whole price per taxi
+      if (s.priceFrom !== null) {
+        expect(Number.isInteger(s.priceFrom) && s.priceFrom > 0, `${s.id} price`).toBe(true)
+      }
+      if (s.priceWeekend != null) {
+        expect(s.priceWeekend, `${s.id} weekend price`).toBeGreaterThan(s.priceFrom)
+      }
       expect(s.capacity).toBe(6)
       expect(s.updatedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/)
     }
+  })
+
+  it('starts or ends every service in Calheta', () => {
+    for (const s of services) {
+      const route = `${s.route.from.en} ${s.route.to.en}`
+      expect(route, s.id).toContain('Calheta')
+    }
+  })
+
+  it('groups levada walks as tours with a levada- id', () => {
+    const levadas = services.filter(isLevada)
+    expect(levadas.length).toBeGreaterThan(0)
+    for (const s of levadas) expect(s.slug, s.id).toMatch(/^levada-/)
   })
 
   it('only uses images that exist in the public folder list', () => {
@@ -115,8 +134,8 @@ describe('services content', () => {
 })
 
 describe('sitemap', () => {
-  it('includes every published service for every locale, with alternates', () => {
-    const entries = sitemap()
+  it('includes every published service for every locale, with alternates', async () => {
+    const entries = await sitemap()
     for (const s of getPublishedServices()) {
       for (const locale of locales) {
         const url = absoluteUrl(locale, servicePath(s))
@@ -127,8 +146,8 @@ describe('sitemap', () => {
     }
   })
 
-  it('has no duplicate URLs', () => {
-    const urls = sitemap().map((e) => e.url)
+  it('has no duplicate URLs', async () => {
+    const urls = (await sitemap()).map((e) => e.url)
     expect(new Set(urls).size).toBe(urls.length)
   })
 })

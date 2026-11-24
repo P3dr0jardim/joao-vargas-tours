@@ -1,9 +1,13 @@
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { pick, servicePath } from '@/lib/services'
+import ServiceContact from '@/components/services/ServiceContact'
 import ServicePrice from '@/components/services/ServicePrice'
 
-/** Card for listings and the home page. The title link covers the whole card. */
+/**
+ * Card for listings and the home page. The title link covers the whole card; the WhatsApp and
+ * call buttons sit above it (relative z-10) so they stay clickable.
+ */
 export default async function ServiceCard({ service }) {
   const t = await getTranslations('Services')
   const locale = await getLocale()
@@ -30,8 +34,9 @@ export default async function ServiceCard({ service }) {
         </div>
       </dl>
       <div className="border-t border-sky-100 pt-4">
-        <ServicePrice service={service} />
+        <ServicePrice service={service} compact />
       </div>
+      <ServiceContact service={service} className="relative z-10" />
     </article>
   )
 }

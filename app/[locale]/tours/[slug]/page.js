@@ -13,5 +13,5 @@ export async function generateMetadata(props) {
 export default async function ToursDetailPage({ params }) {
   const { locale, slug } = await params
   setRequestLocale(locale)
-  return <ServiceDetail service={requireService('tour', slug)} />
+  return <ServiceDetail service={await requireService('tour', slug)} />
 }

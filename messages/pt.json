@@ -1,19 +1,21 @@
 {
   "Meta": {
-    "siteTitle": "João Vargas Tours | Tours privados e transfers na Madeira",
-    "siteDescription": "Tours privados e transfers de aeroporto na Madeira com o João, motorista de táxi da Calheta. Envie um pedido de reserva e ele responde por WhatsApp ou email."
+    "siteTitle": "João Vargas Tours | Táxi, tours e levadas a partir da Calheta, Madeira",
+    "siteDescription": "Tours de táxi, levadas e transfers com partida ou destino na Calheta, Madeira, com o João, taxista local. Preços por táxi. Fale por WhatsApp ou telefone."
   },
   "Common": {
     "brand": "João Vargas Tours",
     "skipToContent": "Saltar para o conteúdo principal",
-    "requestBooking": "Pedir reserva",
+    "requestBooking": "Pedir por WhatsApp",
     "whatsapp": "WhatsApp",
     "whatsappAria": "Falar com o João no WhatsApp",
     "call": "Ligar",
     "seeTours": "Ver tours",
     "seeTransfers": "Ver transfers",
     "todo": "Provisório",
-    "breadcrumb": "Caminho de navegação"
+    "breadcrumb": "Caminho de navegação",
+    "callAria": "Ligar ao João",
+    "seeLevadas": "Ver levadas"
   },
   "Header": {
     "homeAria": "João Vargas Tours, página inicial",
@@ -56,27 +58,29 @@
   "Home": {
     "hero": {
       "imageAlt": "Vista aérea do Seixal, na costa norte da Madeira, com casas brancas e laranja junto a uma costa rochosa e piscinas naturais",
-      "title": "Tours privados e transfers na Madeira, com um motorista local",
-      "subtitle": "TODO: Texto provisório. Diga ao João onde está alojado e quando chega, e ele organiza o dia à sua medida.",
+      "title": "Tours e táxi a partir da Calheta",
+      "subtitle": "Tours pela ilha, levadas e transfers com partida ou destino na Calheta, com o João, taxista local. Sem formulários: fale com ele diretamente por WhatsApp ou telefone.",
       "driver": {
         "label": "O seu motorista",
         "role": "Motorista de táxi na Calheta"
       }
     },
     "services": {
-      "title": "Tours e transfers",
-      "intro": "Escolha um serviço para ver o percurso, o que está incluído e um preço indicativo.",
-      "toursTitle": "Tours privados",
-      "transfersTitle": "Transfers de aeroporto e hotel",
+      "title": "Tours a partir da Calheta",
+      "intro": "Os mesmos percursos e preços da praça de táxis da Calheta. Escolha um tour e envie a mensagem ao João por WhatsApp.",
+      "toursTitle": "Tours pela ilha",
+      "transfersTitle": "Transfers da Calheta",
       "toursAll": "Todos os tours",
-      "transfersAll": "Todos os transfers"
+      "transfersAll": "Todos os transfers",
+      "levadasTitle": "Levadas e caminhadas",
+      "levadasAll": "Todas as levadas"
     },
     "about": {
       "title": "Conheça o João",
       "imageAlt": "João Vargas, motorista de táxi da Calheta, a sorrir, de camisa branca",
-      "text1": "TODO: Texto provisório. O João é motorista de táxi na Calheta e há anos que mostra a Madeira aos visitantes.",
+      "text1": "TODO: Texto provisório. O João é taxista na Calheta e há anos que mostra a Madeira aos visitantes, a partir da costa oeste.",
       "text2": "TODO: Texto provisório. Conhece os miradouros sossegados, as melhores horas para fugir à multidão e onde parar para um bom almoço.",
-      "cta": "Reservar com o João"
+      "cta": "Falar com o João por WhatsApp"
     },
     "why": {
       "title": "Porquê viajar com o João",
@@ -102,21 +106,31 @@
       "empty": "TODO: Provisório. As opiniões dos clientes vão aparecer aqui, com a sua autorização."
     },
     "cta": {
-      "title": "Pronto para planear o seu dia?",
-      "text": "TODO: Texto provisório. Envie um pedido, não um pagamento. O João responde por WhatsApp ou email para confirmar os detalhes.",
-      "button": "Pedir reserva"
+      "title": "Está na Calheta? Fale já com o João",
+      "text": "Envie uma mensagem com o tour, a data e quantas pessoas são, ou ligue. O João confirma a disponibilidade e o preço.",
+      "button": "Enviar mensagem no WhatsApp"
+    },
+    "prices": {
+      "title": "Tabela de preços a partir da Calheta",
+      "intro": "Preço por táxi, com partida na Calheta. Toque em WhatsApp e a mensagem segue já preenchida com o serviço.",
+      "tours": "Tours",
+      "levadas": "Levadas",
+      "transfers": "Transfers"
     }
   },
   "Pages": {
     "tours": {
-      "title": "Tours privados na Madeira",
-      "description": "Tours privados de dia inteiro ou meio dia na Madeira, com um motorista de táxi local da Calheta.",
-      "intro": "Tours de um ou dois dias com motorista local, transporte para passeios pelas levadas e viagens à medida. Escolha um ou peça o seu próprio plano."
+      "title": "Tours de táxi a partir da Calheta",
+      "description": "Tours privados de táxi pela Madeira com partida na Calheta: West Tour, Middle Tour, East Tour e levadas. Preços por táxi.",
+      "intro": "Todos os tours começam e terminam na Calheta. Preço por táxi, até 4 pessoas (acima de 4, acresce 20%). Escolha um e peça-o por WhatsApp.",
+      "toursTitle": "Tours pela ilha",
+      "levadasTitle": "Levadas e caminhadas",
+      "levadasIntro": "O João leva-o ao início do trilho e, nas levadas de ida e volta, vai buscá-lo no fim."
     },
     "transfers": {
-      "title": "Transfers de aeroporto e hotel",
-      "description": "Transfers privados do aeroporto do Funchal e entre hotéis na Madeira, com um motorista local.",
-      "intro": "Viagens privadas entre o aeroporto, o seu alojamento e os miradouros. Uma viatura, até 6 passageiros."
+      "title": "Transfers de táxi da Calheta",
+      "description": "Táxi da Calheta para o aeroporto da Madeira, o centro do Funchal e o Porto Moniz, com preços para dias úteis e fim de semana.",
+      "intro": "Viagens privadas com partida ou destino na Calheta. Um táxi, até 6 passageiros. O preço é diferente em dias úteis e ao fim de semana."
     },
     "info": {
       "title": "Informações de viagem",
@@ -124,17 +138,16 @@
       "intro": "TODO: Página provisória. As perguntas frequentes serão adicionadas aqui."
     },
     "contact": {
-      "title": "Contactar o João",
-      "description": "Telefone, WhatsApp e email da João Vargas Tours, na Calheta, Madeira.",
-      "intro": "TODO: Página provisória. Os contactos e o mapa serão adicionados aqui."
-    },
-    "book": {
-      "title": "Pedir uma reserva",
-      "description": "Envie um pedido de reserva de tour ou transfer privado na Madeira. O João responde por WhatsApp ou email.",
-      "intro": "Escolha um serviço, uma data e quantas pessoas viajam. O João verifica a disponibilidade e responde por WhatsApp ou email. Nada fica confirmado até ele o fazer.",
-      "whatsappPrompt": "Prefere combinar diretamente?",
-      "whatsappLink": "Fale com o João no WhatsApp",
-      "whatsappMessage": "Olá João, gostaria de pedir uma reserva."
+      "title": "Falar com o João",
+      "description": "WhatsApp e telefone da João Vargas Tours, táxi e tours na Calheta, Madeira.",
+      "intro": "Não há formulários: fale diretamente com o João. Diga-lhe o serviço, a data, a hora e quantas pessoas são, e ele responde com a disponibilidade e o preço.",
+      "whatsappTitle": "WhatsApp",
+      "whatsappText": "A forma mais rápida. A mensagem segue já preenchida.",
+      "phoneTitle": "Telefone",
+      "phoneText": "Prefere falar? Ligue ao João.",
+      "baseTitle": "Onde estamos",
+      "baseText": "Calheta, na costa oeste da Madeira. Todos os preços do site são com partida da Calheta. De outro ponto da ilha, pergunte o valor.",
+      "whatsappMessage": "Olá João, vi o seu site e gostaria de pedir informações.\nServiço:\nData:\nNúmero de pessoas:\nLocal de recolha:"
     },
     "privacy": {
       "title": "Política de privacidade",
@@ -155,23 +168,19 @@
       "title": "Livro de reclamações",
       "description": "Como apresentar uma reclamação sobre a João Vargas Tours.",
       "intro": "TODO: Página provisória. A ligação ao livro de reclamações online será adicionada aqui."
-    },
-    "thankYou": {
-      "title": "Pedido recebido",
-      "description": "O seu pedido de reserva foi enviado ao João."
     }
   },
   "NotFound": {
     "title": "Página não encontrada",
-    "text": "Esta página não existe ou mudou de endereço. Volte à página inicial ou peça uma reserva.",
+    "text": "Esta página não existe ou mudou de endereço. Volte à página inicial ou fale com o João por WhatsApp.",
     "home": "Voltar ao início"
   },
   "Services": {
     "priceFrom": "A partir de <strong>{price}</strong>",
     "pricing": {
-      "perVehicle": "por viatura"
+      "perVehicle": "por táxi"
     },
-    "priceNote": "Preço indicativo, confirmado pelo João após o seu pedido",
+    "priceNote": "Preço indicativo, confirmado pelo João por WhatsApp",
     "capacityValue": "Até {count} passageiros",
     "facts": {
       "duration": "Duração",
@@ -187,180 +196,14 @@
     "excludesTitle": "Não incluído",
     "faqTitle": "Perguntas frequentes",
     "relatedTitle": "Também lhe pode interessar",
-    "requestThis": "Pedir este serviço",
-    "askWhatsapp": "Perguntar por WhatsApp",
-    "whatsappMessage": "Olá, João. Gostaria de saber mais sobre: {title}.",
-    "requestNote": "Isto é um pedido, não uma reserva confirmada. O João responde por WhatsApp ou email.",
-    "empty": "Ainda não há serviços para mostrar. Envie um pedido de reserva e o João sugere um plano."
-  },
-  "Booking": {
-    "optional": "opcional",
-    "loading": "A carregar o formulário…",
-    "honeypotLabel": "Informação adicional, deixe vazio",
-    "requestNote": "Isto é um pedido, não uma reserva confirmada. O João responde por WhatsApp ou email. Não paga nada nesta página.",
-    "sections": {
-      "trip": "A sua viagem",
-      "group": "Quem viaja",
-      "route": "Recolha e destino",
-      "extras": "Mais alguma coisa",
-      "contact": "Os seus dados"
-    },
-    "summary": {
-      "title": "O que está a pedir",
-      "empty": "Escolha um serviço para ver aqui os detalhes e o preço indicativo.",
-      "details": "Ver detalhes do serviço",
-      "errorsTitle": "Corrija estes campos antes de enviar:"
-    },
-    "fields": {
-      "service": {
-        "label": "Serviço",
-        "placeholder": "Escolha um serviço",
-        "groups": {
-          "tour": "Tours",
-          "transfer": "Transfers"
-        }
-      },
-      "date": {
-        "label": "Data",
-        "hint": "A partir de amanhã. O João confirma a disponibilidade."
-      },
-      "time": {
-        "label": "Hora preferida",
-        "hint": "Uma hora aproximada chega."
-      },
-      "adults": {
-        "label": "Adultos",
-        "decrease": "Menos adultos",
-        "increase": "Mais adultos"
-      },
-      "children": {
-        "label": "Crianças",
-        "decrease": "Menos crianças",
-        "increase": "Mais crianças"
-      },
-      "infants": {
-        "label": "Bebés",
-        "decrease": "Menos bebés",
-        "increase": "Mais bebés"
-      },
-      "pickup": {
-        "label": "Local de recolha",
-        "hint": "Nome do hotel ou morada."
-      },
-      "dropoff": {
-        "label": "Local de destino",
-        "hint": "Nome do hotel, morada ou o sítio onde quer chegar."
-      },
-      "flightNumber": {
-        "label": "Número do voo",
-        "hint": "Para o João acompanhar atrasos. Por exemplo TP1693."
-      },
-      "luggage": {
-        "label": "Bagagem",
-        "hint": "Por exemplo: 2 malas grandes e 1 mala de cabine."
-      },
-      "notes": {
-        "label": "Notas",
-        "hint": "Detalhes práticos da viagem: sítios que quer ver, cadeiras de criança, bagagem. Indique necessidades de acessibilidade só se afetarem a viatura. Não inclua dados de saúde sensíveis."
-      },
-      "name": {
-        "label": "Nome completo"
-      },
-      "email": {
-        "label": "Email"
-      },
-      "phone": {
-        "label": "Telemóvel ou número de WhatsApp",
-        "hint": "Inclua o indicativo do país, por exemplo +351 912 345 678."
-      }
-    },
-    "capacityHint": "Uma viatura leva até {count} passageiros. Se forem mais, diga-o nas notas.",
-    "capacityOver": "São mais de {count} pessoas. Diga-o nas notas e o João sugere alternativas.",
-    "consent": "Aceito que a João Vargas Tours use estes dados para responder ao meu pedido e o envie ao João por email e WhatsApp (prestadores de serviços que o tratam por nossa conta), como explicado na <link>política de privacidade</link>.",
-    "submit": "Enviar pedido",
-    "submitting": "A enviar…",
-    "errors": {
-      "required": "Este campo é obrigatório.",
-      "invalid": "Verifique este valor e tente de novo.",
-      "too_short": "Este valor é demasiado curto.",
-      "too_long": "Este valor é demasiado longo.",
-      "too_early": "Escolha uma data a partir de amanhã.",
-      "too_far": "Essa data é demasiado distante. Escolha uma mais próxima.",
-      "unknown_service": "Escolha um serviço da lista.",
-      "consent_required": "Marque a caixa para enviar o pedido.",
-      "generic": "Verifique este campo e tente de novo.",
-      "service": {
-        "required": "Escolha um serviço."
-      },
-      "date": {
-        "required": "Escolha uma data.",
-        "invalid": "Indique uma data válida."
-      },
-      "time": {
-        "invalid": "Indique uma hora válida, por exemplo 09:30."
-      },
-      "adults": {
-        "required": "Indique o número de adultos.",
-        "invalid": "Indique entre 1 e {max} adultos.",
-        "too_small": "Indique pelo menos 1 adulto.",
-        "too_large": "Indique no máximo {max} adultos. Para um grupo maior, diga-o nas notas."
-      },
-      "children": {
-        "invalid": "Indique um número válido de crianças.",
-        "too_large": "Indique no máximo {max} crianças."
-      },
-      "infants": {
-        "invalid": "Indique um número válido de bebés.",
-        "too_large": "Indique no máximo {max} bebés."
-      },
-      "dropoff": {
-        "required": "Indique onde o João o deve deixar."
-      },
-      "name": {
-        "required": "Indique o seu nome.",
-        "too_short": "Indique o seu nome completo."
-      },
-      "email": {
-        "required": "Indique o seu email.",
-        "invalid": "Indique um email válido, como nome@exemplo.com."
-      },
-      "phone": {
-        "required": "Indique o seu número de telemóvel.",
-        "invalid": "Indique um número com o indicativo do país, como +351 912 345 678."
-      },
-      "consent": {
-        "consent_required": "Marque a caixa para aceitar antes de enviar o pedido."
-      },
-      "too_small": "Este número é demasiado baixo.",
-      "too_large": "Este número é demasiado alto."
-    },
-    "notice": {
-      "rateLimited": "Demasiadas tentativas. Aguarde alguns minutos e tente de novo.",
-      "forbidden": "Não foi possível aceitar este pedido. Recarregue a página e tente de novo, ou envie mensagem ao João por WhatsApp.",
-      "network": "Não foi possível ligar ao servidor. Verifique a ligação e tente de novo. Os seus dados continuam aqui.",
-      "error": "Algo correu mal do nosso lado. Tente de novo daqui a pouco, ou envie mensagem ao João por WhatsApp.",
-      "deliveryFailed": "Pedimos desculpa, o seu pedido não chegou ao João. Envie-o por WhatsApp. Já preparámos a mensagem.",
-      "whatsappButton": "Enviar por WhatsApp",
-      "whatsappAria": "Enviar o pedido ao João por WhatsApp",
-      "whatsappMessage": "Olá João, tentei enviar um pedido de reserva no seu site, mas falhou. Serviço: {service}. Data: {date}. Passageiros: {passengers}. Nome: {name}."
-    },
-    "thanks": {
-      "title": "Pedido recebido",
-      "refLabel": "A sua referência",
-      "refHint": "Guarde esta referência se contactar o João.",
-      "noRef": "O seu pedido foi enviado. Se enviar mensagem ao João, indique o seu nome e a data da viagem.",
-      "notConfirmed": "Isto é um pedido, não uma reserva confirmada.",
-      "next": "O João vai verificar a disponibilidade e responde por WhatsApp ou email.",
-      "whatsappButton": "Enviar mensagem ao João por WhatsApp",
-      "whatsappAria": "Enviar mensagem ao João por WhatsApp sobre o seu pedido",
-      "whatsappMessage": "Olá João, enviei um pedido de reserva no seu site. A minha referência é {ref}.",
-      "whatsappMessageNoRef": "Olá João, enviei um pedido de reserva no seu site.",
-      "home": "Voltar ao início"
-    },
-    "noscript": {
-      "text": "Este formulário precisa de JavaScript. Pode enviar o pedido diretamente ao João:",
-      "whatsapp": "Enviar mensagem ao João no WhatsApp",
-      "phone": "Ligar para {number}"
-    }
+    "requestThis": "Pedir por WhatsApp",
+    "whatsappMessage": "Olá João, vi no site o serviço «{title}» e gostaria de o reservar.\nData:\nHora:\nNúmero de pessoas:\nLocal de recolha:",
+    "requestNote": "Sem formulários nem pagamentos online. O João confirma a disponibilidade e o preço por WhatsApp.",
+    "empty": "Ainda não há serviços para mostrar. Fale com o João por WhatsApp e ele sugere um plano.",
+    "priceOnRequest": "Preço sob pedido",
+    "groupNote": "Até 4 pessoas. Acima de 4 pessoas, acresce 20% ao valor.",
+    "weekend": "Fim de semana: {price}",
+    "callJoao": "Ligar ao João",
+    "whatsappAria": "Pedir «{title}» ao João por WhatsApp"
   }
 }
