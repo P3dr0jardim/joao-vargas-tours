@@ -11,7 +11,7 @@
 // Levada services use ids starting with "levada-": the tours page lists them in their own group.
 // Slugs are identical in en and pt on purpose: localised slugs are not approved yet.
 //
-// TODO: real photos per service. Until then every gallery reuses /images/hero.webp.
+// Photos per service: PHOTOS at the end of this file (Alecrim still uses /images/hero.webp).
 
 /** Localised string helper: l('English', 'Português europeu'). */
 const l = (en, pt) => ({ en, pt })
@@ -749,4 +749,87 @@ transfers[0].related = ['transfer-calheta-funchal', 'tour-west', 'tour-middle']
 transfers[1].related = ['transfer-calheta-airport', 'tour-middle', 'tour-east']
 transfers[2].related = ['tour-west', 'levada-lamaceiros', 'transfer-calheta-funchal']
 
-export const services = [...tours, ...levadas, ...transfers]
+// Photo per service (public/images). Services missing here keep HERO_IMAGE.
+const photo = (file, en, pt) => ({ src: `/images/${file}`, alt: l(en, pt) })
+const PHOTOS = {
+  'tour-west': photo(
+    'porto_moniz.jpg',
+    'Natural lava rock pools in Porto Moniz',
+    'Piscinas naturais de rocha vulcânica no Porto Moniz'
+  ),
+  'tour-middle': photo(
+    'cabo_girao.jpeg',
+    'The Cabo Girão sea cliff above the ocean',
+    'A falésia do Cabo Girão sobre o mar'
+  ),
+  'tour-east': photo(
+    'santana.jpg',
+    'Traditional thatched A-frame houses in Santana',
+    'Casas típicas de colmo em Santana'
+  ),
+  'tour-custom': photo(
+    'volta_A_ilha.webp',
+    'Red cliffs and turquoise sea on the Ponta de São Lourenço peninsula',
+    'Falésias avermelhadas e mar azul-turquesa na Ponta de São Lourenço'
+  ),
+  'levada-25-fontes-risco': photo(
+    '25_fontes_Risco.jpg',
+    'Waterfalls falling into the 25 Fontes lagoon',
+    'Cascatas a cair na lagoa das 25 Fontes'
+  ),
+  'levada-fanal': photo(
+    'fanal.jpg',
+    'Old laurel trees in the Fanal forest',
+    'Til centenários na floresta do Fanal'
+  ),
+  'levada-moinho': photo(
+    'levada_do_moinho.jpg',
+    'Path along the Levada do Moinho',
+    'Caminho ao longo da Levada do Moinho'
+  ),
+  'levada-lamaceiros': photo(
+    'levada_ribeira_Da_janela.webp',
+    'Levada of Ribeira da Janela, starting at Lamaceiros',
+    'Levada da Ribeira da Janela, a partir dos Lamaceiros'
+  ),
+  'levada-levada-do-rei': photo(
+    'levada-do-rei.jpg',
+    'Levada do Rei through green laurel forest',
+    'Levada do Rei pela floresta laurissilva'
+  ),
+  'levada-caldeirao-verde': photo(
+    'levada_caldeirao_verde.jpg',
+    'Waterfall at Caldeirão Verde',
+    'Cascata do Caldeirão Verde'
+  ),
+  'levada-pico-areeiro': photo(
+    'pico_arieiro.jpg',
+    'Mountain peaks seen from Pico do Areeiro',
+    'Picos da montanha vistos do Pico do Areeiro'
+  ),
+  'levada-achada-teixeira': photo(
+    'achada-do-teixeira-pico-ruivo.jpg',
+    'Trail from Achada do Teixeira to Pico Ruivo',
+    'Trilho da Achada do Teixeira ao Pico Ruivo'
+  ),
+  'levada-ponta-sao-lourenco': photo(
+    'ponta_sao_lourenco.webp',
+    'The Ponta de São Lourenço peninsula',
+    'A península da Ponta de São Lourenço'
+  ),
+  'transfer-calheta-airport': photo(
+    'airport.jpg',
+    'Madeira airport by the sea',
+    'O aeroporto da Madeira junto ao mar'
+  ),
+  'transfer-calheta-funchal': photo('funchal.jpg', 'Funchal city', 'A cidade do Funchal'),
+  'transfer-calheta-porto-moniz': photo(
+    'porto_moniz.jpg',
+    'Natural lava rock pools in Porto Moniz',
+    'Piscinas naturais de rocha vulcânica no Porto Moniz'
+  ),
+}
+
+export const services = [...tours, ...levadas, ...transfers].map((s) =>
+  PHOTOS[s.id] ? { ...s, gallery: [PHOTOS[s.id]] } : s
+)

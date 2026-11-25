@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { locales } from '@/config/site'
 import { services } from '@/content/services'
@@ -116,7 +117,8 @@ describe('services content', () => {
   })
 
   it('only uses images that exist in the public folder list', () => {
-    for (const s of services) for (const img of s.gallery) expect(img.src).toBe('/images/hero.webp')
+    for (const s of services)
+      for (const img of s.gallery) expect(existsSync(`public${img.src}`), img.src).toBe(true)
   })
 
   it('never claims awards, ratings or guide licences', () => {
