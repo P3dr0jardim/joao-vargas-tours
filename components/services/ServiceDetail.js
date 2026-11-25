@@ -72,6 +72,8 @@ export default async function ServiceDetail({ service }) {
                 alt={pick(image.alt, locale)}
                 fill
                 priority
+                // Admin can paste any https image; next/image only optimises local files here.
+                unoptimized={!image.src.startsWith('/')}
                 sizes="(min-width: 1024px) 760px, 100vw"
                 className="object-cover"
               />
