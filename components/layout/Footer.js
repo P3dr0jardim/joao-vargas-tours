@@ -63,13 +63,11 @@ export default async function Footer() {
 
       <div className="border-t border-white/20">
         <div className="mx-auto max-w-content space-y-1 px-4 py-6 text-sm text-sky-100 sm:px-6 lg:px-8">
-          {/* TODO: replace placeholders with the real licence numbers from João */}
           <p>
-            {t('Footer.company')}: {company.name} · {t('Footer.nif')}: {company.nif}
+            {t('Footer.company')}: {company.name} · {t('Footer.nipc')}: {company.nipc} ·{' '}
+            {t('Footer.taxiLicence')}: {company.taxiLicence}
           </p>
-          <p>
-            {t('Footer.rnaat')}: {company.rnaat} · {t('Footer.taxiLicence')}: {company.taxiLicence}
-          </p>
+          <p>{company.address}</p>
           <p>
             © {new Date().getFullYear()} {siteConfig.brand}. {t('Footer.rights')}
           </p>

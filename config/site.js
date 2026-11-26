@@ -28,11 +28,10 @@ export const siteConfig = {
   // TODO: confirm the real values with João
   email: 'TODO@example.com',
   company: {
-    name: 'TODO: legal company name',
-    nif: 'TODO: NIF',
-    rnaat: 'TODO: RNAAT number',
-    taxiLicence: 'TODO: taxi licence number',
-    address: 'Calheta, Madeira, Portugal',
+    name: 'João Vargas, Unipessoal Lda',
+    nipc: '515474177',
+    taxiLicence: '0724',
+    address: 'Estrada Simão Gonçalves da Câmara, n.º 116, 9370-139 Calheta, Madeira',
   },
   /** Nav items. `href` is locale-agnostic; labels live in messages under Nav.<key>. */
   nav: [

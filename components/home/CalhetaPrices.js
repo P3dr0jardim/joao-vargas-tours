@@ -8,15 +8,16 @@ import {
   getPublishedServices,
   isLevada,
   loadCatalog,
+  oneWayPrice,
   pick,
   servicePath,
 } from '@/lib/services'
 
 function Price({ service, locale, t }) {
   if (service.priceFrom == null) return t('Services.priceOnRequest')
-  const weekday = formatPrice(service.priceFrom, service.currency, locale)
+  const weekday = formatPrice(oneWayPrice(service.priceFrom), service.currency, locale)
   if (service.priceWeekend == null) return weekday
-  const weekend = formatPrice(service.priceWeekend, service.currency, locale)
+  const weekend = formatPrice(oneWayPrice(service.priceWeekend), service.currency, locale)
   return (
     <>
       {weekday}
@@ -26,8 +27,8 @@ function Price({ service, locale, t }) {
 }
 
 /**
- * The Calheta taxi rank price board as a list: every published service, grouped, with its price
- * and a WhatsApp button that opens a message already naming the service.
+ * The Calheta taxi rank price board as a list: every published service, grouped, with its one-way
+ * price (half the stored return price) and a WhatsApp button that opens a message already naming the service.
  */
 export default async function CalhetaPrices() {
   const t = await getTranslations()
@@ -84,7 +85,7 @@ export default async function CalhetaPrices() {
         ))}
       </div>
       <p className="mt-8 text-sm">
-        {t('Services.groupNote')} {t('Services.priceNote')}.
+        {t('Services.oneWayNote')} {t('Services.priceNote')}.
       </p>
     </Section>
   )

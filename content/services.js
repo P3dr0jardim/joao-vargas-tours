@@ -3,8 +3,9 @@
 // Prices, routes and stops come from that board (prices per taxi, departing from Calheta).
 // Durations, texts and FAQ answers are still drafts: João must confirm them before launch, then
 // remove `placeholder: true` from the record.
-// Board rules shown on the site: weekend prices for transfers (`priceWeekend`) and "+20% above
-// 4 people" (messages: Services.groupNote).
+// Board rules shown on the site: weekend prices for transfers (`priceWeekend`).
+// Prices (`priceFrom`, `priceWeekend`) are return trips; the site shows one way as half
+// (lib/services.js: oneWayPrice).
 //
 // Every service is requested by WhatsApp or phone: there is no booking form.
 //
@@ -64,11 +65,8 @@ const base = {
 }
 
 const FAQ_GROUP = {
-  q: l('What if we are more than 4 people?', 'E se formos mais de 4 pessoas?'),
-  a: l(
-    'The taxi takes up to 6 passengers. Above 4 people the price goes up by 20%.',
-    'O táxi leva até 6 passageiros. Acima de 4 pessoas, o valor tem um acréscimo de 20%.'
-  ),
+  q: l('How many people fit in the taxi?', 'Quantas pessoas cabem no táxi?'),
+  a: l('The taxi takes up to 6 passengers.', 'O táxi leva até 6 passageiros.'),
 }
 
 const FAQ_OUTSIDE = {
@@ -180,8 +178,8 @@ const transfers = [
       {
         q: l('Can I book the way back too?', 'Posso reservar também o regresso?'),
         a: l(
-          'Yes. Tell João both times on WhatsApp. Each way is charged at the price shown.',
-          'Sim. Indique as duas horas ao João por WhatsApp. Cada sentido é cobrado ao preço indicado.'
+          'Yes. Tell João both times on WhatsApp and the return price applies.',
+          'Sim. Indique as duas horas ao João por WhatsApp e aplica-se o preço de ida e volta.'
         ),
       },
     ],
@@ -245,15 +243,15 @@ const tours = [
     id: 'tour-west',
     type: 'tour',
     slug: 'west-madeira-tour',
-    title: l('West Tour: Porto Moniz route', 'West Tour: Rota do Porto Moniz'),
+    title: l('North Tour: Porto Moniz route', 'Norte Tour: Rota do Porto Moniz'),
     seo: {
       title: l(
-        'West Madeira taxi tour from Calheta: Porto Moniz',
-        'Tour de táxi pelo oeste da Madeira a partir da Calheta'
+        'North Tour by taxi from Calheta: Porto Moniz route',
+        'Norte Tour de táxi a partir da Calheta: Rota do Porto Moniz'
       ),
       description: l(
-        'Full-day private taxi tour from Calheta: Jardim do Mar, Paul do Mar, Ponta do Pargo, Porto Moniz, Seixal and São Vicente. €150 per taxi.',
-        'Tour privado de táxi de dia inteiro a partir da Calheta: Jardim do Mar, Paul do Mar, Ponta do Pargo, Porto Moniz, Seixal e São Vicente. 150 € por táxi.'
+        'Private taxi tour of 5 to 6 hours from Calheta: Jardim do Mar, Paúl do Mar, Ponta do Pargo, Porto Moniz, Seixal, São Vicente and Ribeira Brava. €150 per taxi.',
+        'Tour privado de táxi de 5 a 6 horas a partir da Calheta: Jardim do Mar, Paúl do Mar, Ponta do Pargo, Porto Moniz, Seixal, São Vicente e Ribeira Brava. 150 € por táxi.'
       ),
     },
     summary: l(
@@ -262,20 +260,20 @@ const tours = [
     ),
     body: {
       en: [
-        'The west is where João lives, so this tour starts at your door in Calheta. It follows the coast through Jardim do Mar and Paul do Mar, climbs to the lighthouse at Ponta do Pargo and drops to the north coast at Porto Moniz.',
+        'The west is where João lives, so this tour starts at your door in Calheta. It follows the coast through Jardim do Mar and Paúl do Mar, climbs to the lighthouse at Ponta do Pargo and drops to the north coast at Porto Moniz.',
         'From there the road runs past Seixal and the Bride’s Veil waterfall to São Vicente, then crosses the island back to Ribeira Brava and Calheta. Stay longer where you like it.',
       ],
       pt: [
-        'O oeste é onde o João vive, por isso este tour começa à sua porta, na Calheta. Segue a costa pelo Jardim do Mar e pelo Paul do Mar, sobe ao farol da Ponta do Pargo e desce à costa norte, no Porto Moniz.',
+        'O oeste é onde o João vive, por isso este tour começa à sua porta, na Calheta. Segue a costa pelo Jardim do Mar e pelo Paúl do Mar, sobe ao farol da Ponta do Pargo e desce à costa norte, no Porto Moniz.',
         'Daí, a estrada passa pelo Seixal e pelo Véu da Noiva até São Vicente, e atravessa a ilha de volta à Ribeira Brava e à Calheta. Fique mais tempo onde gostar.',
       ],
     },
-    duration: l('Full day, about 7 hours', 'Dia inteiro, cerca de 7 horas'),
+    duration: l('5 to 6 hours', '5 a 6 horas'),
     priceFrom: 150,
     route: ROUND_CALHETA,
     stops: [
       l('Jardim do Mar', 'Jardim do Mar'),
-      l('Paul do Mar', 'Paul do Mar'),
+      l('Paúl do Mar', 'Paúl do Mar'),
       l('Ponta do Pargo lighthouse', 'Farol da Ponta do Pargo'),
       l('Porto Moniz natural pools', 'Piscinas naturais do Porto Moniz'),
       l('Seixal', 'Seixal'),

@@ -40,8 +40,7 @@
     "contactTitle": "Contact",
     "legalTitle": "Legal",
     "licencesTitle": "Licences",
-    "rnaat": "RNAAT",
-    "nif": "NIF",
+    "nipc": "NIPC",
     "taxiLicence": "Taxi licence",
     "company": "Company",
     "rights": "All rights reserved."
@@ -121,8 +120,8 @@
   "Pages": {
     "tours": {
       "title": "Taxi tours from Calheta",
-      "description": "Private taxi tours of Madeira starting in Calheta: West Tour, Middle Tour, East Tour and levada walks. Prices per taxi.",
-      "intro": "Every tour starts and ends in Calheta. Price per taxi, up to 4 people (20% more above 4). Pick one and ask for it on WhatsApp.",
+      "description": "Private taxi tours of Madeira starting in Calheta: North Tour, Middle Tour, East Tour and levada walks. Prices per taxi.",
+      "intro": "Every tour starts and ends in Calheta. Price per taxi, one way or return. Pick one and ask for it on WhatsApp.",
       "toursTitle": "Island tours",
       "levadasTitle": "Levada walks",
       "levadasIntro": "João takes you to the start of the trail and, on return trips, collects you at the end."
@@ -176,7 +175,8 @@
     "home": "Back to home"
   },
   "Services": {
-    "priceFrom": "From <strong>{price}</strong>",
+    "priceOneWay": "One way: <strong>{price}</strong>",
+    "priceReturn": "Return: <strong>{price}</strong>",
     "pricing": {
       "perVehicle": "per taxi"
     },
@@ -191,6 +191,7 @@
     },
     "factsTitle": "Key facts",
     "stopsTitle": "Suggested route",
+    "stopsLabel": "Stops",
     "stopsNote": "A suggestion only. João adjusts it to your day.",
     "includesTitle": "Included",
     "excludesTitle": "Not included",
@@ -201,8 +202,9 @@
     "requestNote": "No forms and no online payment. João confirms availability and the price on WhatsApp.",
     "empty": "No services to show yet. Message João on WhatsApp and he will suggest a plan.",
     "priceOnRequest": "Price on request",
-    "groupNote": "Up to 4 people. Above 4 people, 20% is added to the price.",
+    "oneWayNote": "Prices shown are one way only.",
     "weekend": "Weekend: {price}",
+    "weekendBoth": "Weekend: {oneWay} one way, {roundTrip} return",
     "callJoao": "Call João",
     "whatsappAria": "Ask João about “{title}” on WhatsApp"
   }

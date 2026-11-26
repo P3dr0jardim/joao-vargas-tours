@@ -404,7 +404,7 @@ export default function ServiceEditor({ initial, others = [] }) {
         <div className="grid gap-4 md:grid-cols-2">
           <div>
             <label htmlFor="priceFrom" className={labelClass}>
-              Preço desde (€)
+              Preço ida e volta (€)
             </label>
             <input
               id="priceFrom"

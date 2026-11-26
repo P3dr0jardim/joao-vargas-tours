@@ -40,8 +40,7 @@
     "contactTitle": "Contactos",
     "legalTitle": "Legal",
     "licencesTitle": "Licenças",
-    "rnaat": "RNAAT",
-    "nif": "NIF",
+    "nipc": "NIPC",
     "taxiLicence": "Licença de táxi",
     "company": "Empresa",
     "rights": "Todos os direitos reservados."
@@ -121,8 +120,8 @@
   "Pages": {
     "tours": {
       "title": "Tours de táxi a partir da Calheta",
-      "description": "Tours privados de táxi pela Madeira com partida na Calheta: West Tour, Middle Tour, East Tour e levadas. Preços por táxi.",
-      "intro": "Todos os tours começam e terminam na Calheta. Preço por táxi, até 4 pessoas (acima de 4, acresce 20%). Escolha um e peça-o por WhatsApp.",
+      "description": "Tours privados de táxi pela Madeira com partida na Calheta: Norte Tour, Middle Tour, East Tour e levadas. Preços por táxi.",
+      "intro": "Todos os tours começam e terminam na Calheta. Preço por táxi, só ida ou ida e volta. Escolha um e peça-o por WhatsApp.",
       "toursTitle": "Tours pela ilha",
       "levadasTitle": "Levadas e caminhadas",
       "levadasIntro": "O João leva-o ao início do trilho e, nas levadas de ida e volta, vai buscá-lo no fim."
@@ -176,7 +175,8 @@
     "home": "Voltar ao início"
   },
   "Services": {
-    "priceFrom": "A partir de <strong>{price}</strong>",
+    "priceOneWay": "Só ida: <strong>{price}</strong>",
+    "priceReturn": "Ida e volta: <strong>{price}</strong>",
     "pricing": {
       "perVehicle": "por táxi"
     },
@@ -190,6 +190,7 @@
       "to": "Para"
     },
     "factsTitle": "Dados principais",
+    "stopsLabel": "Paragens",
     "stopsTitle": "Percurso sugerido",
     "stopsNote": "É apenas uma sugestão. O João ajusta-o ao seu dia.",
     "includesTitle": "Incluído",
@@ -201,8 +202,9 @@
     "requestNote": "Sem formulários nem pagamentos online. O João confirma a disponibilidade e o preço por WhatsApp.",
     "empty": "Ainda não há serviços para mostrar. Fale com o João por WhatsApp e ele sugere um plano.",
     "priceOnRequest": "Preço sob pedido",
-    "groupNote": "Até 4 pessoas. Acima de 4 pessoas, acresce 20% ao valor.",
+    "oneWayNote": "Os preços indicados são apenas de ida.",
     "weekend": "Fim de semana: {price}",
+    "weekendBoth": "Fim de semana: {oneWay} só ida, {roundTrip} ida e volta",
     "callJoao": "Ligar ao João",
     "whatsappAria": "Pedir «{title}» ao João por WhatsApp"
   }

@@ -48,6 +48,12 @@ export default async function ServiceCard({ service }) {
           <dd>{t('capacityValue', { count: service.capacity })}</dd>
         </div>
       </dl>
+      {service.stops?.length > 0 && (
+        <p className="text-sm">
+          <span className="font-semibold">{t('stopsLabel')}:</span>{' '}
+          {service.stops.map((stop) => pick(stop, locale)).join(' · ')}
+        </p>
+      )}
       <div className="border-t border-white/30 pt-4 [&_strong]:text-white">
         <ServicePrice service={service} compact />
       </div>
