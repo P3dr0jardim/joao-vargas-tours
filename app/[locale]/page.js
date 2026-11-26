@@ -3,6 +3,7 @@ import Hero from '@/components/home/Hero'
 import FeaturedServices from '@/components/home/FeaturedServices'
 import CalhetaPrices from '@/components/home/CalhetaPrices'
 import AboutDriver from '@/components/home/AboutDriver'
+import TaxiGallery from '@/components/home/TaxiGallery'
 import WhyUs from '@/components/home/WhyUs'
 import Testimonials from '@/components/home/Testimonials'
 import FinalCta from '@/components/home/FinalCta'
@@ -18,6 +19,7 @@ export default async function HomePage({ params }) {
       <FeaturedServices />
       <CalhetaPrices />
       <AboutDriver />
+      <TaxiGallery />
       <WhyUs />
       <Testimonials />
       <FinalCta />

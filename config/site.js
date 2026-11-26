@@ -25,8 +25,7 @@ export const siteConfig = {
   url: (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, ''),
   phone: { display: '+351 966 167 435', href: 'tel:+351966167435' },
   whatsapp: { number: whatsappNumber, href: `https://wa.me/${whatsappNumber}` },
-  // TODO: confirm the real values with João
-  email: 'TODO@example.com',
+  email: 'joaoiga@gmail.com',
   company: {
     name: 'João Vargas, Unipessoal Lda',
     nipc: '515474177',

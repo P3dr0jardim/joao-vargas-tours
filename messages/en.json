@@ -56,7 +56,7 @@
   },
   "Home": {
     "hero": {
-      "imageAlt": "Aerial view of Seixal on Madeira's north coast, with white and orange houses beside a rocky coastline and natural sea pools",
+      "imageAlt": "Aerial view of Calheta on Madeira's south-west coast, with houses on the green hillside, the sandy beach, the breakwaters and the marina",
       "title": "Tours and taxi from Calheta",
       "subtitle": "Island tours, levada walks and transfers to and from Calheta, with João, a local taxi driver. No forms: message him on WhatsApp or give him a call.",
       "driver": {
@@ -80,6 +80,16 @@
       "text1": "TODO: Placeholder copy. João is a taxi driver from Calheta who has shown visitors around Madeira from the west coast for years.",
       "text2": "TODO: Placeholder copy. He knows the quiet viewpoints, the best times to avoid the crowds and where to stop for a good lunch.",
       "cta": "Message João on WhatsApp"
+    },
+    "taxi": {
+      "title": "João's taxi",
+      "intro": "A yellow Calheta taxi, licence 0724, with room for up to 6 passengers and their luggage.",
+      "alt": {
+        "joao": "João Vargas standing beside his yellow taxi, licence 0724 Calheta",
+        "side": "Side view of João's yellow taxi with a blue stripe, parked in front of banana trees",
+        "front": "João's yellow taxi seen from the front, with the taxi sign on the roof",
+        "door": "Close-up of the taxi door with the sign Taxi 0724 Calheta"
+      }
     },
     "why": {
       "title": "Why travel with João",

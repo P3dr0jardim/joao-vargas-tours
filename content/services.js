@@ -19,10 +19,10 @@ const l = (en, pt) => ({ en, pt })
 
 const HERO_IMAGE = {
   src: '/images/hero.webp',
-  // Placeholder image: aerial view of Seixal, north coast.
+  // Placeholder image: aerial view of Calheta, south-west coast.
   alt: l(
-    'Aerial view of Seixal on the north coast of Madeira, with houses beside a rocky coastline and natural sea pools',
-    'Vista aérea do Seixal, na costa norte da Madeira, com casas junto a uma costa rochosa e piscinas naturais'
+    'Aerial view of Calheta on the south-west coast of Madeira, with its sandy beach, breakwaters and marina',
+    'Vista aérea da Calheta, na costa sudoeste da Madeira, com a praia de areia, os quebra-mares e a marina'
   ),
 }
 

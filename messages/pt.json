@@ -56,7 +56,7 @@
   },
   "Home": {
     "hero": {
-      "imageAlt": "Vista aérea do Seixal, na costa norte da Madeira, com casas brancas e laranja junto a uma costa rochosa e piscinas naturais",
+      "imageAlt": "Vista aérea da Calheta, na costa sudoeste da Madeira, com casas na encosta verde, a praia de areia, os quebra-mares e a marina",
       "title": "Tours e táxi a partir da Calheta",
       "subtitle": "Tours pela ilha, levadas e transfers com partida ou destino na Calheta, com o João, taxista local. Sem formulários: fale com ele diretamente por WhatsApp ou telefone.",
       "driver": {
@@ -80,6 +80,16 @@
       "text1": "TODO: Texto provisório. O João é taxista na Calheta e há anos que mostra a Madeira aos visitantes, a partir da costa oeste.",
       "text2": "TODO: Texto provisório. Conhece os miradouros sossegados, as melhores horas para fugir à multidão e onde parar para um bom almoço.",
       "cta": "Falar com o João por WhatsApp"
+    },
+    "taxi": {
+      "title": "O táxi do João",
+      "intro": "Um táxi amarelo da Calheta, licença 0724, com lugar para até 6 passageiros e a bagagem.",
+      "alt": {
+        "joao": "João Vargas de pé ao lado do seu táxi amarelo, licença 0724 Calheta",
+        "side": "Vista lateral do táxi amarelo do João, com uma faixa azul, estacionado em frente a bananeiras",
+        "front": "O táxi amarelo do João visto de frente, com o reclamo de táxi no tejadilho",
+        "door": "Pormenor da porta do táxi com a inscrição Taxi 0724 Calheta"
+      }
     },
     "why": {
       "title": "Porquê viajar com o João",
