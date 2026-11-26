@@ -77,8 +77,8 @@
     "about": {
       "title": "Conheça o João",
       "imageAlt": "João Vargas, motorista de táxi da Calheta, a sorrir, de camisa branca",
-      "text1": "TODO: Texto provisório. O João é taxista na Calheta e há anos que mostra a Madeira aos visitantes, a partir da costa oeste.",
-      "text2": "TODO: Texto provisório. Conhece os miradouros sossegados, as melhores horas para fugir à multidão e onde parar para um bom almoço.",
+      "text1": "O João é da Calheta e vive a apenas 5 minutos dos hotéis Calheta Beach e Saccharum. Está perto para o ir buscar ao hotel à hora que combinar.",
+      "text2": "Conhece bem a Calheta e a ilha inteira: os miradouros mais calmos, as melhores horas para evitar a multidão e onde parar para um bom almoço.",
       "cta": "Falar com o João por WhatsApp"
     },
     "taxi": {
@@ -93,21 +93,21 @@
     },
     "why": {
       "title": "Porquê viajar com o João",
-      "private": {
-        "title": "Privado",
-        "text": "TODO: Texto provisório. Só o seu grupo, sem carrinhas partilhadas."
-      },
       "local": {
-        "title": "Local",
-        "text": "TODO: Texto provisório. Da Calheta, na costa oeste e soalheira da ilha."
+        "title": "Conhece a Calheta",
+        "text": "Nasceu e vive na Calheta. Conhece cada estrada, praia e miradouro da costa oeste e o resto da ilha."
+      },
+      "nearby": {
+        "title": "A 5 minutos do hotel",
+        "text": "Vive a apenas 5 minutos dos hotéis Calheta Beach e Saccharum, por isso a recolha é rápida e pontual."
       },
       "flexible": {
         "title": "Flexível",
-        "text": "TODO: Texto provisório. Mude o percurso ou fique mais tempo onde gostar."
+        "text": "Escolhe a hora e o ritmo. Mude o percurso ou fique mais tempo onde gostar."
       },
       "licensed": {
         "title": "Táxi licenciado",
-        "text": "TODO: Texto provisório. Dados da licença e do seguro a confirmar com o João."
+        "text": "Táxi oficial da Calheta, licença n.º 0724, com lugar para até 6 passageiros."
       }
     },
     "testimonials": {
@@ -212,7 +212,7 @@
     "requestNote": "Sem formulários nem pagamentos online. O João confirma a disponibilidade e o preço por WhatsApp.",
     "empty": "Ainda não há serviços para mostrar. Fale com o João por WhatsApp e ele sugere um plano.",
     "priceOnRequest": "Preço sob pedido",
-    "oneWayNote": "Os preços indicados são apenas de ida.",
+    "oneWayNote": "Tours: preço de ida e volta. Levadas e transfers: preço só de ida.",
     "weekend": "Fim de semana: {price}",
     "weekendBoth": "Fim de semana: {oneWay} só ida, {roundTrip} ida e volta",
     "callJoao": "Ligar ao João",

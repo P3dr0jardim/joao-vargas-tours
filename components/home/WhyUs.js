@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import Section from '@/components/ui/Section'
 
-const reasons = ['private', 'local', 'flexible', 'licensed']
+const reasons = ['local', 'nearby', 'flexible', 'licensed']
 
 export default async function WhyUs() {
   const t = await getTranslations('Home.why')

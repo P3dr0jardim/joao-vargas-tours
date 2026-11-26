@@ -7,6 +7,7 @@ import {
   formatPrice,
   getPublishedServices,
   isLevada,
+  isReturnOnly,
   loadCatalog,
   oneWayPrice,
   pick,
@@ -15,9 +16,11 @@ import {
 
 function Price({ service, locale, t }) {
   if (service.priceFrom == null) return t('Services.priceOnRequest')
-  const weekday = formatPrice(oneWayPrice(service.priceFrom), service.currency, locale)
+  // Island tours show their return price; everything else shows one way (half the return price).
+  const shown = (amount) => (isReturnOnly(service) ? amount : oneWayPrice(amount))
+  const weekday = formatPrice(shown(service.priceFrom), service.currency, locale)
   if (service.priceWeekend == null) return weekday
-  const weekend = formatPrice(oneWayPrice(service.priceWeekend), service.currency, locale)
+  const weekend = formatPrice(shown(service.priceWeekend), service.currency, locale)
   return (
     <>
       {weekday}
@@ -27,8 +30,8 @@ function Price({ service, locale, t }) {
 }
 
 /**
- * The Calheta taxi rank price board as a list: every published service, grouped, with its one-way
- * price (half the stored return price) and a WhatsApp button that opens a message already naming the service.
+ * The Calheta taxi rank price board as a list: every published service, grouped, with its price
+ * (return for island tours, one way, half the stored return price, for the rest) and a WhatsApp button that opens a message already naming the service.
  */
 export default async function CalhetaPrices() {
   const t = await getTranslations()

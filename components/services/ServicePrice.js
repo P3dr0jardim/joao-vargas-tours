@@ -1,10 +1,10 @@
 import { getLocale, getTranslations } from 'next-intl/server'
-import { formatPrice, oneWayPrice } from '@/lib/services'
+import { formatPrice, isReturnOnly, oneWayPrice } from '@/lib/services'
 
 /**
- * One-way and return price per taxi ("One way: €75 · Return: €150 per taxi"), the weekend prices
- * when there are any and, while values are placeholders (service.placeholder), the
- * indicative-price note. `compact` drops the note (cards and the price list show it elsewhere).
+ * One-way and return price per taxi ("One way: €75 · Return: €150 per taxi"; island tours show the
+ * return price only), the weekend prices when there are any and, while values are placeholders
+ * (service.placeholder), the indicative-price note. `compact` drops the note (cards and the price list show it elsewhere).
  */
 export default async function ServicePrice({ service, compact = false }) {
   const t = await getTranslations('Services')
@@ -16,8 +16,12 @@ export default async function ServicePrice({ service, compact = false }) {
   return (
     <div>
       <p className="text-lg">
-        {t.rich('priceOneWay', { price: format(oneWayPrice(service.priceFrom)), strong })}
-        {' · '}
+        {!isReturnOnly(service) && (
+          <>
+            {t.rich('priceOneWay', { price: format(oneWayPrice(service.priceFrom)), strong })}
+            {' · '}
+          </>
+        )}
         {t.rich('priceReturn', { price: format(service.priceFrom), strong })}{' '}
         <span className="text-base">{t(`pricing.${service.pricingModel}`)}</span>
       </p>

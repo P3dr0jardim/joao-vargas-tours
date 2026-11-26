@@ -77,8 +77,8 @@
     "about": {
       "title": "Meet João",
       "imageAlt": "João Vargas, taxi driver from Calheta, smiling in a white shirt",
-      "text1": "TODO: Placeholder copy. João is a taxi driver from Calheta who has shown visitors around Madeira from the west coast for years.",
-      "text2": "TODO: Placeholder copy. He knows the quiet viewpoints, the best times to avoid the crowds and where to stop for a good lunch.",
+      "text1": "João is from Calheta and lives just 5 minutes from the Calheta Beach and Saccharum hotels. He is close by to pick you up at your hotel at the time you agree.",
+      "text2": "He knows Calheta and the whole island well: the quiet viewpoints, the best times to avoid the crowds and where to stop for a good lunch.",
       "cta": "Message João on WhatsApp"
     },
     "taxi": {
@@ -93,21 +93,21 @@
     },
     "why": {
       "title": "Why travel with João",
-      "private": {
-        "title": "Private",
-        "text": "TODO: Placeholder copy. Just your group, no shared minibus."
-      },
       "local": {
-        "title": "Local",
-        "text": "TODO: Placeholder copy. Born and based in Calheta, on the sunny west coast."
+        "title": "Knows Calheta",
+        "text": "Born and living in Calheta. He knows every road, beach and viewpoint on the west coast, and the rest of the island."
+      },
+      "nearby": {
+        "title": "5 minutes from your hotel",
+        "text": "He lives just 5 minutes from the Calheta Beach and Saccharum hotels, so pick-up is quick and on time."
       },
       "flexible": {
         "title": "Flexible",
-        "text": "TODO: Placeholder copy. Change the route or stop longer where you like it."
+        "text": "You choose the time and the pace. Change the route or stay longer where you like it."
       },
       "licensed": {
         "title": "Licensed taxi",
-        "text": "TODO: Placeholder copy. Licence and insurance details to be confirmed with João."
+        "text": "Official Calheta taxi, licence no. 0724, with room for up to 6 passengers."
       }
     },
     "testimonials": {
@@ -212,7 +212,7 @@
     "requestNote": "No forms and no online payment. João confirms availability and the price on WhatsApp.",
     "empty": "No services to show yet. Message João on WhatsApp and he will suggest a plan.",
     "priceOnRequest": "Price on request",
-    "oneWayNote": "Prices shown are one way only.",
+    "oneWayNote": "Tours: return price. Levada walks and transfers: one-way price.",
     "weekend": "Weekend: {price}",
     "weekendBoth": "Weekend: {oneWay} one way, {roundTrip} return",
     "callJoao": "Call João",
