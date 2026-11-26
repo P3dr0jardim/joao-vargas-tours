@@ -49,10 +49,6 @@ const EXCLUDES = {
   ),
   tips: l('Tips (optional)', 'Gorjetas (opcionais)'),
   guide: l('Walking guide', 'Guia de caminhada'),
-  returnTrip: l(
-    'Pick-up at the end of the walk (ask for the price)',
-    'Recolha no fim da caminhada (pergunte o preço)'
-  ),
 }
 
 const base = {
@@ -474,12 +470,13 @@ const tours = [
 
 /**
  * Taxi to the start of a levada walk, from Calheta (board: "Levadas").
- * `roundTrip`: ↔ on the board (taken and brought back); otherwise → (one way, drop-off only).
+ * `roundTrip`: ↔ on the board, `price` is the return trip (one way is half).
+ * Otherwise → on the board, `price` is one way and the return trip costs double.
  */
 function levada({ key, name, area, price, roundTrip, about, seoDescription, related }) {
   const tripLabel = roundTrip
     ? l('Return trip from Calheta', 'Ida e volta a partir da Calheta')
-    : l('One way from Calheta', 'Só ida a partir da Calheta')
+    : l('One way or return from Calheta', 'Só ida ou ida e volta a partir da Calheta')
   return {
     ...base,
     id: `levada-${key}`,
@@ -499,17 +496,17 @@ function levada({ key, name, area, price, roundTrip, about, seoDescription, rela
         about.en,
         roundTrip
           ? `João drops you at the start of the trail, in ${area.en}, and picks you up when you finish. €${price} per taxi, there and back.`
-          : `João drops you at the start of the trail, in ${area.en}. €${price} per taxi, one way. Need a pick-up at the end? Ask on WhatsApp.`,
+          : `João drops you at the start of the trail, in ${area.en}. €${price} per taxi one way, or €${price * 2} there and back with a pick-up at the end.`,
       ],
       pt: [
         about.pt,
         roundTrip
           ? `O João deixa-o no início do trilho, em ${area.pt}, e vai buscá-lo quando terminar. ${price} € por táxi, ida e volta.`
-          : `O João deixa-o no início do trilho, em ${area.pt}. ${price} € por táxi, só ida. Precisa de recolha no fim? Pergunte por WhatsApp.`,
+          : `O João deixa-o no início do trilho, em ${area.pt}. ${price} € por táxi só ida, ou ${price * 2} € ida e volta, com recolha no fim.`,
       ],
     },
     duration: tripLabel,
-    priceFrom: price,
+    priceFrom: roundTrip ? price : price * 2,
     route: { from: CALHETA, to: area },
     stops: [],
     includes: roundTrip
@@ -517,7 +514,7 @@ function levada({ key, name, area, price, roundTrip, about, seoDescription, rela
       : [INCLUDES.driver, INCLUDES.door, INCLUDES.trailhead],
     excludes: roundTrip
       ? [EXCLUDES.guide, EXCLUDES.meals, EXCLUDES.tips]
-      : [EXCLUDES.returnTrip, EXCLUDES.guide, EXCLUDES.tips],
+      : [EXCLUDES.guide, EXCLUDES.tips],
     faq: [
       {
         q: l('Does João walk with us?', 'O João caminha connosco?'),
