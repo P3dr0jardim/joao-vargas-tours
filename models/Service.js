@@ -27,6 +27,7 @@ const serviceSchema = new Schema(
     duration: localizedSchema,
     priceFrom: { type: Number, min: 0 },
     priceWeekend: { type: Number, min: 0 }, // optional, shown next to priceFrom (weekdays)
+    priceTrip: { type: String, enum: ['both', 'return', 'oneWay'], default: null }, // null = automatic
     currency: { type: String, default: 'EUR' },
     pricingModel: { type: String, default: 'perVehicle' },
     capacity: { type: Number, min: 1, default: 6 },

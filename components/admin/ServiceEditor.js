@@ -29,6 +29,7 @@ const EMPTY = {
   duration: emptyLoc(),
   priceFrom: null,
   priceWeekend: null,
+  priceTrip: null,
   currency: 'EUR',
   pricingModel: 'perVehicle',
   capacity: 6,
@@ -404,7 +405,7 @@ export default function ServiceEditor({ initial, others = [] }) {
         <div className="grid gap-4 md:grid-cols-2">
           <div>
             <label htmlFor="priceFrom" className={labelClass}>
-              Preço ida e volta (€)
+              Preço (€)
             </label>
             <input
               id="priceFrom"
@@ -429,6 +430,22 @@ export default function ServiceEditor({ initial, others = [] }) {
               className={inputClass}
             />
             <FieldError error={errors.priceWeekend} />
+          </div>
+          <div>
+            <label htmlFor="priceTrip" className={labelClass}>
+              O preço é de
+            </label>
+            <select
+              id="priceTrip"
+              value={s.priceTrip ?? ''}
+              onChange={(e) => change('priceTrip', e.target.value || null)}
+              className={inputClass}
+            >
+              <option value="">Automático (tours: ida e volta; resto: ida e volta e só ida)</option>
+              <option value="both">Ida e volta (o site mostra também só ida, a metade)</option>
+              <option value="return">Ida e volta, sem preço só de ida</option>
+              <option value="oneWay">Só ida</option>
+            </select>
           </div>
           <div>
             <label htmlFor="pricingModel" className={labelClass}>

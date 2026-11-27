@@ -3,9 +3,8 @@
 // Prices, routes and stops come from that board (prices per taxi, departing from Calheta).
 // Durations, texts and FAQ answers are still drafts: João must confirm them before launch, then
 // remove `placeholder: true` from the record.
-// Board rules shown on the site: weekend prices for transfers (`priceWeekend`).
-// Prices (`priceFrom`, `priceWeekend`) are return trips; the site shows one way as half
-// (lib/services.js: oneWayPrice).
+// Prices (`priceFrom`) are return trips and the site shows one way as half, except where
+// `priceTrip: 'oneWay'` (the airport transfer). See lib/services.js: priceTrip.
 //
 // Every service is requested by WhatsApp or phone: there is no booking form.
 //
@@ -30,7 +29,7 @@ const CALHETA = l('Calheta', 'Calheta')
 
 const INCLUDES = {
   driver: l('Private taxi with a local driver', 'Táxi particular com motorista local'),
-  fuel: l('Fuel and tolls', 'Combustível e portagens'),
+  fuel: l('Fuel', 'Combustível'),
   door: l('Pick-up at your accommodation in Calheta', 'Recolha no seu alojamento na Calheta'),
   viewpoints: l('Stops at every viewpoint on the route', 'Paragens em todos os miradouros da rota'),
   waiting: l('Waiting time at each stop', 'Tempo de espera em cada paragem'),
@@ -75,8 +74,8 @@ const FAQ_OUTSIDE = {
 
 // ------------------------------------------------------------------ Transfers
 
-/** Transfer from Calheta with a weekday and a weekend price (board: "Táxi Calheta Transfers"). */
-function transfer({ id, slug, place, title, seo, summary, body, duration, price, weekend, faq }) {
+/** Transfer from Calheta. `price` is the return price unless `priceTrip` is 'oneWay'. */
+function transfer({ id, slug, place, title, seo, summary, body, duration, price, priceTrip, faq }) {
   return {
     ...base,
     id,
@@ -88,7 +87,7 @@ function transfer({ id, slug, place, title, seo, summary, body, duration, price,
     body,
     duration,
     priceFrom: price,
-    priceWeekend: weekend,
+    priceTrip: priceTrip ?? null,
     route: { from: CALHETA, to: place },
     stops: [],
     includes: [INCLUDES.driver, INCLUDES.door, INCLUDES.fuel],
@@ -110,8 +109,8 @@ const transfers = [
         'Táxi da Calheta para o aeroporto da Madeira'
       ),
       description: l(
-        'Private taxi between Calheta and Madeira airport: €75 on weekdays, €90 at weekends. Ask João on WhatsApp or call.',
-        'Táxi privado entre a Calheta e o aeroporto da Madeira: 75 € em dias úteis, 90 € ao fim de semana. Fale com o João por WhatsApp ou telefone.'
+        'Private taxi between Calheta and Madeira airport: €70 one way, from Calheta to the airport or from the airport to Calheta. Ask João on WhatsApp or call.',
+        'Táxi privado entre a Calheta e o aeroporto da Madeira: 70 € só ida, da Calheta para o aeroporto ou do aeroporto para a Calheta. Fale com o João por WhatsApp ou telefone.'
       ),
     },
     summary: l(
@@ -121,16 +120,16 @@ const transfers = [
     body: {
       en: [
         'João meets you at arrivals, helps with the bags and drives you along the south coast to Calheta. For the way back, he picks you up at your accommodation with time to spare before your flight.',
-        'Send your flight number on WhatsApp so he can follow the arrival time. Weekday price €75, weekends €90, per taxi.',
+        'Send your flight number on WhatsApp so he can follow the arrival time. €70 per taxi, one way, in either direction.',
       ],
       pt: [
         'O João espera-o nas chegadas, ajuda com as malas e leva-o pela costa sul até à Calheta. No regresso, recolhe-o no alojamento com tempo de sobra para o voo.',
-        'Envie o número do voo por WhatsApp para ele acompanhar a hora de chegada. Preço em dias úteis 75 €, ao fim de semana 90 €, por táxi.',
+        'Envie o número do voo por WhatsApp para ele acompanhar a hora de chegada. 70 € por táxi, só ida, em qualquer sentido.',
       ],
     },
     duration: l('About 50 minutes', 'Cerca de 50 minutos'),
-    price: 75,
-    weekend: 90,
+    price: 70,
+    priceTrip: 'oneWay',
     faq: [
       {
         q: l('What if my flight is late?', 'E se o meu voo se atrasar?'),
@@ -149,8 +148,8 @@ const transfers = [
     seo: {
       title: l('Taxi from Calheta to Funchal centre', 'Táxi da Calheta para o centro do Funchal'),
       description: l(
-        'Private taxi between Calheta and Funchal centre: €50 on weekdays, €60 at weekends. Ask João on WhatsApp or call.',
-        'Táxi privado entre a Calheta e o centro do Funchal: 50 € em dias úteis, 60 € ao fim de semana. Fale com o João por WhatsApp ou telefone.'
+        'Private taxi between Calheta and Funchal centre: €50 one way, €100 return. Ask João on WhatsApp or call.',
+        'Táxi privado entre a Calheta e o centro do Funchal: 50 € só ida, 100 € ida e volta. Fale com o João por WhatsApp ou telefone.'
       ),
     },
     summary: l(
@@ -160,16 +159,15 @@ const transfers = [
     body: {
       en: [
         'Calheta is where João lives and works, so this is the route he drives most. Use it for a day in Funchal, a dinner in town, an appointment or a cruise connection.',
-        'You choose the time. For the way back, agree a time and place on WhatsApp and João will be there. Weekday price €50, weekends €60, per taxi.',
+        'You choose the time. For the way back, agree a time and place on WhatsApp and João will be there. €50 per taxi one way, €100 return.',
       ],
       pt: [
         'A Calheta é onde o João vive e trabalha, por isso é o percurso que mais faz. Serve para um dia no Funchal, um jantar na cidade, uma consulta ou a ligação a um cruzeiro.',
-        'É o cliente que escolhe a hora. Para o regresso, combine a hora e o local por WhatsApp e o João estará lá. Preço em dias úteis 50 €, ao fim de semana 60 €, por táxi.',
+        'É o cliente que escolhe a hora. Para o regresso, combine a hora e o local por WhatsApp e o João estará lá. 50 € por táxi só ida, 100 € ida e volta.',
       ],
     },
     duration: l('About 40 minutes', 'Cerca de 40 minutos'),
-    price: 50,
-    weekend: 60,
+    price: 100,
     faq: [
       {
         q: l('Can I book the way back too?', 'Posso reservar também o regresso?'),
@@ -188,8 +186,8 @@ const transfers = [
     seo: {
       title: l('Taxi from Calheta to Porto Moniz', 'Táxi da Calheta para o Porto Moniz'),
       description: l(
-        'Private taxi between Calheta and the natural pools of Porto Moniz: €55 on weekdays, €65 at weekends. Ask João on WhatsApp.',
-        'Táxi privado entre a Calheta e as piscinas naturais do Porto Moniz: 55 € em dias úteis, 65 € ao fim de semana. Fale com o João por WhatsApp.'
+        'Private taxi between Calheta and the natural pools of Porto Moniz: €50 one way, €100 return. Ask João on WhatsApp.',
+        'Táxi privado entre a Calheta e as piscinas naturais do Porto Moniz: 50 € só ida, 100 € ida e volta. Fale com o João por WhatsApp.'
       ),
     },
     summary: l(
@@ -199,16 +197,15 @@ const transfers = [
     body: {
       en: [
         'The road from Calheta climbs over the plateau and drops down to Porto Moniz, famous for its natural pools carved out of volcanic rock. Spend the day swimming and having lunch by the sea.',
-        'Agree the time to come back on WhatsApp and João picks you up. Weekday price €55, weekends €65, per taxi.',
+        'Agree the time to come back on WhatsApp and João picks you up. €50 per taxi one way, €100 return.',
       ],
       pt: [
         'A estrada da Calheta sobe ao planalto e desce até ao Porto Moniz, famoso pelas piscinas naturais escavadas na rocha vulcânica. Passe o dia a nadar e almoce junto ao mar.',
-        'Combine a hora de regresso por WhatsApp e o João vai buscá-lo. Preço em dias úteis 55 €, ao fim de semana 65 €, por táxi.',
+        'Combine a hora de regresso por WhatsApp e o João vai buscá-lo. 50 € por táxi só ida, 100 € ida e volta.',
       ],
     },
     duration: l('About 40 minutes', 'Cerca de 40 minutos'),
-    price: 55,
-    weekend: 65,
+    price: 100,
     faq: [
       {
         q: l('Are the pools open all year?', 'As piscinas estão abertas todo o ano?'),
@@ -520,7 +517,7 @@ function levada({ key, name, area, price, roundTrip, about, seoDescription, rela
         q: l('Does João walk with us?', 'O João caminha connosco?'),
         a: l(
           'No. João is a taxi driver. He takes you to the trail and, if agreed, collects you at the end.',
-          'Não. O João é taxista. Leva-o ao trilho e, se combinado, vai buscá-lo no fim.'
+          'Não. O João é motorista de táxi. Leva-o ao trilho e, se combinado, vai buscá-lo no fim.'
         ),
       },
       {

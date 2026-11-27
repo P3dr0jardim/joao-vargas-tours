@@ -1,7 +1,7 @@
 {
   "Meta": {
     "siteTitle": "João Vargas Tours | Táxi, tours e levadas a partir da Calheta, Madeira",
-    "siteDescription": "Tours de táxi, levadas e transfers com partida ou destino na Calheta, Madeira, com o João, taxista local. Preços por táxi. Fale por WhatsApp ou telefone."
+    "siteDescription": "Tours de táxi, levadas e transfers com partida ou destino na Calheta, Madeira, com o João, motorista de táxi local. Preços por táxi. Fale por WhatsApp ou telefone."
   },
   "Common": {
     "brand": "João Vargas Tours",
@@ -58,7 +58,7 @@
     "hero": {
       "imageAlt": "Vista aérea da Calheta, na costa sudoeste da Madeira, com casas na encosta verde, a praia de areia, os quebra-mares e a marina",
       "title": "Tours e táxi a partir da Calheta",
-      "subtitle": "O João vive na Calheta, a 5 minutos dos hotéis Saccharum e Calheta Beach. Tours pela ilha, levadas e transfers com um taxista local: fale com ele diretamente por WhatsApp ou telefone.",
+      "subtitle": "O João vive na Calheta, a 5 minutos dos hotéis Saccharum e Calheta Beach. Tours pela ilha, levadas e transfers com um motorista de táxi local: fale com ele diretamente por WhatsApp ou telefone.",
       "driver": {
         "label": "O seu motorista",
         "role": "Motorista de táxi na Calheta"
@@ -66,7 +66,7 @@
     },
     "services": {
       "title": "Tours a partir da Calheta",
-      "intro": "Os mesmos percursos e preços da praça de táxis da Calheta. Escolha um tour e envie a mensagem ao João por WhatsApp.",
+      "intro": "Passeios privados ao seu ritmo, só para o seu grupo, com partida no seu hotel na Calheta. Escolha um tour e envie a mensagem ao João por WhatsApp.",
       "toursTitle": "Tours pela ilha",
       "transfersTitle": "Transfers da Calheta",
       "toursAll": "Todos os tours",
@@ -138,8 +138,8 @@
     },
     "transfers": {
       "title": "Transfers de táxi da Calheta",
-      "description": "Táxi da Calheta para o aeroporto da Madeira, o centro do Funchal e o Porto Moniz, com preços para dias úteis e fim de semana.",
-      "intro": "Viagens privadas com partida ou destino na Calheta. Um táxi, até 6 passageiros. O preço é diferente em dias úteis e ao fim de semana."
+      "description": "Táxi da Calheta para o aeroporto da Madeira, o centro do Funchal e o Porto Moniz. Preços por táxi.",
+      "intro": "Viagens privadas com partida ou destino na Calheta. Um táxi, até 6 passageiros."
     },
     "info": {
       "title": "Informações de viagem",

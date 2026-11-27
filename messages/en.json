@@ -66,7 +66,7 @@
     },
     "services": {
       "title": "Tours from Calheta",
-      "intro": "The same routes and prices as the Calheta taxi rank. Pick a tour and send João the message on WhatsApp.",
+      "intro": "Private trips at your own pace, just for your group, starting at your hotel in Calheta. Pick a tour and send João the message on WhatsApp.",
       "toursTitle": "Island tours",
       "transfersTitle": "Transfers from Calheta",
       "toursAll": "All tours",
@@ -138,8 +138,8 @@
     },
     "transfers": {
       "title": "Taxi transfers from Calheta",
-      "description": "Taxi from Calheta to Madeira airport, Funchal centre and Porto Moniz, with weekday and weekend prices.",
-      "intro": "Private rides to and from Calheta. One taxi, up to 6 passengers. Prices differ on weekdays and at weekends."
+      "description": "Taxi from Calheta to Madeira airport, Funchal centre and Porto Moniz. Prices per taxi.",
+      "intro": "Private rides to and from Calheta. One taxi, up to 6 passengers."
     },
     "info": {
       "title": "Travel information",
